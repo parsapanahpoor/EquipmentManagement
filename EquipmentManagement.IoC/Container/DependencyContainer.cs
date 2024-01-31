@@ -4,7 +4,7 @@ using EquipmentManagement.Application.Common.IUnitOfWork;
 using EquipmentManagement.Infrastructure.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EquipmentManagement.IoC.Container;
+namespace EquipmentManagement.IoC;
 
 #endregion
 
