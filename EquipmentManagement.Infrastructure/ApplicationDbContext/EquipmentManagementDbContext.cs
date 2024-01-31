@@ -1,5 +1,7 @@
 ﻿#region properties
 
+using EquipmentManagement.Domain.Entities.Account;
+using EquipmentManagement.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 namespace EquipmentManagement.Infrastructure.ApplicationDbContext;
 
@@ -19,7 +21,15 @@ public class EquipmentManagementDbContext : DbContext
 
     #region Entity
 
-    
+    #region User
+
+    public DbSet<User> Users { get; set; }
+
+    public DbSet<Role> Role { get; set; }
+
+    public DbSet<UserRole> UserRole { get; set; }
+
+    #endregion
 
     #endregion
 
