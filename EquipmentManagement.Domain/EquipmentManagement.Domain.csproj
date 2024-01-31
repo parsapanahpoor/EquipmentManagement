@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="DTO\" />
+    <Folder Include="Entities\" />
+    <Folder Include="IRepositories\" />
+  </ItemGroup>
+
 </Project>

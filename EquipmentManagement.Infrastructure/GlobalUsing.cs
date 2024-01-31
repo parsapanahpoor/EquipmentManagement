@@ -1,0 +1,1 @@
+﻿global using EquipmentManagement.Infrastructure.ApplicationDbContext;
