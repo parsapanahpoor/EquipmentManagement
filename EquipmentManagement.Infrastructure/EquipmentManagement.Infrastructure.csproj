@@ -22,6 +22,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\EquipmentManagement.Application\EquipmentManagement.Application.csproj" />
+	  <ProjectReference Include="..\EquipmentManagement.Domain\EquipmentManagement.Domain.csproj" />
 	</ItemGroup>
 
 </Project>
