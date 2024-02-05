@@ -16,6 +16,8 @@ public record LoginUserDTO
     [DisplayName("Password")]
     public string Password { get; set; }
 
+    public string? ReturnUrl { get; set; }
+
     #endregion
 }
 

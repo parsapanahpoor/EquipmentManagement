@@ -40,6 +40,7 @@
 <body>
 
     <form asp-action="Login" asp-area="" asp-controller="Account" method="post">
+        <input type="hidden" asp-for="ReturnUrl" />
 
         <div class="login-container animated fadeInDown">
             <div class="loginbox bg-white">

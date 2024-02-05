@@ -1,0 +1,28 @@
+﻿
+@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        ShowMessage(" موفقیت آمیز", "@TempData["SuccessMessage"]", "success");
+    </script>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <script>
+        ShowMessage("خطا", "@TempData["ErrorMessage"]", "error");
+    </script>
+}
+
+@if (TempData["InfoMessage"] != null)
+{
+    <script>
+        ShowMessage("اطلاعات بیشتر", "@TempData["InfoMessage"]", "info");
+    </script>
+}
+
+@if (TempData["WarningMessage"] != null)
+{
+    <script>
+        ShowMessage("هشدار", "@TempData["WarningMessage"]", "warning");
+    </script>
+}

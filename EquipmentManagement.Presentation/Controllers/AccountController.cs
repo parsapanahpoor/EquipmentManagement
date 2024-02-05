@@ -75,15 +75,21 @@ public class AccountController : SiteBaseController
     #region Login 
 
     [HttpGet("login"), RedirectIfLoggedInActionFilter]
-    public IActionResult Login(string? returnUrl = "/")
+    public IActionResult Login(string ReturnUrl = "")
     {
-        return View();
+        LoginUserDTO result = new();
+
+        if (!string.IsNullOrEmpty(ReturnUrl))
+        {
+            result.ReturnUrl = ReturnUrl;
+        }
+
+        return View(result);
     }
 
     [HttpPost("login"), ValidateAntiForgeryToken, RedirectIfLoggedInActionFilter]
     public async Task<IActionResult> Login(LoginUserDTO model,
-                                           CancellationToken cancellation,
-                                           string? returnUrl = "/")
+                                           CancellationToken cancellation)
     {
         if (ModelState.IsValid)
         {
@@ -150,6 +156,12 @@ public class AccountController : SiteBaseController
         }
 
         TempData[ErrorMessage] = "اطلاعات وارد شده صحیح نمی باشد.";
+
+        if (!string.IsNullOrEmpty(model.ReturnUrl))
+        {
+            return Redirect(model.ReturnUrl);
+        }
+
         return View(model);
     }
 

@@ -1,0 +1,225 @@
+﻿<div class="page-sidebar" id="sidebar">
+    <ul class="nav sidebar-menu">
+
+        <li>
+            <a href="/">
+                <i class="menu-icon fa fa-globe"></i>
+                <span class="menu-text"> مشاهده سایت </span>
+            </a>
+        </li>
+
+        <!--Dashboard-->
+        <li>
+            <a asp-action="Index" asp-controller="Home" asp-area="Admin">
+                <i class="menu-icon glyphicon glyphicon-home"></i>
+                <span class="menu-text"> داشبورد </span>
+            </a>
+        </li>
+
+        <!--Role-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-user-secret"></i>
+                <span class="menu-text"> مدیریت نقش ها </span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-action="FilterRoles" asp-controller="Role" asp-area="Admin">
+                        <span class="menu-text"> لیست نقش ها </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="CreateRole" asp-controller="Role" asp-area="Admin">
+                        <span class="menu-text"> ایجاد نقش جدید </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!--User-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-user"></i>
+                <span class="menu-text"> مدیریت کاربران</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-action="Index" asp-controller="User" asp-area="Admin">
+                        <span class="menu-text"> لیست کاربران </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!--Video-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-file-video-o"></i>
+                <span class="menu-text"> مدیریت ویدیوها</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-action="ListOfVideos" asp-controller="Video" asp-area="Admin">
+                        <span class="menu-text"> لیست ویدیوها </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="CreateVideo" asp-controller="Video" asp-area="Admin">
+                        <span class="menu-text"> افزودن ویدیو </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!--Contract Requests-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-user-plus"></i>
+                <span class="menu-text"> مدیریت درخواست ها</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-area="Admin" asp-controller="ContractRequest" asp-action="FilterContractRequest">
+                        <span class="menu-text"> لیست درخواست ها </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!--Slider-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-file-photo-o "></i>
+                <span class="menu-text"> مدیریت اسلایدرها</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-action="ListOfSlider" asp-controller="Slider" asp-area="Admin">
+                        <span class="menu-text"> لیست اسلایدرها </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="CreateSlider" asp-controller="Slider" asp-area="Admin">
+                        <span class="menu-text"> افزودن اسلایدر </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!--Products-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-cart-arrow-down"></i>
+                <span class="menu-text"> مدیریت محصولات</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-action="FilterProducts" asp-controller="Product" asp-area="Admin">
+                        <span class="menu-text"> لیست محصولات </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="CreateProduct" asp-controller="Product" asp-area="Admin">
+                        <span class="menu-text"> افزودن محصول </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!--Article-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-file-photo-o "></i>
+                <span class="menu-text"> مدیریت مقالات</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-action="ListOfArticles" asp-controller="Article" asp-area="Admin">
+                        <span class="menu-text"> لیست مقالات </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="CreateArticle" asp-controller="Article" asp-area="Admin">
+                        <span class="menu-text"> افزودن مقاله </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!--Contact Us-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-envelope"></i>
+                <span class="menu-text"> مدیریت پیام ها</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-area="Admin" asp-controller="ContactUs" asp-action="FilterContactUs">
+                        <span class="menu-text"> لیست پیام ها </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!--CustomersComments-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-comments "></i>
+                <span class="menu-text"> مدیریت نظرات مشتریان</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-action="FilterCustomersComments" asp-controller="CustomersComments" asp-area="Admin">
+                        <span class="menu-text"> لیست نظرات مشتریان </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="CreateCustomersComments" asp-controller="CustomersComments" asp-area="Admin">
+                        <span class="menu-text"> افزودن نظر مشتریان </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!--WorkSample-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-cart-arrow-down"></i>
+                <span class="menu-text"> مدیریت نمونه کارها</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-action="FilterWorkSample" asp-controller="WorkSample" asp-area="Admin">
+                        <span class="menu-text"> لیست نظرات مشتریان </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="CreateWorkSample" asp-controller="WorkSample" asp-area="Admin">
+                        <span class="menu-text"> افزودن نظر مشتریان </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+</div>
