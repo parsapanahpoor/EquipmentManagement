@@ -1,6 +1,6 @@
-﻿using EquipmentManagement.Domain.DTOs.Common;
+﻿using EquipmentManagement.Domain.DTO.Common;
 
-namespace EquipmentManagement.Domain.DTO.AdminSide.ProductCategory;
+namespace EquipmentManagement.Domain.DTO.SiteSide.ProductCategory;
 
 public class FilterProductCategories : BasePaging<Entities.ProductCategory.ProductCategory>
 {

@@ -1,0 +1,145 @@
+﻿@using EquipmentManagement.Application.Convertors;
+@model EquipmentManagement.Domain.DTO.SiteSide.ProductCategory.FilterProductCategories
+
+@{
+    ViewData["Title"] = "مدیریت نظرات";
+}
+
+@section Scripts
+{
+}
+
+@section breadcrumbs
+{
+
+    <li class="active">@ViewData["Title"]</li>
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-xl-3 col-lg-3">
+
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-green">
+                    <span class="widget-caption"> فیلتر  </span>
+                </div>
+                <div class="widget-body">
+                    <div class="row">
+                        <div class="basic-form">
+                            <form asp-area="" asp-controller="ShopProductCategory" asp-action="FilterProductCategory" method="get" id="filter-search">
+                                <input type="hidden" asp-for="Page" />
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-12">
+                                        <label>عنوان دسته بندی</label>
+                                        <input type="text" asp-for="Title" class="form-control" placeholder="دسته بندی">
+                                    </div>
+
+                                </div>
+
+                                <hr />
+
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-labeled w-100 btn-palegreen">
+                                        <i class="btn-label glyphicon glyphicon-filter"></i>فیلتر
+                                    </button>
+                                </div>
+
+                                @if (Context.Request.QueryString.HasValue)
+                                {
+                                    <div class="form-group col-md-12">
+                                        <a asp-area="" asp-controller="ShopProductCategory" asp-action="FilterProductCategory" class="btn btn-labeled w-100 btn-darkorange">
+                                            <i class="btn-label glyphicon glyphicon-remove"></i>حذف فیلتر
+                                        </a>
+                                    </div>
+                                }
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-md-12 col-lg-9">
+            <div class="well with-header with-footer table-responsive">
+                <div class="header bordered-azure">
+                    <div class="flex-style">
+                        <span>دسته بندی ها </span>
+                        <span>تعداد کل : @Model.AllEntitiesCount</span>
+                    </div>
+                </div>
+
+                @if (Model != null)
+                {
+                    <table class="table table-hover table-bordered tc tableShowListInAdmin">
+
+                        <thead class="tc">
+                            <tr class="tc">
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    عنوان دسته بندی
+                                </th>
+                                <th>
+                                    تاریخ ثبت
+                                </th>
+                                <th>
+                                   Business Key
+                                </th>
+                                <th>
+                                    امکانات
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var category in Model.Entities)
+                            {
+                                <tr id="profile_@category.Id" remove-ajax-item="@category.Id">
+
+                                    <td>
+                                        @category.Id
+                                    </td>
+                                    <td>
+                                        @category.CategoryTitle
+                                    </td>
+                                    <td>
+                                        @category.CreateDate.ToShamsi()
+                                    </td>
+                                    <td>
+                                        @category.BusinessKey
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex justify-content-center ">
+
+                                            <a title="نمایش اطلاعات" asp-controller="CustomersComments" asp-action="EditCustomersComments" asp-route-id="@category.Id" class="btn btn-warning btn-circle btn-xs">
+                                                <i class="glyphicon glyphicon-edit"></i>
+                                            </a>
+
+                                            <button onclick="DeleteAjax(@category.Id, '@Url.Action("DeleteCustomersComments", "CustomersComments", new {area = "Admin", id = category.Id})')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <partial name="_Paging" model="@Model.GetCurrentPaging()" />
+                }
+                else
+                {
+                    <partial name="_NotFoundPartial" />
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

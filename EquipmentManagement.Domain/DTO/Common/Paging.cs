@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace EquipmentManagement.Domain.DTOs.Common;
+namespace EquipmentManagement.Domain.DTO.Common;
 
 public class BasePaging<T>
     {
