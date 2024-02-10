@@ -1,6 +1,7 @@
 ﻿#region properties
 
 using EquipmentManagement.Domain.Entities.Account;
+using EquipmentManagement.Domain.Entities.ProductCategory;
 using EquipmentManagement.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 namespace EquipmentManagement.Infrastructure.ApplicationDbContext;
@@ -28,6 +29,12 @@ public class EquipmentManagementDbContext : DbContext
     public DbSet<Role> Role { get; set; }
 
     public DbSet<UserRole> UserRole { get; set; }
+
+    #endregion
+
+    #region Product Category
+
+    public DbSet<ProductCategory> ProductCategories { get; set; }
 
     #endregion
 

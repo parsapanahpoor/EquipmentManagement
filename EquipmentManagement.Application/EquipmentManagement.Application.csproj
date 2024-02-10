@@ -19,7 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="CQRS\" />
+	  <ProjectReference Include="..\EquipmentManagement.Domain\EquipmentManagement.Domain.csproj" />
 	</ItemGroup>
 
 </Project>

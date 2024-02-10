@@ -3,6 +3,7 @@
 using EquipmentManagement.Application;
 using EquipmentManagement.Infrastructure.ApplicationDbContext;
 using EquipmentManagement.IoC;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 namespace EquipmentManagement.Presentation;
 
@@ -39,6 +40,25 @@ public class Program
         {
             options.UseSqlServer(builder.Configuration.GetConnectionString("EquipmentManagementDbContextConnection"));
         });
+
+        #endregion
+
+        #region Authentication
+
+        builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        })
+            // Add Cookie settings
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/Login";
+                options.LogoutPath = "/Logout";
+                options.ExpireTimeSpan = TimeSpan.FromDays(30);
+            });
 
         #endregion
 

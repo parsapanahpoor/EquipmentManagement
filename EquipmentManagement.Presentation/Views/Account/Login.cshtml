@@ -1,0 +1,89 @@
+﻿@model EquipmentManagement.Domain.DTO.SiteSide.Account.LoginUserDTO
+
+@{
+    ViewData["Title"] = "ورود کاربر";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--Head-->
+<head>
+    <meta charset="utf-8" />
+    <title>صفحه ی ورود</title>
+
+    <meta name="description" content="login page" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="/admin/img/favicon.png" type="image/x-icon">
+
+    <!--Basic Styles-->
+    <link href="/admin/css/bootstrap.min.css" rel="stylesheet" />
+    <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+    <link href="/admin/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!--Fonts-->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="/admin/css/beyond.min.css" rel="stylesheet" />
+    <link href="/admin/css/demo.min.css" rel="stylesheet" />
+    <link href="/admin/css/animate.min.css" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+    <script src="/admin/js/skins.min.js"></script>
+</head>
+<!--Head Ends-->
+<!--Body-->
+<body>
+
+    <form asp-action="Login" asp-area="" asp-controller="Account" method="post">
+        <input type="hidden" asp-for="ReturnUrl" />
+
+        <div class="login-container animated fadeInDown">
+            <div class="loginbox bg-white">
+                <div class="loginbox-title">ورود کاربر</div>
+
+                @if (ViewData.ModelState.ErrorCount > 0)
+                {
+                    <div asp-validation-summary="All" class="alert alert-danger margin-left-20 margin-right-20 margin-top-10"></div>
+                }
+
+                <div class="loginbox-textbox">
+                    <input type="text" asp-for="Mobile" class="form-control" placeholder="موبایل" />
+                    <span style="color:red;" asp-validation-for="Mobile"></span>
+                </div>
+
+                <div class="loginbox-textbox">
+                    <input type="password" asp-for="Password" class="form-control" placeholder="کلمه ی عبور" />
+                    <span style="color:red;" asp-validation-for="Password"></span>
+                </div>
+
+                <div class="loginbox-submit">
+                    <input type="submit" class="btn btn-primary btn-block" value="ورود">
+                </div>
+
+                <div class="loginbox-signup">
+                    <a asp-action="Register" asp-area="" asp-controller="Account">
+                        برای ثبت نام کلیک کنید
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+    <!--Basic Scripts-->
+    <script src="/admin/js/jquery.min.js"></script>
+    <script src="/admin/js/bootstrap.min.js"></script>
+    <script src="/admin/js/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!--Beyond Scripts-->
+    <script src="/admin/js/beyond.js"></script>
+
+
+</body>
+<!--Body Ends-->
+</html>

@@ -1,13 +1,30 @@
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+#region Using
 
-namespace EquipmentManagement.Presentation.Controllers
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+namespace EquipmentManagement.Presentation.Controllers;
+
+#endregion
+
+[Authorize]
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    #region Index
+
+    [AllowAnonymous]
+    public IActionResult Index()
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        return View();
     }
+
+    #endregion
+
+    #region Panel Landing
+
+    public async Task<IActionResult> Landing()
+    {
+        return View();
+    }
+
+    #endregion
 }

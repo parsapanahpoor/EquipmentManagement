@@ -1,0 +1,82 @@
+﻿@model EquipmentManagement.Domain.DTO.SiteSide.Account.RegisterUserDTO
+
+@{
+    ViewData["Title"] = "ثبت نام";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--Head-->
+<head>
+    <meta charset="utf-8" />
+    <title>ثبت نام</title>
+
+    <meta name="description" content="register page" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="/admin/img/favicon.png" type="image/x-icon">
+
+    <!--Basic Styles-->
+    <link href="/admin/css/bootstrap.min.css" rel="stylesheet" />
+    <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+    <link href="/admin/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!--Fonts-->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="/admin/css/beyond.min.css" rel="stylesheet" />
+    <link href="/admin/css/demo.min.css" rel="stylesheet" />
+    <link href="/admin/css/animate.min.css" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+    <script src="/admin/js/skins.min.js"></script>
+</head>
+<!--Head Ends-->
+<!--Body-->
+<body>
+    <form asp-action="Register" asp-area="" asp-controller="Account" method="post">
+
+        <div class="register-container animated fadeInDown">
+            <div class="registerbox bg-white" style="padding-bottom: 40px;">
+                <div class="registerbox-title">ثبت نام</div>
+
+                <div class="registerbox-caption mb-4">لطفا اطلاعات موردنظر را وارد کنید</div>
+
+                <div class="registerbox-textbox">
+                    <input type="text" asp-for="Mobile" class="form-control" placeholder="موبایل" />
+                    <span style="color:red;" asp-validation-for="Mobile"></span>
+                </div>
+
+                <div class="registerbox-textbox">
+                    <input type="password" asp-for="Password" class="form-control" placeholder="کلمه ی عبور" />
+                    <span style="color:red;" asp-validation-for="Password"></span>
+                </div>
+
+                <div class="registerbox-textbox">
+                    <input type="password" asp-for="RePassword" class="form-control" placeholder="تکرار کلمه ی عبور" />
+                    <span style="color:red;" asp-validation-for="RePassword"></span>
+                </div>
+
+                <div class="registerbox-submit">
+                    <input type="submit" class="btn btn-primary pull-right" value="ثبت">
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+    <!--Basic Scripts-->
+    <script src="/admin/js/jquery.min.js"></script>
+    <script src="/admin/js/bootstrap.min.js"></script>
+    <script src="/admin/js/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!--Beyond Scripts-->
+    <script src="/admin/js/beyond.min.js"></script>
+
+</body>
+<!--Body Ends-->
+</html>

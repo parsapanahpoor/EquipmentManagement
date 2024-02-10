@@ -1,6 +1,10 @@
 ﻿#region Usings
 
 using EquipmentManagement.Application.Common.IUnitOfWork;
+using EquipmentManagement.Domain.IRepositories.ProductCategory;
+using EquipmentManagement.Domain.IRepositories.User;
+using EquipmentManagement.Infrastructure.Repositories.ProductCategory;
+using EquipmentManagement.Infrastructure.Repositories.User;
 using EquipmentManagement.Infrastructure.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,8 +18,11 @@ public static class DependencyContainer
     {
         #region Repositories
 
-        //services.AddScoped<ICustomerCommandRepository, CustomerCommandRepository>();
-        //services.AddScoped<ICustomerQueryRepository, CustomerQueryRepository>();
+        services.AddScoped<IUserCommandRepository, UserCommandRepository>();
+        services.AddScoped<IUserQueryRepository, UserQueryRepository>();
+
+        services.AddScoped<IProductCategoryCommandRepository, ProductCategoryCommandRepository>();
+        services.AddScoped<IProductCategoryQueryRepository, ProductCategoryQueryRepository>();
 
         #endregion
 
