@@ -44,6 +44,20 @@ public class ProductCategoryQueryRepository : QueryGenericRepository<Domain.Enti
         return filter;
     }
 
+    public async Task<EditProductCategoryDTO?> FillEditProductCategoryDTO(ulong categoryId, CancellationToken cancellation)
+    {
+        return await _context.ProductCategories
+                             .AsNoTracking()
+                             .Where(p => !p.IsDelete &&
+                                    p.Id == categoryId)
+                             .Select(p => new EditProductCategoryDTO()
+                             {
+                                 CategoryId = p.Id,
+                                 Title = p.CategoryTitle
+                             })
+                             .FirstOrDefaultAsync();
+    }
+
     #endregion
 }
 

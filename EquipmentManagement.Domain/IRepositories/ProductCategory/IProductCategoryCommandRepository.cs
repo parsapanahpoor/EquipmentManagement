@@ -8,5 +8,7 @@ public interface IProductCategoryCommandRepository
 
     Task AddAsync(Domain.Entities.ProductCategory.ProductCategory productCategory, CancellationToken cancellationToken);
 
+    void Update(Entities.ProductCategory.ProductCategory productCategory);
+
     #endregion
 }

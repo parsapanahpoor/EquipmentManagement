@@ -119,11 +119,11 @@
                                     <td>
                                         <div class="d-flex justify-content-center ">
 
-                                            <a title="نمایش اطلاعات" asp-controller="CustomersComments" asp-action="EditCustomersComments" asp-route-id="@category.Id" class="btn btn-warning btn-circle btn-xs">
+                                            <a title="نمایش اطلاعات" asp-controller="ShopProductCategory" asp-action="EditProductCategory" asp-route-productCategoryId="@category.Id" class="btn btn-warning btn-circle btn-xs">
                                                 <i class="glyphicon glyphicon-edit"></i>
                                             </a>
 
-                                            <button onclick="DeleteAjax(@category.Id, '@Url.Action("DeleteCustomersComments", "CustomersComments", new {area = "Admin", id = category.Id})')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+                                            <button onclick="DeleteAjax(@category.Id, '@Url.Action("DeleteProductCategory", "ShopProductCategory", new {area = "", productCategoryId = category.Id})')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
 
                                         </div>
                                     </td>
