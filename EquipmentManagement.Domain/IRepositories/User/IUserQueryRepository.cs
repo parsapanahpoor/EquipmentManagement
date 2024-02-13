@@ -1,4 +1,7 @@
-﻿namespace EquipmentManagement.Domain.IRepositories.User;
+﻿using EquipmentManagement.Domain.DTO.SiteSide.User;
+using Microsoft.EntityFrameworkCore;
+
+namespace EquipmentManagement.Domain.IRepositories.User;
 
 public interface IUserQueryRepository
 {
@@ -11,6 +14,14 @@ public interface IUserQueryRepository
     Task<bool> IsPasswordValid(string mobile, string password, CancellationToken cancellation);
 
     Task<Domain.Entities.Users.User?> GetUserByMobile(string mobile, CancellationToken cancellation);
+
+    Task<Domain.Entities.Users.User> GetByIdAsync(CancellationToken cancellationToken, params object[] ids);
+
+    #endregion
+
+    #region Site Side
+
+    Task<FilterUsersDTO> FilterUsers(FilterUsersDTO filter, CancellationToken cancellation);
 
     #endregion
 }

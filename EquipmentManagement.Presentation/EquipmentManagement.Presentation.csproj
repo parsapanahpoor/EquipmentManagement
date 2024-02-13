@@ -18,6 +18,11 @@
     <ProjectReference Include="..\EquipmentManagement.IoC\EquipmentManagement.IoC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\content\images\user\main\" />
+    <Folder Include="wwwroot\content\images\user\thumb\" />
+  </ItemGroup>
+
 
 	
 </Project>

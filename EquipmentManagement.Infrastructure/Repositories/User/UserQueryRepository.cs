@@ -1,4 +1,5 @@
-﻿using EquipmentManagement.Domain.IRepositories.User;
+﻿using EquipmentManagement.Domain.DTO.SiteSide.User;
+using EquipmentManagement.Domain.IRepositories.User;
 using Microsoft.EntityFrameworkCore;
 namespace EquipmentManagement.Infrastructure.Repositories.User;
 
@@ -49,6 +50,40 @@ public class UserQueryRepository : QueryGenericRepository<Domain.Entities.Users.
                              .AsNoTracking()
                              .FirstOrDefaultAsync(p => !p.IsDelete &&
                                                   p.Mobile == mobile);
+    }
+
+    #endregion
+
+    #region Site Side
+
+    public async Task<FilterUsersDTO> FilterUsers(FilterUsersDTO filter , CancellationToken cancellation)
+    {
+        var query = _context.Users
+                           .AsNoTracking()
+                           .OrderByDescending(p => p.CreateDate)
+                           .AsQueryable();
+
+        #region filter
+
+        if ((!string.IsNullOrEmpty(filter.Mobile)))
+        {
+            query = query.Where(u => u.Mobile.Contains(filter.Mobile));
+        }
+
+        if ((!string.IsNullOrEmpty(filter.Username)))
+        {
+            query = query.Where(u => u.Username.Contains(filter.Username));
+        }
+
+        #endregion
+
+        #region paging
+
+        await filter.Paging(query);
+
+        #endregion
+
+        return filter;
     }
 
     #endregion

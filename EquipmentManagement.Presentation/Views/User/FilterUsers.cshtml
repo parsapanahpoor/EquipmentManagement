@@ -1,0 +1,152 @@
+﻿@using EquipmentManagement.Application.Convertors;
+@using EquipmentManagement.Domain.DTO.SiteSide.User;
+@model FilterUsersDTO
+
+@{
+    ViewData["Title"] = "مدیریت کاربران";
+}
+@section Scripts
+{
+}
+
+@section breadcrumbs
+{
+
+    <li class="active">@ViewData["Title"]</li>
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-xl-3 col-lg-3">
+
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-green">
+                    <span class="widget-caption"> فیلتر  </span>
+                </div>
+                <div class="widget-body">
+                    <div class="row">
+                        <div class="basic-form">
+                            <form asp-area="" asp-controller="User" asp-action="FilterUsers" method="get" id="filter-search">
+                                <input type="hidden" asp-for="Page" />
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-12">
+                                        <label>نام کاربری</label>
+                                        <input type="text" asp-for="Username" class="form-control" placeholder="نام کاربری">
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label>موبایل</label>
+                                        <input type="text" asp-for="Mobile" class="form-control" placeholder="موبایل">
+                                    </div>
+
+                                </div>
+
+                                <hr />
+
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-labeled w-100 btn-palegreen">
+                                        <i class="btn-label glyphicon glyphicon-filter"></i>فیلتر
+                                    </button>
+                                </div>
+
+                                @if (Context.Request.QueryString.HasValue)
+                                {
+                                    <div class="form-group col-md-12">
+                                        <a asp-action="FilterUsers" asp-controller="User" asp-area="" class="btn btn-labeled w-100 btn-darkorange">
+                                            <i class="btn-label glyphicon glyphicon-remove"></i>حذف فیلتر
+                                        </a>
+                                    </div>
+                                }
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-md-12 col-lg-9">
+            <div class="well with-header with-footer table-responsive">
+                <div class="header bordered-azure">
+                    <div class="flex-style">
+                        <span>کاربران </span>
+                        <span>تعداد کل : @Model.AllEntitiesCount</span>
+                    </div>
+                </div>
+
+                @if (Model != null)
+                {
+                    <table class="table table-hover table-bordered tc tableShowListInAdmin">
+
+                        <thead class="tc">
+                            <tr class="tc">
+                                <th>
+                                    نام کاربری
+                                </th>
+                                <th>
+                                    موبایل
+                                </th>
+                                <th>
+                                    تاریخ ثبت نام
+                                </th>
+                                <th>
+                                    امکانات
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.Entities)
+                            {
+                                <tr id="profile_@item.Id" remove-ajax-item="@item.Id">
+                                    <td>
+                                        @item.Username
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.Mobile))
+                                        {
+                                            @item.Mobile
+                                        }
+                                    </td>
+                                    <td>
+                                        @item.CreateDate.ToShamsi()
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex justify-content-center ">
+
+                                            @if (!item.IsDelete)
+                                            {
+                                                <a title="ویرایش کاربر" asp-controller="User" asp-action="EditUser" asp-route-UserId="@item.Id" class="btn btn-warning btn-circle btn-xs">
+                                                    <i class="glyphicon glyphicon-edit"></i>
+                                                </a>
+                                                <button onclick="DeleteAjax(@item.Id, '@Url.Action("RemoveUser", "User", new {area = "Admin", userId = item.Id})')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+
+                                            }
+                                            else
+                                            {
+                                                <div class="badge badge-danger">حذف شده</div>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <partial name="_Paging" model="@Model.GetCurrentPaging()" />
+                }
+                else
+                {
+                    <partial name="_NotFoundPartial" />
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

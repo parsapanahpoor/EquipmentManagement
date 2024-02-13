@@ -37,7 +37,7 @@ public record RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, 
 
         #region Add User 
 
-        User user = new User()
+        Domain.Entities.Users.User user = new Domain.Entities.Users.User()
         {
             Username = request.Mobile.Trim().ToLower().SanitizeText(),
             Mobile = request.Mobile.Trim().ToLower().SanitizeText(),

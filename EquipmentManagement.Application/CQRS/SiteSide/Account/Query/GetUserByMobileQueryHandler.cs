@@ -15,7 +15,7 @@ public record GetUserByMobileQueryHandler : IRequestHandler<GetUserByMobileQuery
 
     #endregion
 
-    public async Task<User?> Handle(GetUserByMobileQuery request, CancellationToken cancellationToken)
+    public async Task<Domain.Entities.Users.User?> Handle(GetUserByMobileQuery request, CancellationToken cancellationToken)
     {
         return await _userQueryRepository.GetUserByMobile(request.Mobile.Trim().ToLower(), cancellationToken);
     }

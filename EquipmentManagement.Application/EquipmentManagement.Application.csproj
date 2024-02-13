@@ -22,4 +22,9 @@
 	  <ProjectReference Include="..\EquipmentManagement.Domain\EquipmentManagement.Domain.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="CQRS\SiteSide\Role\Command\" />
+	  <Folder Include="CQRS\SiteSide\User\Command\" />
+	</ItemGroup>
+
 </Project>
