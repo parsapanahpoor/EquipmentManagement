@@ -1,8 +1,14 @@
-﻿namespace EquipmentManagement.Domain.IRepositories.Role;
+﻿using EquipmentManagement.Domain.Entities.Account;
+
+namespace EquipmentManagement.Domain.IRepositories.Role;
 
 public interface IRoleCommandRepository
 {
-	#region Site Side
+    #region Site Side
 
-	#endregion
+    Task RemoveUserRolesByUserId(ulong userId, CancellationToken cancellationToken);
+
+    Task AddUserSelectedRole(UserRole userRole, CancellationToken cancellationToken);
+
+    #endregion
 }

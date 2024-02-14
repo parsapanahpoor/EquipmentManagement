@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EquipmentManagement.Domain.DTO.SiteSide.User;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using Microsoft.AspNetCore.Http;
+namespace EquipmentManagement.Application.CQRS.SiteSide.User.Command;
 
-namespace EquipmentManagement.Domain.DTO.SiteSide.User;
-
-public record EditUserDTO
+public class EdirUserCommand : IRequest<EditUserResult>
 {
     #region properties
 
@@ -12,7 +13,7 @@ public record EditUserDTO
     [DisplayName("Username")]
     [Required(ErrorMessage = "Please Enter {0}")]
     [MaxLength(200)]
-    public string? Username { get; set; }
+    public string Username { get; set; }
 
     [MaxLength(200)]
     [DisplayName("Password")]
@@ -21,7 +22,7 @@ public record EditUserDTO
     [MaxLength(200)]
     [DisplayName("Mobile")]
     [Required(ErrorMessage = "Please Enter {0}")]
-    public string? Mobile { get; set; }
+    public string Mobile { get; set; }
 
     [DisplayName("Avatar")]
     public string? Avatar { get; set; }
@@ -31,13 +32,7 @@ public record EditUserDTO
 
     public bool IsActive { get; set; }
 
-    #endregion
-}
+    public IFormFile avatar{ get; set; }
 
-public enum EditUserResult
-{
-    DuplicateEmail,
-    DuplicateMobileNumber,
-    Success,
-    Error
+    #endregion
 }

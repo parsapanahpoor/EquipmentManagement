@@ -11,6 +11,9 @@
 		<PackageReference Include="FluentValidation" Version="11.8.1" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
 		<PackageReference Include="MediatR" Version="12.2.0" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.0" />
+		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+
 	</ItemGroup>
 
 	<ItemGroup>
@@ -24,7 +27,6 @@
 
 	<ItemGroup>
 	  <Folder Include="CQRS\SiteSide\Role\Command\" />
-	  <Folder Include="CQRS\SiteSide\User\Command\" />
 	</ItemGroup>
 
 </Project>

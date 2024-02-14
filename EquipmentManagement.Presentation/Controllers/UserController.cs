@@ -1,5 +1,6 @@
 ﻿using EquipmentManagement.Application.CQRS.SiteSide.ProductCategories.Query;
 using EquipmentManagement.Application.CQRS.SiteSide.Role.Query;
+using EquipmentManagement.Application.CQRS.SiteSide.User.Command;
 using EquipmentManagement.Application.CQRS.SiteSide.User.Query;
 using EquipmentManagement.Domain.DTO.SiteSide.User;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ public class UserController : SiteBaseController
 	#region Filter Users
 
 	public async Task<IActionResult> FilterUsers(FilterUsersDTO filter , 
-                                                 CancellationToken cancellationToken)
+                                                 CancellationToken cancellationToken = default)
 	{
         FilterUserQuery query = new FilterUserQuery()
         {
@@ -25,8 +26,9 @@ public class UserController : SiteBaseController
 
     #region Edit User
 
+    [HttpGet]
     public async Task<IActionResult> EditUser(EditUserQuery userQuery,
-                                              CancellationToken cancellation)
+                                              CancellationToken cancellation = default)
     {
         var user = await Mediator.Send(userQuery, cancellation);
         if (user == null) return RedirectToAction(nameof(FilterUsers));
@@ -38,6 +40,47 @@ public class UserController : SiteBaseController
         #endregion
 
         return View(user);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> EditUser(EditUserDTO userDTO, 
+                                              IFormFile UserAvatar,
+                                              CancellationToken cancellation = default)
+    {
+        #region Page Data
+
+        ViewData["Roles"] = await Mediator.Send(new RoleSelectedListQuery(), cancellation);
+
+        #endregion
+
+        var res = await Mediator.Send(new EdirUserCommand()
+        {
+            avatar = UserAvatar , 
+            Avatar = userDTO.Avatar,
+            Id = userDTO.Id,
+            IsActive = userDTO.IsActive,
+            Mobile = userDTO.Mobile,
+            Password = userDTO.Password,
+            Username = userDTO.Username,
+            UserRoles = userDTO.UserRoles
+        } , 
+        cancellation);
+
+        switch (res)
+        {
+            case EditUserResult.DuplicateEmail:
+                TempData[ErrorMessage] = "ایمیل وارد شده صحیح نمی باشد .";
+                break;
+
+            case EditUserResult.DuplicateMobileNumber:
+                TempData[ErrorMessage] = "موبایل وارد شده تکراری می باشد.";
+                break;
+
+            case EditUserResult.Success:
+                return RedirectToAction(nameof(FilterUsers));
+        }
+
+        return View();
     }
 
     #endregion

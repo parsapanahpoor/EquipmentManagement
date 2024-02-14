@@ -31,6 +31,7 @@ public record EditUserQueryHandler : IRequestHandler<EditUserQuery, EditUserDTO>
             Mobile = user.Mobile,
             Password = user.Password,
             Username = user.Username,
+            IsActive = user.IsActive,
             UserRoles = await _roleQueryRepository.GetUserSelectedRoleIdByUserId(user.Id , cancellationToken)
         };
     }
