@@ -8,5 +8,7 @@ public class CreateRoleCommand : IRequest<bool>
 
     public string RoleUniqueName { get; set; }
 
+    public List<ulong>? Permissions { get; set; }
+
     #endregion
 }

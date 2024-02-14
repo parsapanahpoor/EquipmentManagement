@@ -1,6 +1,8 @@
 ﻿
 using EquipmentManagement.Application.Common.IUnitOfWork;
+using EquipmentManagement.Domain.Entities.Role;
 using EquipmentManagement.Domain.IRepositories.Role;
+using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentManagement.Application.CQRS.SiteSide.Role.Command;
 
@@ -43,6 +45,23 @@ public record CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, bool
         };
 
         await _roleCommandRepository.AddAsync(role , cancellationToken);
+        await _unitOfWork.SaveChangesAsync();
+
+        // Add permissions
+        if (request.Permissions != null && request.Permissions.Any())
+        {
+            foreach (var permissionId in request.Permissions)
+            {
+                var rolePermission = new RolePermission
+                {
+                    PermissionId = permissionId,
+                    RoleId = role.Id
+                };
+
+                await _roleCommandRepository.AddPermissionToRole(rolePermission);
+            }
+        }
+
         await _unitOfWork.SaveChangesAsync();
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using EquipmentManagement.Domain.Entities.Account;
+using EquipmentManagement.Domain.Entities.Role;
 
 namespace EquipmentManagement.Domain.IRepositories.Role;
 
@@ -13,6 +14,10 @@ public interface IRoleCommandRepository
     Task AddAsync(Domain.Entities.Account.Role role , CancellationToken cancellationToken);
 
     void Update(Domain.Entities.Account.Role role);
+
+    Task AddPermissionToRole(RolePermission rolePermission);
+
+    Task RemoveRolePermissions(ulong roleId, List<ulong> rolePermissions, CancellationToken cancellation);
 
     #endregion
 }

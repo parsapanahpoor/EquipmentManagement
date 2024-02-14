@@ -2,6 +2,7 @@
 
 using EquipmentManagement.Domain.Entities.Account;
 using EquipmentManagement.Domain.Entities.ProductCategory;
+using EquipmentManagement.Domain.Entities.Role;
 using EquipmentManagement.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 namespace EquipmentManagement.Infrastructure.ApplicationDbContext;
@@ -30,6 +31,10 @@ public class EquipmentManagementDbContext : DbContext
 
     public DbSet<UserRole> UserRole { get; set; }
 
+    public DbSet<Permission> Permissions { get; set; }
+
+    public DbSet<RolePermission> RolePermissions { get; set; }
+
     #endregion
 
     #region Product Category
@@ -49,6 +54,11 @@ public class EquipmentManagementDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+        {
+            relationship.DeleteBehavior = DeleteBehavior.Restrict;
+        }
+
         base.OnModelCreating(modelBuilder);
     }
 

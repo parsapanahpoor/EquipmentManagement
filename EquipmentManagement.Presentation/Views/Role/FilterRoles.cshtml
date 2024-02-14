@@ -108,13 +108,13 @@
                                         <div class="d-flex justify-content-center ">
 
                                             <a title="ویرایش نقش"
-                                               asp-controller="Roles"
+                                               asp-controller="Role"
                                                asp-action="EditRole"
                                                asp-route-roleId="@role.Id"
                                                class="btn btn-warning btn-circle btn-xs">
                                                 <i class="glyphicon glyphicon-edit"></i>
                                             </a>
-                                            <button onclick="DeleteAjax(@role.Id, '@Url.Action("DeleteRole", "Role", new {area = "", roleId = role.Id})')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+                                            <button onclick="DeleteAjax(@role.Id, '@Url.Action("RemoveRole", "Role", new {area = "", roleId = role.Id})')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
 
                                         </div>
                                     </td>

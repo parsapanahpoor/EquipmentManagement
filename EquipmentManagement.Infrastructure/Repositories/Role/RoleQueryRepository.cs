@@ -85,5 +85,15 @@ public class RoleQueryRepository : QueryGenericRepository<Domain.Entities.Accoun
                                                   p.RoleUniqueName == title);
     }
 
+    public async Task<List<ulong>> GetRolePermissionsIdByRoleId(ulong roleId, CancellationToken cancellationToken)
+    {
+        return await _context.RolePermissions
+                             .AsNoTracking()
+                             .Where(p => !p.IsDelete &&
+                                    p.RoleId == roleId)
+                             .Select(p => p.PermissionId)
+                             .ToListAsync();
+    }
+
     #endregion
 }
