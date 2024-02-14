@@ -1,4 +1,5 @@
 ﻿using EquipmentManagement.Domain.DTO.Common;
+using EquipmentManagement.Domain.DTO.SiteSide.Role;
 using EquipmentManagement.Domain.IRepositories.Role;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,6 +42,47 @@ public class RoleQueryRepository : QueryGenericRepository<Domain.Entities.Accoun
                                  Title = s.Title
                              })
                              .ToListAsync();
+    }
+
+    public async Task<FilterRolesDTO> FilterRoles(FilterRolesDTO filter , CancellationToken cancellation)
+    {
+        var query = _context.Role
+                           .AsNoTracking()
+                           .OrderByDescending(p => p.CreateDate)
+                           .AsQueryable();
+
+        #region filter
+
+        if ((!string.IsNullOrEmpty(filter.RoleTitle)))
+        {
+            query = query.Where(u => u.Title.Contains(filter.RoleTitle));
+        }
+
+        #endregion
+
+        #region paging
+
+        await filter.Paging(query);
+
+        #endregion
+
+        return filter;
+    }
+
+    public async Task<bool> IsExistAnyRoleByRoleUniqueTitle(string title , CancellationToken cancellationToken)
+    {
+        return await _context.Role
+                             .AsNoTracking()
+                             .AnyAsync(p => !p.IsDelete &&
+                                       p.Title == title);
+    }
+
+    public async Task<Domain.Entities.Account.Role?> GetRoleByUniqueTitle(string title  , CancellationToken cancellation)
+    {
+        return await _context.Role
+                             .AsNoTracking()
+                             .FirstOrDefaultAsync(p => !p.IsDelete &&
+                                                  p.RoleUniqueName == title);
     }
 
     #endregion

@@ -1,0 +1,136 @@
+﻿@using EquipmentManagement.Domain.DTO.SiteSide.Role;
+@using EquipmentManagement.Application.Extensions;
+@using EquipmentManagement.Application.Convertors;
+@model FilterRolesDTO
+
+@{
+    ViewData["Title"] = "مدیریت نقش ها";
+}
+@section Scripts
+{
+}
+
+@section breadcrumbs
+{
+
+    <li class="active">@ViewData["Title"]</li>
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-xl-3 col-lg-3">
+
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-green">
+                    <span class="widget-caption"> فیلتر  </span>
+                </div>
+                <div class="widget-body">
+                    <div class="row">
+                        <div class="basic-form">
+                            <form asp-area="" asp-controller="Role" asp-action="FilterRoles" method="get" id="filter-search">
+                                <input type="hidden" asp-for="Page" />
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-12">
+                                        <label>عنوان نقش</label>
+                                        <input type="text" asp-for="RoleTitle" class="form-control" placeholder="عنوان نقش">
+                                    </div>
+
+                                </div>
+
+                                <hr />
+
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-labeled w-100 btn-palegreen">
+                                        <i class="btn-label glyphicon glyphicon-filter"></i>فیلتر
+                                    </button>
+                                </div>
+
+                                @if (Context.Request.QueryString.HasValue)
+                                {
+                                    <div class="form-group col-md-12">
+                                        <a asp-action="FilterRoles" asp-controller="Role" asp-area="" class="btn btn-labeled w-100 btn-darkorange">
+                                            <i class="btn-label glyphicon glyphicon-remove"></i>حذف فیلتر
+                                        </a>
+                                    </div>
+                                }
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-md-12 col-lg-9">
+            <div class="well with-header with-footer table-responsive">
+                <div class="header bordered-azure">
+                    <div class="flex-style">
+                        <span>نقش ها </span>
+                        <span>تعداد کل : @Model.AllEntitiesCount</span>
+                    </div>
+                </div>
+
+                @if (Model != null)
+                {
+                    <table class="table table-hover table-bordered tc tableShowListInAdmin">
+
+                        <thead class="tc">
+                            <tr class="tc">
+                                <th>
+                                    عنوان نقش
+                                </th>
+                                <th>
+                                    تاریخ ثبت
+                                </th>
+                                <th>
+                                    امکانات
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var role in Model.Entities)
+                            {
+                                <tr id="profile_@role.Id" remove-ajax-item="@role.Id">
+                                    <td>
+                                        @role.Title
+                                    </td>
+                                    <td>
+                                        @role.CreateDate.ToShamsi()
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex justify-content-center ">
+
+                                            <a title="ویرایش نقش"
+                                               asp-controller="Roles"
+                                               asp-action="EditRole"
+                                               asp-route-roleId="@role.Id"
+                                               class="btn btn-warning btn-circle btn-xs">
+                                                <i class="glyphicon glyphicon-edit"></i>
+                                            </a>
+                                            <button onclick="DeleteAjax(@role.Id, '@Url.Action("DeleteRole", "Role", new {area = "", roleId = role.Id})')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <partial name="_Paging" model="@Model.GetCurrentPaging()" />
+                }
+                else
+                {
+                    <partial name="_NotFoundPartial" />
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

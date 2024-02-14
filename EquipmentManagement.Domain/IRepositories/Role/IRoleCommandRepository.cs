@@ -10,5 +10,9 @@ public interface IRoleCommandRepository
 
     Task AddUserSelectedRole(UserRole userRole, CancellationToken cancellationToken);
 
+    Task AddAsync(Domain.Entities.Account.Role role , CancellationToken cancellationToken);
+
+    void Update(Domain.Entities.Account.Role role);
+
     #endregion
 }

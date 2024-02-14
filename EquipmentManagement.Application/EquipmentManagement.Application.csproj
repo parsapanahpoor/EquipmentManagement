@@ -25,8 +25,4 @@
 	  <ProjectReference Include="..\EquipmentManagement.Domain\EquipmentManagement.Domain.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="CQRS\SiteSide\Role\Command\" />
-	</ItemGroup>
-
 </Project>
