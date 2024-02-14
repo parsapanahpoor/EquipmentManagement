@@ -1,6 +1,5 @@
 ﻿using EquipmentManagement.Domain.DTO.Common;
 using EquipmentManagement.Domain.IRepositories.Role;
-using EquipmentManagement.Domain.IRepositories.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentManagement.Infrastructure.Repositories.Role;

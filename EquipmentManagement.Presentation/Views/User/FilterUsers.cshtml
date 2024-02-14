@@ -125,7 +125,7 @@
                                                 <a title="ویرایش کاربر" asp-controller="User" asp-action="EditUser" asp-route-UserId="@item.Id" class="btn btn-warning btn-circle btn-xs">
                                                     <i class="glyphicon glyphicon-edit"></i>
                                                 </a>
-                                                <button onclick="DeleteAjax(@item.Id, '@Url.Action("RemoveUser", "User", new {area = "Admin", userId = item.Id})')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+                                                <button onclick="DeleteAjax(@item.Id, '@Url.Action("DeleteUser", "User", new {area = "", userId = item.Id})')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
 
                                             }
                                             else

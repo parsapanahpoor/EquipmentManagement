@@ -3,6 +3,7 @@ using EquipmentManagement.Application.CQRS.SiteSide.Role.Query;
 using EquipmentManagement.Application.CQRS.SiteSide.User.Command;
 using EquipmentManagement.Application.CQRS.SiteSide.User.Query;
 using EquipmentManagement.Domain.DTO.SiteSide.User;
+using EquipmentManagement.Presentation.HttpManager;
 using Microsoft.AspNetCore.Mvc;
 namespace EquipmentManagement.Presentation.Controllers;
 
@@ -81,6 +82,19 @@ public class UserController : SiteBaseController
         }
 
         return View();
+    }
+
+    #endregion
+
+    #region Delete User 
+
+    public async Task<IActionResult> DeleteUser(DeleteUserCommand command, 
+                                                CancellationToken token = default)
+    {
+        var result = await Mediator.Send(command, token);
+        if (result) return JsonResponseStatus.Success();
+
+        return JsonResponseStatus.Error();
     }
 
     #endregion
