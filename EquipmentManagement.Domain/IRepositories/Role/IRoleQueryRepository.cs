@@ -8,6 +8,8 @@ public interface IRoleQueryRepository
 {
     #region Site Side 
 
+    Task<bool> HasUserPermission(ulong userId, string permissionName);
+
     Task<List<ulong>> GetUserSelectedRoleIdByUserId(ulong userId,
                                                                  CancellationToken cancellation);
 

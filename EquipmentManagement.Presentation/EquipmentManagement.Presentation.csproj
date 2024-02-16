@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ActionFilterAttributes\" />
     <Folder Include="wwwroot\content\images\user\main\" />
     <Folder Include="wwwroot\content\images\user\thumb\" />
   </ItemGroup>

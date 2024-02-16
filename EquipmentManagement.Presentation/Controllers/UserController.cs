@@ -2,16 +2,19 @@
 using EquipmentManagement.Application.CQRS.SiteSide.Role.Query;
 using EquipmentManagement.Application.CQRS.SiteSide.User.Command;
 using EquipmentManagement.Application.CQRS.SiteSide.User.Query;
+using EquipmentManagement.Application.Security;
 using EquipmentManagement.Domain.DTO.SiteSide.User;
 using EquipmentManagement.Presentation.HttpManager;
 using Microsoft.AspNetCore.Mvc;
 namespace EquipmentManagement.Presentation.Controllers;
 
+[PermissionChecker("ManageAccount")]
 public class UserController : SiteBaseController
 {
-	#region Filter Users
+    #region Filter Users
 
-	public async Task<IActionResult> FilterUsers(FilterUsersDTO filter , 
+    [PermissionChecker("UsersList")]
+    public async Task<IActionResult> FilterUsers(FilterUsersDTO filter , 
                                                  CancellationToken cancellationToken = default)
 	{
         FilterUserQuery query = new FilterUserQuery()
@@ -27,6 +30,7 @@ public class UserController : SiteBaseController
 
     #region Edit User
 
+    [PermissionChecker("EditUserInfo")]
     [HttpGet]
     public async Task<IActionResult> EditUser(EditUserQuery userQuery,
                                               CancellationToken cancellation = default)
@@ -43,6 +47,7 @@ public class UserController : SiteBaseController
         return View(user);
     }
 
+    [PermissionChecker("EditUserInfo")]
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> EditUser(EditUserDTO userDTO, 
                                               IFormFile UserAvatar,
