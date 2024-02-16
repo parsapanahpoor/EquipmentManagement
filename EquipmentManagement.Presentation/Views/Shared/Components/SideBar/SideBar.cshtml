@@ -77,5 +77,28 @@
             </ul>
         </li>
 
+        <!--Current User Info-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-user"></i>
+                <span class="menu-text">  اطلاعات کاربری شما</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-action="EditCurrentUserInfo" asp-controller="User" asp-area="">
+                        <span class="menu-text"> ویرایش اطلاعات </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-action="ChangePassword" asp-controller="User" asp-area="">
+                        <span class="menu-text"> تغییر رمز عبور </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
     </ul>
 </div>

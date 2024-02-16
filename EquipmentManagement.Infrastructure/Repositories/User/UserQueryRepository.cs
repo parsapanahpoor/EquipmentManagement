@@ -85,6 +85,15 @@ public class UserQueryRepository : QueryGenericRepository<Domain.Entities.Users.
 
         return filter;
     }
+    public async Task<bool> IsValidNationalIdForUserEditByAdmin(string nationalId, ulong userId , CancellationToken cancellationToken)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(s => !s.IsDelete && s.NationalId == nationalId.Trim());
+
+        if (user == null) return true;
+        if (user.Id == userId) return true;
+
+        return false;
+    }
 
     #endregion
 }

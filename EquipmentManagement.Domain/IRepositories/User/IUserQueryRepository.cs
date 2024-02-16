@@ -23,5 +23,7 @@ public interface IUserQueryRepository
 
     Task<FilterUsersDTO> FilterUsers(FilterUsersDTO filter, CancellationToken cancellation);
 
+    Task<bool> IsValidNationalIdForUserEditByAdmin(string nationalId, ulong userId, CancellationToken cancellationToken);
+
     #endregion
 }

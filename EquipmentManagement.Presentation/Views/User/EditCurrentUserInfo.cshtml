@@ -1,0 +1,138 @@
+﻿@using EquipmentManagement.Application.StaticTools
+@model EquipmentManagement.Domain.DTO.SiteSide.User.EditUserInfoDTO
+
+@{
+    ViewData["Title"] = "ویرایش اطلاعات شما";
+}
+
+@section Scripts
+{
+<partial name="_JqueryValidation" />
+    <script>
+
+        function ChangeUsername() {
+
+            var firstName = $('#FirstName').val();
+            var lastName = $('#LastName').val();
+
+            $('#username').val(firstName + ' ' + lastName);
+        }
+
+    </script>
+}
+
+@section breadcrumbs
+{
+<li>
+        <a asp-action="Landing" asp-controller="Home" asp-area=""> داشبورد </a>
+</li>
+}
+
+<form method="post" asp-action="EditCurrentUserInfo" asp-controller="User" asp-area="" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-lg-9 col-sm-12">
+            <div class="row">
+
+                <input type="hidden" asp-for="UserId" />
+                <input type="hidden" asp-for="AvatarName" />
+
+                <div class="col-lg-12">
+                    <div class="widget">
+                        <div class="widget-header bordered-bottom bordered-green" style="background-color:#d1f4fa">
+                            <span class="widget-caption"> اطلاعات کاربری </span>
+                        </div>
+                        <div class="widget-body" style="background-color:#d1f4fa !important;">
+                            <div class="row">
+
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <span class="red">*</span>
+                                    <label asp-for="FirstName">نام</label>
+                                    <input type="text" class="form-control" onblur="ChangeUsername()" asp-for="FirstName">
+                                    <span class="text-danger" asp-validation-for="FirstName"></span>
+                                </div>
+
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <span class="red">*</span>
+                                    <label asp-for="LastName">نام خانوادگی</label>
+                                    <input type="text" class="form-control" onblur="ChangeUsername()" asp-for="LastName">
+                                    <span class="text-danger" asp-validation-for="LastName"></span>
+                                </div>
+
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <span class="red">*</span>
+                                    <span>نام کاربری</span>
+                                    <input type="text" class="form-control" readonly asp-for="username">
+                                    <span class="text-danger" asp-validation-for="username"></span>
+                                </div>
+
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <span>موبایل</span>
+                                   
+                                    <div type="text" readonly class="form-control" asp-for="Mobile">@Model.Mobile</div>
+                                    <span class="text-danger" asp-validation-for="Mobile"></span>
+                                </div>
+
+                                <div class="form-group col-md-23 col-sm-12">
+                                    <span class="red">*</span>
+                                    <label asp-for="NationalId">کدملی</label>
+                                    <input type="text" class="form-control" asp-for="NationalId">
+                                    <span class="text-danger" asp-validation-for="NationalId"></span>
+                                </div>
+
+                                <hr class="margin-bottom-10 margin-top-10" />
+
+                                <div class="col-md-12 flex-style">
+                                    <button type="submit" class="btn btn-labeled btn-palegreen">
+                                        <i class="btn-label glyphicon glyphicon-ok"></i>ثبت
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-sm-12">
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="widget">
+                        <div class="widget-header bordered-bottom bordered-green">
+                            <span class="widget-caption"> عکس پروفایل کاربر </span>
+                        </div>
+                        <div class="widget-body">
+                            <div class="row">
+
+                                <input type="file" class="display-none" name="UserAvatar" id="UserAvatar" ImageInput="1" accept=".jpg,.jpeg,.png" />
+
+                                <div class="col-md-12">
+                                    <label for="UserAvatar" class="file-input-style">
+                                        <i class="glyphicon glyphicon-upload"></i>
+                                        <span class="mr-8px"> لطفا عکس پروفایل خود را انتخاب کنید</span>
+                                    </label>
+                                </div>
+
+                                @{
+                                    var avatarUrl = FilePaths.DefaultUserAvatar;
+
+                                    if (Model != null && !string.IsNullOrEmpty(Model.AvatarName))
+                                    {
+                                        avatarUrl = $"{FilePaths.UserAvatarPathThumb}{Model.AvatarName}";
+                                    }
+                                }
+
+                                <div class="col-md-12 tc mt-10px">
+                                    <img src="@avatarUrl" class="image-style" ImageFile="1" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

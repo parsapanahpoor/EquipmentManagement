@@ -1,0 +1,63 @@
+﻿@model EquipmentManagement.Domain.Entities.Users.User
+@using EquipmentManagement.Application.Extensions
+
+<div class="navbar-header pull-left">
+    <div class="navbar-account">
+        <ul class="account-area">
+
+            <li>
+
+                <a class="login-area dropdown-toggle" data-toggle="dropdown">
+                    <div class="avatar" title="View your public profile">
+                        <img src="@Model.GetUserAvatar()">
+                    </div>
+                    <section>
+                        <h2><span class="profile"><span>@Model.Username </span></span></h2>
+                    </section>
+                </a>
+
+                <!--Login Area Dropdown-->
+                <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
+
+                    <li>
+                        <a asp-action="Index" asp-area="UserPanel" asp-controller="Home">
+                            <div class="clearfix">
+                                <span class="pull-right">صفحه ی اصلی سامانه</span>
+                                <span class="pull-left">></span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a asp-action="EditCurrentUserInfo" asp-area="" asp-controller="User">
+                            <div class="clearfix">
+                                <span class="pull-right">ویرایش اطلاعات کاربری</span>
+                                <span class="pull-left">></span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a asp-action="ChangePassword" asp-area="" asp-controller="User">
+                            <div class="clearfix">
+                                <span class="pull-right">تغییر کلمه ی عبور</span>
+                                <span class="pull-left">></span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <!--/Theme Selector Area-->
+                    <li class="dropdown-footer text-right">
+                        <a asp-area="" asp-controller="Account" asp-action="Logout">
+                            خروج از سامانه
+                        </a>
+                    </li>
+
+                </ul>
+                <!--/Login Area Dropdown-->
+            </li>
+
+        </ul>
+
+    </div>
+</div>
