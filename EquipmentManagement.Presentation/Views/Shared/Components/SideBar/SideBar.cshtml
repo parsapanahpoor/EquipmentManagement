@@ -77,6 +77,28 @@
             </ul>
         </li>
 
+        <!--Places-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-building"></i>
+                <span class="menu-text"> اتاق ها و مکان ها</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-action="FilterPlaces" asp-controller="places" asp-area="">
+                        <span class="menu-text"> لیست دسته مکان ها  </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="CreatePlace" asp-controller="places" asp-area="">
+                        <span class="menu-text"> افزودن مکان جدید </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <!--Current User Info-->
         <li>
             <a href="#" class="menu-dropdown">

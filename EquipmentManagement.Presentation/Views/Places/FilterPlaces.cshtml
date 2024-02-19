@@ -1,0 +1,170 @@
+﻿@model EquipmentManagement.Domain.DTO.SiteSide.FilterPlaces.FilterPlacesDTO;
+@using EquipmentManagement.Application.Convertors;
+
+@{
+    ViewData["Title"] = "مدیریت مکان ها";
+}
+
+@section Scripts
+{
+}
+
+@section breadcrumbs
+{
+
+    <li class="active">@ViewData["Title"]</li>
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-xl-3 col-lg-3">
+
+            @if (Model.ParentId.HasValue)
+            {
+                <a class="btn btn-sky w-100 margin-bottom-10" 
+                    asp-action="CreatePlace" 
+                    asp-controller="Places" 
+                    asp-area=""
+                asp-route-ParentId="@Model.ParentId">ایجاد مکان جدید </a>
+            }
+            else
+            {
+                <a class="btn btn-sky w-100 margin-bottom-10" asp-action="CreatePlace"
+                   asp-controller="Places"
+                   asp-area="">ایجاد مکان جدید </a>
+            }
+            
+
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-green">
+                    <span class="widget-caption"> فیلتر  </span>
+                </div>
+                <div class="widget-body">
+                    <div class="row">
+                        <div class="basic-form">
+                            <form asp-area="" asp-controller="Places" asp-action="FilterPlaces" method="get" id="filter-search">
+                                <input type="hidden" asp-for="Page" />
+                                <input type="hidden" asp-for="ParentId" />
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-12">
+                                        <label>عنوان مکان</label>
+                                        <input type="text" asp-for="PlaceTitle" class="form-control" placeholder="عنوان مکان">
+                                    </div>
+
+                                </div>
+
+                                <hr />
+
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-labeled w-100 btn-palegreen">
+                                        <i class="btn-label glyphicon glyphicon-filter"></i>فیلتر
+                                    </button>
+                                </div>
+
+                                @if (Context.Request.QueryString.HasValue)
+                                {
+                                    <div class="form-group col-md-12">
+                                        <a asp-area="" asp-controller="Places" asp-action="FilterPlaces" class="btn btn-labeled w-100 btn-darkorange">
+                                            <i class="btn-label glyphicon glyphicon-remove"></i>حذف فیلتر
+                                        </a>
+                                    </div>
+                                }
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-md-12 col-lg-9">
+            <div class="well with-header with-footer table-responsive">
+                <div class="header bordered-azure">
+                    <div class="flex-style">
+                        <span>مکان ها </span>
+                        <span>تعداد کل : @Model.AllEntitiesCount</span>
+                    </div>
+                </div>
+
+                @if (Model != null)
+                {
+                    <table class="table table-hover table-bordered tc tableShowListInAdmin">
+
+                        <thead class="tc">
+                            <tr class="tc">
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    نام مکان
+                                </th>
+                                <th>
+                                    تاریخ ثبت
+                                </th>
+                                <th>
+                                    امکانات
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var place in Model.Entities)
+                            {
+                                <tr id="profile_@place.Id" remove-ajax-item="@place.Id">
+
+                                    <td>
+                                        @place.Id
+                                    </td>
+
+                                    <td>
+                                        @place.PlaceTitle
+                                    </td>
+
+                                    <td>
+                                        @place.CreateDate.ToShamsi()
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex justify-content-center ">
+
+                                            <a title="ویرایش اطلاعات" asp-controller="Places" asp-action="EditPlace" asp-route-placeId="@place.Id" class="btn btn-info btn-circle btn-xs">
+                                                <i class="glyphicon glyphicon-edit"></i>
+                                            </a>
+
+                                            @if (!Model.ParentId.HasValue)
+                                            {
+                                                <a title="نمایش زیر مجموعه ها" 
+                                               asp-controller="Places" 
+                                               asp-action="FilterPlaces"
+                                               asp-route-ParentId="@place.Id"
+                                               class="btn btn-warning btn-circle btn-xs">
+                                                <i class="glyphicon glyphicon-align-justify"></i>
+                                            </a> 
+                                            }
+                                           
+                                            <button onclick="DeleteAjax(@place.Id, '@Url.Action("DeletePlace", "Places", new {area = "", placeId = place.Id})')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <partial name="_Paging" model="@Model.GetCurrentPaging()" />
+                }
+                else
+                {
+                    <partial name="_NotFoundPartial" />
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
