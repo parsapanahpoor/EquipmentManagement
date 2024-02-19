@@ -1,6 +1,7 @@
 ﻿#region properties
 
 using EquipmentManagement.Domain.Entities.Account;
+using EquipmentManagement.Domain.Entities.Places;
 using EquipmentManagement.Domain.Entities.ProductCategory;
 using EquipmentManagement.Domain.Entities.Role;
 using EquipmentManagement.Domain.Entities.Users;
@@ -40,6 +41,12 @@ public class EquipmentManagementDbContext : DbContext
     #region Product Category
 
     public DbSet<ProductCategory> ProductCategories { get; set; }
+
+    #endregion
+
+    #region Place
+
+    public DbSet<Place> Places { get; set; }
 
     #endregion
 
