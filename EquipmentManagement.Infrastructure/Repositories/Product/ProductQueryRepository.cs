@@ -84,5 +84,34 @@ public class ProductQueryRepository : QueryGenericRepository<Domain.Entities.Pro
          
     }
 
+    public async Task<ProductDetailDTO?> FillProductDetailDTO(ulong productId , CancellationToken cancellationToken)
+    {
+        return await _context.Products
+                             .AsNoTracking()
+                             .Where(p => !p.IsDelete && 
+                                    p.Id == productId)
+                             .Select(p => new ProductDetailDTO
+                             {
+                                 BarCode = p.BarCode,
+                                 Description = p.Description,
+                                 EntityCount = p.EntityCount,
+                                 ProductTitle = p.ProductTitle,
+                                 ProductId = productId,
+                                 CategoryName = _context.ProductCategories  
+                                                        .AsNoTracking()
+                                                        .Where(s=> !s.IsDelete &&
+                                                               s.Id == p.ProductCategoryId)
+                                                        .Select(s=> s.CategoryTitle)
+                                                        .FirstOrDefault(),
+                                 PlaceName = _context.Places
+                                                        .AsNoTracking()
+                                                        .Where(s => !s.IsDelete &&
+                                                               s.Id == p.PlaceId)
+                                                        .Select(s => s.PlaceTitle)
+                                                        .FirstOrDefault(),
+                             })
+                             .FirstOrDefaultAsync();
+    }
+
     #endregion
 }

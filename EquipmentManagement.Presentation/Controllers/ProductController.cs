@@ -1,6 +1,8 @@
-﻿using EquipmentManagement.Application.CQRS.SiteSide.Product.Command;
+﻿using EquipmentManagement.Application.CQRS.SiteSide.Places.Command;
+using EquipmentManagement.Application.CQRS.SiteSide.Product.Command;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query;
 using EquipmentManagement.Domain.DTO.SiteSide.Product;
+using EquipmentManagement.Presentation.HttpManager;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EquipmentManagement.Presentation.Controllers;
@@ -96,9 +98,23 @@ public class ProductController : SiteBaseController
     #region Product Detail
 
     [HttpGet]
-    public async Task<IActionResult> ProductDetail(ulong productId)
+    public async Task<IActionResult> ProductDetail(ProductDetailQuery query , 
+                                                   CancellationToken cancellationToken = default)
     {
-        return View();
+        return View(await Mediator.Send(query , cancellationToken));
+    }
+
+    #endregion
+
+    #region Delete Product
+
+    public async Task<IActionResult> DeleteProduct(DeleteProductCommand command,
+                                               CancellationToken cancellationToken)
+    {
+        var res = await Mediator.Send(command, cancellationToken);
+        if (res) return JsonResponseStatus.Success();
+
+        return JsonResponseStatus.Error();
     }
 
     #endregion

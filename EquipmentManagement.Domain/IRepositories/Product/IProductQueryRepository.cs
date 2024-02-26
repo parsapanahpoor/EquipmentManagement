@@ -9,7 +9,10 @@ public interface IProductQueryRepository
     Task<FilterProductDTO> FilterProducts(FilterProductDTO filter);
 
     Task<bool> IsExistAny_Product_ByBarCode(string barCode,CancellationToken cancellationToken);
-                                                         
+
+    Task<ProductDetailDTO?> FillProductDetailDTO(ulong productId, CancellationToken cancellationToken);
+
+    Task<Domain.Entities.Product.Product> GetByIdAsync(CancellationToken cancellationToken, params object[] ids);
 
     #endregion
 }
