@@ -99,6 +99,28 @@
             </ul>
         </li>
 
+        <!--Product-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-cogs"></i>
+                <span class="menu-text"> تجهیزات</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-action="FilterProduct" asp-controller="Product" asp-area="">
+                        <span class="menu-text"> لیست تجهیزات  </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="CreateProduct" asp-controller="Product" asp-area="">
+                        <span class="menu-text"> افزودن کالا </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <!--Current User Info-->
         <li>
             <a href="#" class="menu-dropdown">

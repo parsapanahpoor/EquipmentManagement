@@ -1,0 +1,189 @@
+﻿@using EquipmentManagement.Application.Convertors;
+@model EquipmentManagement.Domain.DTO.SiteSide.Product.FilterProductDTO
+
+@{
+    ViewData["Title"] = "مدیریت تجهیزات";
+}
+
+@section Scripts
+{
+}
+
+@section breadcrumbs
+{
+    <li class="active">@ViewData["Title"]</li>
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-xl-3 col-lg-3">
+
+                <a class="btn btn-sky w-100 margin-bottom-10"
+                   asp-action="CreateProduct"
+                   asp-controller="Product"
+                   asp-area=""
+                   asp-route-PlaceId="@Model.PlaceId"
+                   asp-route-CategoryId="@Model.CategoryId">ایجاد کالای جدید </a>
+
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-green">
+                    <span class="widget-caption"> فیلتر  </span>
+                </div>
+                <div class="widget-body">
+                    <div class="row">
+                        <div class="basic-form">
+                            <form asp-area="" asp-controller="Product" asp-action="FilterProduct" method="get" id="filter-search">
+                                <input type="hidden" asp-for="Page" />
+                                <input type="hidden" asp-for="PlaceId" />
+                                <input type="hidden" asp-for="CategoryId" />
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-12">
+                                        <label>نام کالا</label>
+                                        <input type="text" asp-for="ProductTitle" class="form-control" placeholder="نام کالا">
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label>نام مکان </label>
+                                        <input type="text" asp-for="PlaceTitle" class="form-control" placeholder="نام مکان">
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label>نام دسته بندی کالا</label>
+                                        <input type="text" asp-for="CategoryTitle" class="form-control" placeholder="نام دسته بندی کالا">
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label>بارکد کالا</label>
+                                        <input type="text" asp-for="BarCode" class="form-control" placeholder="بارکد کالا">
+                                    </div>
+
+                                </div>
+
+                                <hr />
+
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-labeled w-100 btn-palegreen">
+                                        <i class="btn-label glyphicon glyphicon-filter"></i>فیلتر
+                                    </button>
+                                </div>
+
+                                @if (Context.Request.QueryString.HasValue)
+                                {
+                                    <div class="form-group col-md-12">
+                                        <a asp-area="" asp-controller="Product" asp-action="FilterProduct" class="btn btn-labeled w-100 btn-darkorange">
+                                            <i class="btn-label glyphicon glyphicon-remove"></i>حذف فیلتر
+                                        </a>
+                                    </div>
+                                }
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-md-12 col-lg-9">
+            <div class="well with-header with-footer table-responsive">
+                <div class="header bordered-azure">
+                    <div class="flex-style">
+                        <span>تجهیزات </span>
+                        <span>تعداد کل : @Model.AllEntitiesCount</span>
+                    </div>
+                </div>
+
+                @if (Model != null)
+                {
+                    <table class="table table-hover table-bordered tc tableShowListInAdmin">
+
+                        <thead class="tc">
+                            <tr class="tc">
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    عنوان کالا
+                                </th>
+                                <th>
+                                    نام مکان
+                                </th>
+                                <th>
+                                    نام دسته بندی
+                                </th>
+                                <th>
+                                    تعداد کالا
+                                </th>
+                                <th>
+                                    بارکد
+                                </th>
+                                <th>
+                                    تاریخ ثبت
+                                </th>
+                                <th>
+                                    امکانات
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var product in Model.Entities)
+                            {
+                                <tr id="profile_@product.Id" remove-ajax-item="@product.Id">
+
+                                    <td>
+                                        @product.Id
+                                    </td>
+                                    <td>
+                                        @product.ProductTitle
+                                    </td>
+                                    <td>
+                                        @product.Place.PlaceTitle
+                                    </td>
+                                    <td>
+                                        @product.ProductCategory.CategoryTitle
+                                    </td>
+                                    <td>
+                                        @product.EntityCount
+                                    </td>
+                                    <td>
+                                        @product.BarCode
+                                    </td>
+                                    <td>
+                                        @product.CreateDate.ToShamsi()
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-center ">
+
+                                            <a title="نمایش اطلاعات" asp-controller="ShopProductCategory" asp-action="EditProductCategory" asp-route-productCategoryId="@product.Id" class="btn btn-warning btn-circle btn-xs">
+                                                <i class="glyphicon glyphicon-edit"></i>
+                                            </a>
+
+                                            <a title="نمایش اطلاعات" asp-controller="ShopProductCategory" asp-action="EditProductCategory" asp-route-productCategoryId="@product.Id" class="btn btn-info btn-circle btn-xs">
+                                                <i class="glyphicon glyphicon-eye-open"></i>
+                                            </a>
+
+                                            <button onclick="DeleteAjax(@product.Id, '@Url.Action("DeleteProductCategory", "ShopProductCategory", new {area = "", productCategoryId = product.Id})')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <partial name="_Paging" model="@Model.GetCurrentPaging()" />
+                }
+                else
+                {
+                    <partial name="_NotFoundPartial" />
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

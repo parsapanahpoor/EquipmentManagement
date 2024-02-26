@@ -2,6 +2,7 @@
 
 using EquipmentManagement.Domain.Entities.Account;
 using EquipmentManagement.Domain.Entities.Places;
+using EquipmentManagement.Domain.Entities.Product;
 using EquipmentManagement.Domain.Entities.ProductCategory;
 using EquipmentManagement.Domain.Entities.Role;
 using EquipmentManagement.Domain.Entities.Users;
@@ -47,6 +48,12 @@ public class EquipmentManagementDbContext : DbContext
     #region Place
 
     public DbSet<Place> Places { get; set; }
+
+    #endregion
+
+    #region Product
+
+    public DbSet<Product> Products { get; set; }
 
     #endregion
 

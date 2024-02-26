@@ -58,6 +58,27 @@ public class ProductCategoryQueryRepository : QueryGenericRepository<Domain.Enti
                              .FirstOrDefaultAsync();
     }
 
+    public async Task<bool> IsExistAny_Category_ByCategoryId(ulong categoryId , CancellationToken cancellationToken)
+    {
+        return await _context.ProductCategories
+                             .AsNoTracking()
+                             .AnyAsync(p => !p.IsDelete &&
+                                       p.Id == categoryId);
+    }
+
+    public async Task<List<SelectListOfCategoriesDTO>> FillSelectListOfCategoriesDTO(CancellationToken cancellation)
+    {
+        return await _context.ProductCategories
+                             .AsNoTracking()
+                             .Where(p => !p.IsDelete)
+                             .Select(p=> new SelectListOfCategoriesDTO()
+                             {
+                                 CategoryId = p.Id,
+                                 CategoryTitle = p.CategoryTitle
+                             })
+                             .ToListAsync();
+    }
+
     #endregion
 }
 

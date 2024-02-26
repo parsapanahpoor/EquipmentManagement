@@ -4,6 +4,7 @@ using EquipmentManagement.Infrastructure.ApplicationDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EquipmentManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(EquipmentManagementDbContext))]
-    partial class EquipmentManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240221063531_Add-Product-Table")]
+    partial class AddProductTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,10 +124,14 @@ namespace EquipmentManagement.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("CategoryId")
+                        .HasColumnType("decimal(20,0)");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EntityCount")
@@ -136,9 +143,6 @@ namespace EquipmentManagement.Infrastructure.Migrations
                     b.Property<decimal>("PlaceId")
                         .HasColumnType("decimal(20,0)");
 
-                    b.Property<decimal>("ProductCategoryId")
-                        .HasColumnType("decimal(20,0)");
-
                     b.Property<string>("ProductTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -147,10 +151,6 @@ namespace EquipmentManagement.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PlaceId");
-
-                    b.HasIndex("ProductCategoryId");
 
                     b.ToTable("Products");
                 });
@@ -308,35 +308,6 @@ namespace EquipmentManagement.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("EquipmentManagement.Domain.Entities.Product.Product", b =>
-                {
-                    b.HasOne("EquipmentManagement.Domain.Entities.Places.Place", "Place")
-                        .WithMany("products")
-                        .HasForeignKey("PlaceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("EquipmentManagement.Domain.Entities.ProductCategory.ProductCategory", "ProductCategory")
-                        .WithMany("products")
-                        .HasForeignKey("ProductCategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Place");
-
-                    b.Navigation("ProductCategory");
-                });
-
-            modelBuilder.Entity("EquipmentManagement.Domain.Entities.Places.Place", b =>
-                {
-                    b.Navigation("products");
-                });
-
-            modelBuilder.Entity("EquipmentManagement.Domain.Entities.ProductCategory.ProductCategory", b =>
-                {
-                    b.Navigation("products");
                 });
 #pragma warning restore 612, 618
         }

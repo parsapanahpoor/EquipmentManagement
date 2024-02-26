@@ -9,4 +9,10 @@ public sealed class ProductCategory : BaseEntities<ulong>
     public string CategoryTitle { get; set; }
 
     #endregion
+
+    #region Relations
+
+    public List<Domain.Entities.Product.Product> products { get; set; }
+
+    #endregion
 }

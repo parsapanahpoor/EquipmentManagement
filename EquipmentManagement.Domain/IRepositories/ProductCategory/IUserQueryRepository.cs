@@ -12,5 +12,9 @@ public interface IProductCategoryQueryRepository
 
     Task<EditProductCategoryDTO?> FillEditProductCategoryDTO(ulong categoryId, CancellationToken cancellation);
 
+    Task<bool> IsExistAny_Category_ByCategoryId(ulong categoryId, CancellationToken cancellationToken);
+
+    Task<List<SelectListOfCategoriesDTO>> FillSelectListOfCategoriesDTO(CancellationToken cancellation);
+
     #endregion
 }

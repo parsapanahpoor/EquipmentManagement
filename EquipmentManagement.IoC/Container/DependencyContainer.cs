@@ -2,10 +2,12 @@
 
 using EquipmentManagement.Application.Common.IUnitOfWork;
 using EquipmentManagement.Domain.IRepositories.Place;
+using EquipmentManagement.Domain.IRepositories.Product;
 using EquipmentManagement.Domain.IRepositories.ProductCategory;
 using EquipmentManagement.Domain.IRepositories.Role;
 using EquipmentManagement.Domain.IRepositories.User;
 using EquipmentManagement.Infrastructure.Repositories.Places;
+using EquipmentManagement.Infrastructure.Repositories.Product;
 using EquipmentManagement.Infrastructure.Repositories.ProductCategory;
 using EquipmentManagement.Infrastructure.Repositories.Role;
 using EquipmentManagement.Infrastructure.Repositories.User;
@@ -37,6 +39,10 @@ public static class DependencyContainer
         //Places
         services.AddScoped<IPlacesCommandRepository, PlacesCommandRepository>();
         services.AddScoped<IPlacesQueryRepository, PlacesQueryRepository>();
+
+        //Product
+        services.AddScoped<IProductCommandRepository, ProductCommandRepository>();
+        services.AddScoped<IProductQueryRepository, ProductQueryRepository>();
 
         #endregion
 

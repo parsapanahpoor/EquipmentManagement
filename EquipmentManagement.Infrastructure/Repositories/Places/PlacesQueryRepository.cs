@@ -1,4 +1,5 @@
 ﻿using EquipmentManagement.Domain.DTO.SiteSide.FilterPlaces;
+using EquipmentManagement.Domain.DTO.SiteSide.Places;
 using EquipmentManagement.Domain.IRepositories.Place;
 using Microsoft.EntityFrameworkCore;
 
@@ -61,6 +62,28 @@ public class PlacesQueryRepository : QueryGenericRepository<Domain.Entities.Plac
                              .AsNoTracking()
                              .Where(p => !p.IsDelete &&
                                     p.ParentId == parentId)
+                             .ToListAsync();
+    }
+
+    public async Task<bool> IsExistAny_Place_ById(ulong placeId , CancellationToken cancellationToken)
+    {
+        return await _context.Places
+                             .AsNoTracking()
+                             .AnyAsync(p => !p.IsDelete &&
+                                       p.Id == placeId);
+    }
+
+    public async Task<List<SelectListOfPlacesDTO>> FillSelectListOfPlacesDTO(CancellationToken cancellation)
+    {
+        return await _context.Places
+                             .AsNoTracking()
+                             .Where(p=> !p.IsDelete)
+                             .Select(p=> new SelectListOfPlacesDTO()
+                             {
+                                 ParentId = p.ParentId,
+                                 PlaceId = p.Id,
+                                 PlaceTitle = p.PlaceTitle
+                             })
                              .ToListAsync();
     }
 
