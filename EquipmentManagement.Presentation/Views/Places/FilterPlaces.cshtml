@@ -132,9 +132,7 @@
                                     <td>
                                         <div class="d-flex justify-content-center ">
 
-                                            <a title="ویرایش اطلاعات" asp-controller="Places" asp-action="EditPlace" asp-route-placeId="@place.Id" class="btn btn-info btn-circle btn-xs">
-                                                <i class="glyphicon glyphicon-edit"></i>
-                                            </a>
+                                          
 
                                             @if (!Model.ParentId.HasValue)
                                             {
@@ -144,9 +142,18 @@
                                                asp-route-ParentId="@place.Id"
                                                class="btn btn-warning btn-circle btn-xs">
                                                 <i class="glyphicon glyphicon-align-justify"></i>
-                                            </a> 
+                                                </a>
+                                            }else
+                                            {
+                                                <a title="نمایش محصولات زیرمجموعه" asp-controller="Product" asp-action="FilterProduct" asp-route-PlaceId="@place.Id" class="btn btn-success btn-circle btn-xs">
+                                                    <i class="fa fa-gears"></i>
+                                                </a>
                                             }
-                                           
+
+                                            <a title="ویرایش اطلاعات" asp-controller="Places" asp-action="EditPlace" asp-route-placeId="@place.Id" class="btn btn-info btn-circle btn-xs">
+                                                <i class="glyphicon glyphicon-edit"></i>
+                                            </a>
+
                                             <button onclick="DeleteAjax(@place.Id, '@Url.Action("DeletePlace", "Places", new {area = "", placeId = place.Id})')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
 
                                         </div>

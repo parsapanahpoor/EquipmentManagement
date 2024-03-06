@@ -94,7 +94,6 @@ public class ProductQueryRepository : QueryGenericRepository<Domain.Entities.Pro
                              {
                                  BarCode = p.BarCode,
                                  Description = p.Description,
-                                 EntityCount = p.EntityCount,
                                  ProductTitle = p.ProductTitle,
                                  ProductId = productId,
                                  CategoryName = _context.ProductCategories  

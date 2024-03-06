@@ -14,8 +14,6 @@ public class ProductDetailDTO
 
     public string? BarCode { get; set; }
 
-    public int EntityCount { get; set; }
-
     public string? Description { get; set; }
 
     #endregion

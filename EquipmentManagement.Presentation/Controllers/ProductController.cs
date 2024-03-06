@@ -1,12 +1,14 @@
 ﻿using EquipmentManagement.Application.CQRS.SiteSide.Places.Command;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Command;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query;
+using EquipmentManagement.Application.Security;
 using EquipmentManagement.Domain.DTO.SiteSide.Product;
 using EquipmentManagement.Presentation.HttpManager;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EquipmentManagement.Presentation.Controllers;
 
+[PermissionChecker("ManageAccount")]
 public class ProductController : SiteBaseController
 {
     #region List Of Products
@@ -63,7 +65,7 @@ public class ProductController : SiteBaseController
             {
                 BarCode = createProduct.BarCode,
                 Description = createProduct.Description,
-                EntityCount = createProduct.EntityCount,
+                EntityCount = 1,
                 CategoryId = createProduct.CategoryId,
                 ProductTitle = createProduct.ProductTitle,
                 PlaceId = createProduct.PlaceId,

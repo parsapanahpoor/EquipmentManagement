@@ -1,15 +1,18 @@
 ﻿using EquipmentManagement.Application.CQRS.SiteSide.ProductCategories.Command;
 using EquipmentManagement.Application.CQRS.SiteSide.ProductCategories.Query;
+using EquipmentManagement.Application.Security;
 using EquipmentManagement.Domain.DTO.SiteSide.ProductCategory;
 using EquipmentManagement.Presentation.HttpManager;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 namespace EquipmentManagement.Presentation.Controllers;
 
+[PermissionChecker("ManageProductCategory")]
 public class ShopProductCategoryController : SiteBaseController
 {
     #region Filter Product Categories
 
+    [PermissionChecker("FilterProductCategory")]
     [HttpGet]
     public async Task<IActionResult> FilterProductCategory(FilterProductCategories filter,
                                                            CancellationToken token = default)
@@ -26,12 +29,14 @@ public class ShopProductCategoryController : SiteBaseController
 
     #region Add Product Category
 
+    [PermissionChecker("AddProductCategory")]
     [HttpGet]
     public IActionResult AddProductCategory()
     {
         return View();
     }
 
+    [PermissionChecker("AddProductCategory")]
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> AddProductCategory(CreateProductCategoryDTO model ,
                                                         CancellationToken cancellation)
@@ -63,6 +68,7 @@ public class ShopProductCategoryController : SiteBaseController
 
     #region Edit Product Category
 
+    [PermissionChecker("EditProductCategory")]
     [HttpGet]
     public async Task<IActionResult> EditProductCategory(ulong productCategoryId , 
                                                          CancellationToken cancellationToken = default)
@@ -82,6 +88,7 @@ public class ShopProductCategoryController : SiteBaseController
         return View(category);
     }
 
+    [PermissionChecker("EditProductCategory")]
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> EditProductCategory(EditProductCategoryDTO model,
                                                          CancellationToken cancellationToken = default)

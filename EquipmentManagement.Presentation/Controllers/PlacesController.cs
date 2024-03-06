@@ -1,6 +1,7 @@
 ﻿using EquipmentManagement.Application.CQRS.SiteSide.Places.Command;
 using EquipmentManagement.Application.CQRS.SiteSide.Places.Query;
 using EquipmentManagement.Application.CQRS.SiteSide.ProductCategories.Command;
+using EquipmentManagement.Application.Security;
 using EquipmentManagement.Domain.DTO.SiteSide.FilterPlaces;
 using EquipmentManagement.Domain.DTO.SiteSide.Places;
 using EquipmentManagement.Domain.Entities.ProductCategory;
@@ -8,10 +9,12 @@ using EquipmentManagement.Presentation.HttpManager;
 using Microsoft.AspNetCore.Mvc;
 namespace EquipmentManagement.Presentation.Controllers;
 
+[PermissionChecker("ManagePlaces")]
 public class PlacesController : SiteBaseController 
 {
     #region Filter Places 
 
+    [PermissionChecker("FilterPlaces")]
     public async Task<IActionResult> FilterPlaces(FilterPlacesDTO filter , 
                                                   CancellationToken cancellation)
     {
@@ -29,6 +32,7 @@ public class PlacesController : SiteBaseController
 
     #region Create Place
 
+    [PermissionChecker("CreatePlace")]
     [HttpGet]
     public IActionResult CreatePlace(ulong? parentId)
     {
@@ -38,6 +42,7 @@ public class PlacesController : SiteBaseController
         });
     }
 
+    [PermissionChecker("CreatePlace")]
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> CreatePlace(CreatePlaceDTO createPlace , 
                                                  CancellationToken cancellationToken)
@@ -70,6 +75,7 @@ public class PlacesController : SiteBaseController
 
     #region Edit Place
 
+    [PermissionChecker("EditPlace")]
     [HttpGet]
     public async Task<IActionResult> EditPlace(EditPlaceQuery place , 
                                                CancellationToken cancellationToken)
@@ -80,6 +86,7 @@ public class PlacesController : SiteBaseController
         return View(model);
     }
 
+    [PermissionChecker("EditPlace")]
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> EditPlace(EditPlaceDTO place,
                                                CancellationToken cancellation)

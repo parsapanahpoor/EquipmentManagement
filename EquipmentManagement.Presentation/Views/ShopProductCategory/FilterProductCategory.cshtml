@@ -112,6 +112,10 @@
                                     <td>
                                         <div class="d-flex justify-content-center ">
 
+                                            <a title="نمایش محصولات زیرمجموعه" asp-controller="Product" asp-action="FilterProduct" asp-route-CategoryId="@category.Id" class="btn btn-success btn-circle btn-xs">
+                                                <i class="fa fa-gears"></i>
+                                            </a>
+
                                             <a title="نمایش اطلاعات" asp-controller="ShopProductCategory" asp-action="EditProductCategory" asp-route-productCategoryId="@category.Id" class="btn btn-warning btn-circle btn-xs">
                                                 <i class="glyphicon glyphicon-edit"></i>
                                             </a>

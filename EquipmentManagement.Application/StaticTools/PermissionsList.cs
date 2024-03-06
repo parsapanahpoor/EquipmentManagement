@@ -135,6 +135,138 @@ public static class PermissionsList
 
             #endregion
 
+            #region Manage Categories
+
+            list.Add(new Permission
+            {
+                Id = 12,
+                CreateDate = date,
+                IsDelete = false,
+                ParentId = null,
+                PermissionUniqueName = "ManageProductCategory",
+                Title = " دسته بندی ها "
+            });
+
+            list.Add(new Permission
+            {
+                Id = 13,
+                CreateDate = date,
+                IsDelete = false,
+                ParentId = 12,
+                PermissionUniqueName = "FilterProductCategory",
+                Title = "مدیریت دسته بندی ها"
+            });
+
+            list.Add(new Permission
+            {
+                Id = 14,
+                CreateDate = date,
+                IsDelete = false,
+                ParentId = 12,
+                PermissionUniqueName = "AddProductCategory",
+                Title = "افزودن دسته بندی "
+            });
+
+            list.Add(new Permission
+            {
+                Id = 15,
+                CreateDate = date,
+                IsDelete = false,
+                ParentId = 12,
+                PermissionUniqueName = "EditProductCategory",
+                Title = "ویرایش دسته بندی "
+            });
+
+            #endregion
+
+            #region Manage Places
+
+            list.Add(new Permission
+            {
+                Id = 16,
+                CreateDate = date,
+                IsDelete = false,
+                ParentId = null,
+                PermissionUniqueName = "ManagePlaces",
+                Title = " مکان ها "
+            });
+
+            list.Add(new Permission
+            {
+                Id = 17,
+                CreateDate = date,
+                IsDelete = false,
+                ParentId = 16,
+                PermissionUniqueName = "FilterPlaces",
+                Title = "مدیریت مکان ها"
+            });
+
+            list.Add(new Permission
+            {
+                Id = 18,
+                CreateDate = date,
+                IsDelete = false,
+                ParentId = 16,
+                PermissionUniqueName = "CreatePlace",
+                Title = "افزودن مکان "
+            });
+
+            list.Add(new Permission
+            {
+                Id = 19,
+                CreateDate = date,
+                IsDelete = false,
+                ParentId = 16,
+                PermissionUniqueName = "EditPlace",
+                Title = "ویرایش مکان "
+            });
+
+            #endregion
+
+            #region Manage Products
+
+            list.Add(new Permission
+            {
+                Id = 20,
+                CreateDate = date,
+                IsDelete = false,
+                ParentId = null,
+                PermissionUniqueName = "ManageProducts",
+                Title = " تجهیزات "
+            });
+
+            list.Add(new Permission
+            {
+                Id = 21,
+                CreateDate = date,
+                IsDelete = false,
+                ParentId = 20,
+                PermissionUniqueName = "FilterProduct",
+                Title = "مدیریت تجهیزات"
+            });
+
+            list.Add(new Permission
+            {
+                Id = 22,
+                CreateDate = date,
+                IsDelete = false,
+                ParentId = 20,
+                PermissionUniqueName = "CreateProduct",
+                Title = "افزودن کالا "
+            });
+
+            list.Add(new Permission
+            {
+                Id = 23,
+                CreateDate = date,
+                IsDelete = false,
+                ParentId = 20,
+                PermissionUniqueName = "ProductDetail",
+                Title = "نمایش کالا "
+            });
+
+            #endregion
+
             #endregion
 
             // Last Id Use is : 11
