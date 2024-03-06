@@ -1,9 +1,11 @@
 ﻿#region properties
 
 using EquipmentManagement.Domain.Entities.Account;
+using EquipmentManagement.Domain.Entities.OperatorLogger;
 using EquipmentManagement.Domain.Entities.Places;
 using EquipmentManagement.Domain.Entities.Product;
 using EquipmentManagement.Domain.Entities.ProductCategory;
+using EquipmentManagement.Domain.Entities.PropertyInquiry;
 using EquipmentManagement.Domain.Entities.Role;
 using EquipmentManagement.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +56,20 @@ public class EquipmentManagementDbContext : DbContext
     #region Product
 
     public DbSet<Product> Products { get; set; }
+
+    #endregion
+
+    #region Property Inquiry
+
+    public DbSet<PropertyInquiry> PropertyInquiries { get; set; }
+
+    public DbSet<PropertyInquiryDetail> PropertyInquiryDetails { get; set; }
+
+    #endregion
+
+    #region Logger 
+
+    public DbSet<OperatorExcelUploadLogger> OperatorExcelUploadLoggers { get; set; }
 
     #endregion
 
