@@ -4,11 +4,13 @@ using EquipmentManagement.Application.Common.IUnitOfWork;
 using EquipmentManagement.Domain.IRepositories.Place;
 using EquipmentManagement.Domain.IRepositories.Product;
 using EquipmentManagement.Domain.IRepositories.ProductCategory;
+using EquipmentManagement.Domain.IRepositories.PropertyInquiry;
 using EquipmentManagement.Domain.IRepositories.Role;
 using EquipmentManagement.Domain.IRepositories.User;
 using EquipmentManagement.Infrastructure.Repositories.Places;
 using EquipmentManagement.Infrastructure.Repositories.Product;
 using EquipmentManagement.Infrastructure.Repositories.ProductCategory;
+using EquipmentManagement.Infrastructure.Repositories.PropertyInquiry;
 using EquipmentManagement.Infrastructure.Repositories.Role;
 using EquipmentManagement.Infrastructure.Repositories.User;
 using EquipmentManagement.Infrastructure.UnitOfWork;
@@ -43,6 +45,10 @@ public static class DependencyContainer
         //Product
         services.AddScoped<IProductCommandRepository, ProductCommandRepository>();
         services.AddScoped<IProductQueryRepository, ProductQueryRepository>();
+
+        //Property Inquiry
+        services.AddScoped<IPropertyInquiryCommandRepository , PropertyInquiryCommandRepository>();
+        services.AddScoped<IPropertyInquiryQueryRepository, PropertyInquiryQueryRepository>();
 
         #endregion
 

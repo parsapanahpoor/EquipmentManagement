@@ -21,4 +21,10 @@ public static class FilePaths
     public static readonly string DefaultUserAvatar = "/content/images/user/DefaultAvatar.png";
 
     #endregion
+
+    #region Property Inquiry
+
+    public static readonly string PropertyInquiryExcelFile = "/content/PropertyInquiryExcelFile/";
+
+    #endregion
 }
