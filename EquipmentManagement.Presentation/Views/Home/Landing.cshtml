@@ -1,3 +1,67 @@
 ﻿@{
     ViewData["Title"] = "داشبورد سامانه";
 }
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <a asp-action="FilterUsers" asp-controller="User" asp-area="">
+                    <div class="databox radius-bordered bg-white">
+                        <div class="databox-right bg-themesecondary">
+                            <div class="databox-piechart">
+                                <div data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="50" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.1)"><span class="white font-90"></span></div>
+                            </div>
+                        </div>
+                        <div class="databox-left">
+                            <span class="databox-number themesecondary"></span>
+                            <div class="databox-text darkgray" style="font-size:20px; font-weight:bolder">کاربران</div>
+                            <div class="databox-state bg-themesecondary radius-bordered">
+                                <i class="stat-icon icon-lg fa fa-user"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <a asp-action="FilterPlaces" asp-controller="places" asp-area="">
+
+                    <div class="databox radius-bordered bg-white">
+                        <div class="databox-right bg-themefourthcolor ">
+                            <div class="databox-piechart">
+                                <div data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="15" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.2)"><span class="white font-90"></span></div>
+                            </div>
+                        </div>
+                        <div class="databox-left">
+                            <span class="databox-number themefourthcolor"></span>
+                            <div class="databox-text darkgray" style="font-size:20px; font-weight:bolder">مکانها و بخشها</div>
+                            <div class="databox-state bg-themefourthcolor radius-bordered">
+                                <i class="stat-icon icon-lg fa fa-home"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <a asp-action="FilterProduct" asp-controller="Product" asp-area="">
+                    <div class="databox radius-bordered bg-white">
+                        <div class="databox-right bg-themeprimary">
+                            <div class="databox-piechart">
+                                <div id="users-pie" data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="76" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.1)"><span class="white font-90"></span></div>
+                            </div>
+                        </div>
+                        <div class="databox-left">
+                            <span class="databox-number themeprimary"></span>
+                            <div class="databox-text darkgray" style="font-size:20px; font-weight:bolder">تجهیزات و اموال</div>
+                            <div class="databox-state bg-themeprimary">
+                                <i class="fa fa-puzzle-piece "></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
