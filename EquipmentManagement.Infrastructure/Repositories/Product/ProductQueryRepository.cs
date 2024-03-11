@@ -74,6 +74,15 @@ public class ProductQueryRepository : QueryGenericRepository<Domain.Entities.Pro
         return filter;
     }
 
+    public async Task<bool> IsExist_Product_ByRfId(string rfId , CancellationToken cancellationToken)
+    {
+        return await _context.Products
+                             .AsNoTracking()
+                             .Where(p => !p.IsDelete &&
+                                    p.BarCode == rfId)
+                             .AnyAsync();
+    }
+
     public async Task<bool> IsExistAny_Product_ByBarCode(string barCode , 
                                                          CancellationToken cancellationToken)
     {

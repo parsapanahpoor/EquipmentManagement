@@ -24,7 +24,7 @@ public static class FilePaths
 
     #region Property Inquiry
 
-    public static readonly string PropertyInquiryExcelFile = "/content/PropertyInquiryExcelFile/";
+    public static readonly string PropertyInquiryExcelFile = "/content/images/PropertyInquiryExcelFile/";
 
     #endregion
 }

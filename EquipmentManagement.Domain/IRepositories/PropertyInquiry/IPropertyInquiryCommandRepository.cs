@@ -1,4 +1,6 @@
-﻿namespace EquipmentManagement.Domain.IRepositories.PropertyInquiry;
+﻿using EquipmentManagement.Domain.Entities.OperatorLogger;
+
+namespace EquipmentManagement.Domain.IRepositories.PropertyInquiry;
 
 public interface IPropertyInquiryCommandRepository
 {
@@ -7,4 +9,6 @@ public interface IPropertyInquiryCommandRepository
     Task AddRangeAsync(IEnumerable<Entities.PropertyInquiry.PropertyInquiry> inquiries, CancellationToken cancellationToken);
 
     Task AddRangeInquiryDetailAsync(IEnumerable<Entities.PropertyInquiry.PropertyInquiryDetail> inquiryDetails, CancellationToken cancellationToken);
+
+    Task AddAsync(OperatorExcelUploadLogger excelUploadLogger, CancellationToken cancellationToken);
 }

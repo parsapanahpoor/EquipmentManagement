@@ -1,5 +1,173 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using EquipmentManagement.Application.Convertors
+@model EquipmentManagement.Domain.DTO.SiteSide.PropertyInquiry.FilterInquiryDetailDTO;
+
 @{
+    ViewData["Title"] = "استعلام اموال";
 }
+
+@section Styles
+{
+}
+
+@section Scripts
+{
+    <partial name="_JqueryValidation" />
+}
+
+@section Breadcrumbs
+{
+    <li>
+        <a href="javascript:void(0)"> @ViewData["Title"] </a>
+    </li>
+}
+
+<div class="row">
+    <div class="col-lg-12 col-sm-12">
+
+        <div class="widget">
+            <div class="widget-header bordered-bottom bordered-green">
+                <span class="widget-caption"> لیست استعلامات دریافتی </span>
+            </div>
+            <div class="widget-body">
+                <div>
+                    <form asp-action="FilterInquiryDetail" asp-controller="PropertyInquiry" asp-area="Admin" id="filter-search" method="get">
+
+                        <input type="hidden" asp-for="Page" />
+                        <input type="hidden" asp-for="PropertyInquiryId" />
+
+                        <div class="form-group col-lg-12 col-sm-12">
+                            <label>نام مکان</label>
+                            <input type="text" class="form-control" asp-for="PlaceName" placeholder="نام مکان">
+                        </div>
+
+                        <div class="form-group col-lg-12 col-sm-12">
+                            <label>نام دسته بندی</label>
+                            <input type="text" class="form-control" asp-for="CategoryName" placeholder="نام دسته بندی">
+                        </div>
+
+                        <hr />
+
+                        <div class="row">
+                            <div class="col-md-12 flex-style">
+                                <button type="submit" class="btn btn-labeled w-100 btn-palegreen">
+                                    <i class="btn-label glyphicon glyphicon-filter"></i>فیلتر
+                                </button>
+
+                                @if (Context.Request.QueryString.HasValue)
+                                {
+                                    <a asp-action="FilterInquiryDetail"
+                                       asp-controller="PropertyInquiry"
+                                       asp-area="Admin"
+                                       asp-route-PropertyInquiryId="@Model.PropertyInquiryId"
+                                       class="btn btn-labeled w-100 btn-darkorange ">
+                                        <i class="btn-label glyphicon glyphicon-remove"></i>حذف فیلتر
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-sm-12">
+        <div class="well with-header with-footer table-responsive">
+            <div class="header bordered-azure">
+                <div class="flex-style">
+                    <span>@ViewData["Title"]</span>
+                    <span>تعداد کل : @Model.AllEntitiesCount</span>
+                </div>
+            </div>
+
+            @if (Model.Entities != null && Model.Entities.Any())
+            {
+                <table class="table table-hover table-bordered tc vm">
+                    <thead class="tc vm">
+                        <tr class="tc vm">
+                            <th class="tc vm">
+                                #
+                            </th>
+
+                            <th class="tc vm">
+                                نام
+                            </th>
+
+                            <th class="tc vm">
+                                Rf_ID
+                            </th>
+
+                            <th class="tc vm">
+                                نام مکان
+                            </th>
+
+                            <th class="tc vm">
+                                نام دسته بندی
+                            </th>
+
+                            <th class="tc vm">
+                                امکانات
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="tc vm">
+                        @foreach (var property in Model.Entities)
+                        {
+                            <tr class="tc vm" remove-ajax-item="@property.PropertyId">
+
+                                <td class="vm">
+                                    <div class="flex-style-center">
+                                        <p> @property.PropertyId</p>
+                                    </div>
+                                </td>
+
+                                <td class="vm">
+                                    <div class="flex-style-center">
+                                        <p> @property.PropertyTitle</p>
+                                    </div>
+                                </td>
+
+                                <td class="vm">
+                                    <div class="flex-style-center">
+                                        <p> @property.RfId</p>
+                                    </div>
+                                </td>
+
+                                <td class="vm">
+                                    <div class="flex-style-center">
+                                        <p> @property.PlaceTitle</p>
+                                    </div>
+                                </td>
+
+                                <td class="vm">
+                                    <div class="flex-style-center">
+                                        <p> @property.CategoryTitle</p>
+                                    </div>
+                                </td>
+
+                                <td class="tc vm">
+
+                                    <a title="نمایش اطلاعات" asp-controller="Product" asp-action="ProductDetail" asp-route-ProductId="@property.PropertyId" class="btn btn-info btn-circle btn-xs">
+                                        <i class="glyphicon glyphicon-eye-open"></i>
+                                    </a>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="footer tc">
+
+                    <partial name="_Paging" model="@Model.GetCurrentPaging()" />
+
+                </div>
+            }
+            else
+            {
+                <partial name="_NotFoundPartial" />
+            }
+        </div>
+    </div>
+</div>
+

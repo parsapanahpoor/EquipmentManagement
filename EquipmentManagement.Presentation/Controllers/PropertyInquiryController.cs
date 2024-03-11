@@ -59,9 +59,14 @@ public class PropertyInquiryController : SiteBaseController
 
     #region Filter Inquiry Detail 
 
-    public async Task<IActionResult> FilterInquiryDetail(CancellationToken cancellation = default)
+    public async Task<IActionResult> FilterInquiryDetail(FilterInquiryDetailDTO model ,
+                                                         CancellationToken cancellation = default)
     {
-        return View();
+        return View(await Mediator.Send(new FilterPropertyInquiryDetailQuery()
+        {
+            FilterInquiryDetailDTO = model,
+        },
+        cancellation));
     }
 
     #endregion

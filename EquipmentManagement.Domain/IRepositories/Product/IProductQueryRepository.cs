@@ -14,5 +14,7 @@ public interface IProductQueryRepository
 
     Task<Domain.Entities.Product.Product> GetByIdAsync(CancellationToken cancellationToken, params object[] ids);
 
+    Task<bool> IsExist_Product_ByRfId(string rfId, CancellationToken cancellationToken);
+
     #endregion
 }

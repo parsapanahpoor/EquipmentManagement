@@ -1,4 +1,5 @@
-﻿using EquipmentManagement.Domain.Entities.PropertyInquiry;
+﻿using EquipmentManagement.Domain.Entities.OperatorLogger;
+using EquipmentManagement.Domain.Entities.PropertyInquiry;
 using EquipmentManagement.Domain.IRepositories.PropertyInquiry;
 namespace EquipmentManagement.Infrastructure.Repositories.PropertyInquiry;
 
@@ -18,5 +19,10 @@ public class PropertyInquiryCommandRepository : CommandGenericRepository<Domain.
     public async Task AddRangeInquiryDetailAsync(IEnumerable<PropertyInquiryDetail> inquiryDetails, CancellationToken cancellationToken)
     {
         await _context.PropertyInquiryDetails.AddRangeAsync(inquiryDetails);
+    }
+
+    public async Task AddAsync(OperatorExcelUploadLogger excelUploadLogger, CancellationToken cancellationToken)
+    {
+        await _context.OperatorExcelUploadLoggers.AddAsync(excelUploadLogger);
     }
 }

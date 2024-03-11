@@ -41,7 +41,7 @@
 
                         <div class="form-group col-lg-12 col-sm-12">
                             <label>جستجو از تاریخ</label>
-                            <input type="text" class="form-control" AdminDatePicker="1" value="" asp-for="StartPage" placeholder="از تاریخ">
+                            <input type="text" class="form-control" AdminDatePicker="1"  asp-for="StartTime" placeholder="از تاریخ">
                         </div>
 
                         <div class="form-group col-lg-12 col-sm-12">
@@ -90,6 +90,10 @@
                             </th>
 
                             <th class="tc vm">
+                                نام کاربری اپراتور
+                            </th>
+
+                            <th class="tc vm">
                                 تاریخ استعلام
                             </th>
 
@@ -101,11 +105,17 @@
                     <tbody class="tc vm">
                         @foreach (var inquiry in Model.Entities)
                         {
-                            <tr class="tc vm" remove-ajax-item="@inquiry.Id">
+                            <tr class="tc vm" remove-ajax-item="@inquiry.InquiryId">
 
                                 <td class="vm">
                                     <div class="flex-style-center">
-                                        <p> @inquiry.Id</p>
+                                        <p> @inquiry.InquiryId</p>
+                                    </div>
+                                </td>
+
+                                <td class="vm">
+                                    <div class="flex-style-center">
+                                        <p> @inquiry.Username</p>
                                     </div>
                                 </td>
 
@@ -117,7 +127,7 @@
 
                                 <td class="tc vm">
 
-                                    <a asp-action="FilterInquiryDetail" asp-controller="PropertyInquiry" asp-area="Admin" asp-route-PropertyInquiryId="@inquiry.Id" class="btn btn-azure btn-circle btn-xs"><i class="glyphicon glyphicon-eye-open"></i></a>
+                                    <a asp-action="FilterInquiryDetail" asp-controller="PropertyInquiry" asp-area="Admin" asp-route-PropertyInquiryId="@inquiry.InquiryId" class="btn btn-azure btn-circle btn-xs"><i class="glyphicon glyphicon-eye-open"></i></a>
 
                                 </td>
                             </tr>

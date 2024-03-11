@@ -6,4 +6,7 @@ public interface IPropertyInquiryQueryRepository
 {
     Task<FilterSystemPropertyInquiriesDTO> FilterSystemPropertyInquiries(FilterSystemPropertyInquiriesDTO filter,
                                                                          CancellationToken cancellation);
+
+    Task<FilterInquiryDetailDTO> FilterInquiryDetail(FilterInquiryDetailDTO filter,
+                                                                  CancellationToken cancellation);
 }
