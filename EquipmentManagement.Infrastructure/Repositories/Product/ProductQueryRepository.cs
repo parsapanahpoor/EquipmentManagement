@@ -105,6 +105,7 @@ public class ProductQueryRepository : QueryGenericRepository<Domain.Entities.Pro
                                  Description = p.Description,
                                  ProductTitle = p.ProductTitle,
                                  ProductId = productId,
+                                 RepositoryCode = p.RepostiroyCode,
                                  CategoryName = _context.ProductCategories  
                                                         .AsNoTracking()
                                                         .Where(s=> !s.IsDelete &&

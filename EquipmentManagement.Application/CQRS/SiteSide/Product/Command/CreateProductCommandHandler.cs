@@ -78,6 +78,7 @@ public record CreateProductCommandHandler : IRequestHandler<CreateProductCommand
             EntityCount = request.EntityCount,
             IsDelete = false,
             ProductTitle = request.ProductTitle.SanitizeText(),
+            RepostiroyCode = request.RepositoryCode.SanitizeText(),
         };
 
         #endregion

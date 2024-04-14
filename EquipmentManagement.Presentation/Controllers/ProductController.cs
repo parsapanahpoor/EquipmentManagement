@@ -69,6 +69,7 @@ public class ProductController : SiteBaseController
                 CategoryId = createProduct.CategoryId,
                 ProductTitle = createProduct.ProductTitle,
                 PlaceId = createProduct.PlaceId,
+                RepositoryCode = createProduct.RepositoryCode,
             },
             cancellationToken
             );

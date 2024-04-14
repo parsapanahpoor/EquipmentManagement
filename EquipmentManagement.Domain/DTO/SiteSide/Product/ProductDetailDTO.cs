@@ -12,6 +12,8 @@ public class ProductDetailDTO
 
     public string? ProductTitle { get; set; }
 
+    public string RepositoryCode { get; set; }
+
     public string? BarCode { get; set; }
 
     public string? Description { get; set; }

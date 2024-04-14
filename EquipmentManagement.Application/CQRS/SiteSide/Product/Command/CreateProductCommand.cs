@@ -10,6 +10,8 @@ public class CreateProductCommand : IRequest<bool>
 
     public string ProductTitle { get; set; }
 
+    public string RepositoryCode { get; set; }
+
     public string BarCode { get; set; }
 
     public int EntityCount { get; set; }
