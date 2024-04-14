@@ -13,6 +13,8 @@ public sealed class Product : BaseEntities<ulong>
 
     public string ProductTitle { get; set; }
 
+    public string RepostiroyCode { get; set; }
+
     public string BarCode { get; set; }
 
     public int EntityCount { get; set; }

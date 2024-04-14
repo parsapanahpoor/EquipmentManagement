@@ -2,7 +2,7 @@
 @model EquipmentManagement.Domain.DTO.SiteSide.PropertyInquiry.FilterInquiryDetailDTO;
 
 @{
-    ViewData["Title"] = "استعلام اموال";
+    ViewData["Title"] = "گردش اموال";
 }
 
 @section Styles
@@ -26,7 +26,7 @@
 
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-green">
-                <span class="widget-caption"> لیست استعلامات دریافتی </span>
+                <span class="widget-caption"> تاریخچه گردش اموال </span>
             </div>
             <div class="widget-body">
                 <div>
@@ -36,13 +36,13 @@
                         <input type="hidden" asp-for="PropertyInquiryId" />
 
                         <div class="form-group col-lg-12 col-sm-12">
-                            <label>نام مکان</label>
-                            <input type="text" class="form-control" asp-for="PlaceName" placeholder="نام مکان">
+                            <label>محل استقرار</label>
+                            <input type="text" class="form-control" asp-for="PlaceName" placeholder="محل استقرار">
                         </div>
 
                         <div class="form-group col-lg-12 col-sm-12">
-                            <label>نام دسته بندی</label>
-                            <input type="text" class="form-control" asp-for="CategoryName" placeholder="نام دسته بندی">
+                            <label> دسته بندی</label>
+                            <input type="text" class="form-control" asp-for="CategoryName" placeholder=" دسته بندی">
                         </div>
 
                         <hr />
@@ -98,15 +98,15 @@
                             </th>
 
                             <th class="tc vm">
-                                نام مکان
+                                محل استقرار
                             </th>
 
                             <th class="tc vm">
-                                نام دسته بندی
+                                 دسته بندی
                             </th>
 
                             <th class="tc vm">
-                                امکانات
+                                عملیات
                             </th>
                         </tr>
                     </thead>

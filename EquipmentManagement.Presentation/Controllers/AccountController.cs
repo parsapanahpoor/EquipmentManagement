@@ -150,7 +150,7 @@ public class AccountController : SiteBaseController
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProps);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Landing", "Home");
 
             #endregion
         }

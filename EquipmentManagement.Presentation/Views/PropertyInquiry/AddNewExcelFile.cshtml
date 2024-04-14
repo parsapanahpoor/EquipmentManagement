@@ -1,7 +1,7 @@
 ﻿@model EquipmentManagement.Domain.DTO.SiteSide.PropertyInquiry.AddNewExcelFileDTO
 
 @{
-    ViewData["Title"] = "افزودن فایل استعلام";
+    ViewData["Title"] = "افزودن فایل گردش اموال";
 }
 
 @section Scripts
@@ -12,7 +12,7 @@
 @section Breadcrumbs
 {
     <li>
-        <a asp-area="" asp-controller="places" asp-action="FilterPlaces"> مدیریت استعلامات  </a>
+        <a asp-area="" asp-controller="places" asp-action="FilterPlaces"> مدیریت گردش اموال  </a>
         <a href="javascript:void(0)"> @ViewData["Title"] </a>
     </li>
 }
@@ -29,7 +29,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-12 col-sm-12">
-                                <label asp-for="ExcelFile">فایل استعلام (فایل اکسل)</label>
+                                <label asp-for="ExcelFile">فایل گردش اموال (فایل اکسل)</label>
                                 <input type="file" class="form-control" asp-for="ExcelFile">
                                 <span class="text-danger" asp-validation-for="ExcelFile"></span>
                             </div>

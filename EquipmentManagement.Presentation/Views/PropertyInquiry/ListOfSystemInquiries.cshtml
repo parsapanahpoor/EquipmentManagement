@@ -2,7 +2,7 @@
 @model EquipmentManagement.Domain.DTO.SiteSide.PropertyInquiry.FilterSystemPropertyInquiriesDTO;
 
 @{
-    ViewData["Title"] = "لیست استعلامات اموال";
+    ViewData["Title"] = "تاریخچه گردش اموال";
 }
 
 @section Styles
@@ -27,11 +27,11 @@
         <a class="btn btn-sky w-100 margin-bottom-10"
            asp-action="AddNewExcelFile"
            asp-controller="PropertyInquiry"
-           asp-area=""> استعلام جدید </a>
+           asp-area=""> گردش اموال جدید </a>
 
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-green">
-                <span class="widget-caption"> لیست استعلامات دریافتی </span>
+                <span class="widget-caption"> تاریخچه گردش اموال </span>
             </div>
             <div class="widget-body">
                 <div>
@@ -86,7 +86,7 @@
                     <thead class="tc vm">
                         <tr class="tc vm">
                             <th class="tc vm">
-                                کد استعلام
+                                 کد گردش اموال 
                             </th>
 
                             <th class="tc vm">
@@ -94,11 +94,11 @@
                             </th>
 
                             <th class="tc vm">
-                                تاریخ استعلام
+                               تاریخ گردش اموال 
                             </th>
 
                             <th class="tc vm">
-                                امکانات
+                                عملیات
                             </th>
                         </tr>
                     </thead>
