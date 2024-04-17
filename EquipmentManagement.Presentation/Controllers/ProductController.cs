@@ -1,6 +1,8 @@
 ﻿using EquipmentManagement.Application.CQRS.SiteSide.Places.Command;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Command;
+using EquipmentManagement.Application.CQRS.SiteSide.Product.Command.EditProduct;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query;
+using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.EditProduct;
 using EquipmentManagement.Application.Security;
 using EquipmentManagement.Domain.DTO.SiteSide.Product;
 using EquipmentManagement.Presentation.HttpManager;
@@ -98,13 +100,67 @@ public class ProductController : SiteBaseController
 
     #endregion
 
+    #region Edit Product
+
+    [HttpGet]
+    public async Task<IActionResult> EditProduct(EditProductQuery query,
+                                                 CancellationToken cancellationToken = default)
+    {
+        #region View Bags
+
+        ViewBag.places = await Mediator.Send(new SelectListOfPlacesQuery()
+        { }, cancellationToken);
+
+        ViewBag.Categories = await Mediator.Send(new SelectListOfCategoriesQuery()
+        { }, cancellationToken);
+
+        #endregion
+
+        return View(await Mediator.Send(query, cancellationToken));
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> EditProduct(EditProductDTO editProduct,
+                                                 CancellationToken cancellationToken = default)
+    {
+        #region Edit Product
+
+        var res = await Mediator.Send(new EditProductCommand()
+        {
+            EditProductDTO = editProduct,
+        }, cancellationToken);
+
+        if (res)
+        {
+            TempData[SuccessMessage] = "ویرایش محصول باموفقیت انجام شده است.";
+            return RedirectToAction(nameof(FilterProduct));
+        }
+
+        #endregion
+
+        #region View Bags
+
+        ViewBag.places = await Mediator.Send(new SelectListOfPlacesQuery()
+        { }, cancellationToken);
+
+        ViewBag.Categories = await Mediator.Send(new SelectListOfCategoriesQuery()
+        { }, cancellationToken);
+
+        #endregion
+
+        TempData[ErrorMessage] = "اطلاعات وارد شده صحیح نمی باشد";
+        return View(editProduct);
+    }
+
+    #endregion
+
     #region Product Detail
 
     [HttpGet]
-    public async Task<IActionResult> ProductDetail(ProductDetailQuery query , 
+    public async Task<IActionResult> ProductDetail(ProductDetailQuery query,
                                                    CancellationToken cancellationToken = default)
     {
-        return View(await Mediator.Send(query , cancellationToken));
+        return View(await Mediator.Send(query, cancellationToken));
     }
 
     #endregion

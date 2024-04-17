@@ -93,6 +93,18 @@ public class ProductQueryRepository : QueryGenericRepository<Domain.Entities.Pro
          
     }
 
+    public async Task<bool> IsExistAny_Product_ByBarCode(string barCode,
+                                                         ulong productId, 
+                                                         CancellationToken cancellationToken)
+    {
+        return await _context.Products
+                             .AsNoTracking()
+                             .AnyAsync(p => !p.IsDelete &&
+                                       p.Id != productId &&
+                                       p.BarCode == barCode);
+
+    }
+
     public async Task<ProductDetailDTO?> FillProductDetailDTO(ulong productId , CancellationToken cancellationToken)
     {
         return await _context.Products
@@ -111,6 +123,38 @@ public class ProductQueryRepository : QueryGenericRepository<Domain.Entities.Pro
                                                         .Where(s=> !s.IsDelete &&
                                                                s.Id == p.ProductCategoryId)
                                                         .Select(s=> s.CategoryTitle)
+                                                        .FirstOrDefault(),
+                                 PlaceName = _context.Places
+                                                        .AsNoTracking()
+                                                        .Where(s => !s.IsDelete &&
+                                                               s.Id == p.PlaceId)
+                                                        .Select(s => s.PlaceTitle)
+                                                        .FirstOrDefault(),
+                             })
+                             .FirstOrDefaultAsync();
+    }
+
+    public async Task<EditProductDTO?> Fill_EditProductDTO(ulong productId,
+                                                           CancellationToken cancellationToken)
+    {
+        return await _context.Products
+                             .AsNoTracking()
+                             .Where(p => !p.IsDelete &&
+                                    p.Id == productId)
+                             .Select(p => new EditProductDTO
+                             {
+                                 BarCode = p.BarCode,
+                                 Description = p.Description,
+                                 ProductTitle = p.ProductTitle,
+                                 ProductId = productId,
+                                 RepositoryCode = p.RepostiroyCode,
+                                 CategoryId = p.ProductCategoryId,
+                                 PlaceId = p.PlaceId,
+                                 CategoryName = _context.ProductCategories
+                                                        .AsNoTracking()
+                                                        .Where(s => !s.IsDelete &&
+                                                               s.Id == p.ProductCategoryId)
+                                                        .Select(s => s.CategoryTitle)
                                                         .FirstOrDefault(),
                                  PlaceName = _context.Places
                                                         .AsNoTracking()

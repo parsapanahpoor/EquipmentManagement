@@ -1,22 +1,14 @@
-﻿
-using AngleSharp.Io;
-using EquipmentManagement.Application.Common.IUnitOfWork;
+﻿using EquipmentManagement.Application.Common.IUnitOfWork;
 using EquipmentManagement.Application.Extensions;
 using EquipmentManagement.Application.Generators;
 using EquipmentManagement.Application.StaticTools;
-using EquipmentManagement.Domain.Entities.OperatorLogger;
 using EquipmentManagement.Domain.Entities.PropertyInquiry;
-using EquipmentManagement.Domain.Entities.Users;
 using EquipmentManagement.Domain.IRepositories.Product;
 using EquipmentManagement.Domain.IRepositories.PropertyInquiry;
 using Microsoft.AspNetCore.Http;
-using Microsoft.VisualBasic;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
-using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using System.Text;
 
 namespace EquipmentManagement.Application.CQRS.SiteSide.PropertyInquiry.Command;
 
