@@ -5,7 +5,7 @@ public static class FilePaths
     #region Site
 
     public static string SiteFarsiName = "سامانه ی هوشمند مدیریت ";
-    public static string SiteAddress = "https://localhost:44322/";
+    public static string SiteAddress = "https://shafaprop.ir";
     public static string merchant = "123456789";
 
     #endregion
@@ -24,7 +24,7 @@ public static class FilePaths
 
     #region Property Inquiry
 
-    public static readonly string PropertyInquiryExcelFile = "/content/images/PropertyInquiryExcelFile/";
+    public static readonly string PropertyInquiryExcelFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/content/PropertyInquiryExcelFile/");
 
     #endregion
 }
