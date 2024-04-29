@@ -3,7 +3,7 @@ using EquipmentManagement.Domain.IRepositories.PropertyInquiry;
 
 namespace EquipmentManagement.Application.CQRS.SiteSide.PropertyInquiry.Query;
 
-public record FilterPropertyInquiryDetailQueryHandler : IRequestHandler<FilterPropertyInquiryDetailQuery, FilterInquiryDetailDTO>
+public record FilterPropertyInquiryDetailQueryHandler : IRequestHandler<FilterPropertyInquiryDetailQuery, List<FilterInquiryDetail>>
 {
     #region Ctor
 
@@ -16,8 +16,10 @@ public record FilterPropertyInquiryDetailQueryHandler : IRequestHandler<FilterPr
 
     #endregion
 
-    public async Task<FilterInquiryDetailDTO> Handle(FilterPropertyInquiryDetailQuery request, CancellationToken cancellationToken)
+    public async Task<List<FilterInquiryDetail>> Handle(FilterPropertyInquiryDetailQuery request, CancellationToken cancellationToken = default)
     {
-        return await _propertyInquiryQueryRepository.FilterInquiryDetail(request.FilterInquiryDetailDTO , cancellationToken);
+        var res = await _propertyInquiryQueryRepository.FilterInquiryDetail(request.FilterInquiryDetailDTO, cancellationToken);
+
+        return res;
     }
 }

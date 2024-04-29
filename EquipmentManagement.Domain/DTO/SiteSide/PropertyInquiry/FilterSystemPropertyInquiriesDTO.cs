@@ -12,6 +12,8 @@ public class FilterSystemPropertyInquiriesDTO : BasePaging<PropertyInquiryDTO>
     [RegularExpression(@"^\d{4}\/(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])$", ErrorMessage = "The entered date is not valid")]
     public string? EndTime { get; set; }
 
+    public string? PlaceTitle { get; set; }
+
     #endregion
 }
 
@@ -20,6 +22,10 @@ public class PropertyInquiryDTO
     #region properties
 
     public ulong InquiryId { get; set; }
+
+    public ulong PlaceId { get; set; }
+
+    public string? PlaceTitle { get; set; }
 
     public ulong UserId { get; set; }
 

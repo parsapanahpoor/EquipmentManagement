@@ -1,8 +1,12 @@
 ﻿@using EquipmentManagement.Application.Convertors
-@model EquipmentManagement.Domain.DTO.SiteSide.PropertyInquiry.FilterInquiryDetailDTO;
+@using EquipmentManagement.Domain.DTO.SiteSide.PropertyInquiry
+@model List<EquipmentManagement.Domain.DTO.SiteSide.PropertyInquiry.FilterInquiryDetail>;
 
 @{
     ViewData["Title"] = "گردش اموال";
+
+    var filterMembers = ViewBag.FilterInquiryMembers as FilterInquiryDetailDTO;
+    var badgesCount = ViewBag.badgesCount as FilterPropertiesInquiry_BadgesCountDTO;
 }
 
 @section Styles
@@ -21,6 +25,53 @@
     </li>
 }
 
+@if (badgesCount != null)
+{
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="databox bg-white radius-bordered">
+                        <div class="bg-success databox-right">
+                        </div>
+                        <div class="databox-left">
+                            <span class="databox-number sucees">@badgesCount.FoundInInquiry</span>
+                            <div class="databox-text darkgray">محصولات یافت شده این مکان در استعلام</div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="databox bg-white radius-bordered">
+                        <div class="bg-warning databox-right">
+                        </div>
+                        <div class="databox-left">
+                            <span class="databox-number sucees">@badgesCount.NotFoundInInquiry</span>
+                            <div class="databox-text darkgray">محصولات یافت نشده ی این مکان در استعلام</div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="databox bg-white radius-bordered">
+                        <div class="bg-danger databox-right">
+                        </div>
+                        <div class="databox-left">
+                            <span class="databox-number sucees">@badgesCount.NewProductsFromAnotherPlaces</span>
+                            <div class="databox-text darkgray">محصولات یافت شده دراستعلام که تعلق به این مکان ندارد</div>
+
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+}
+
 <div class="row">
     <div class="col-lg-12 col-sm-12">
 
@@ -31,18 +82,25 @@
             <div class="widget-body">
                 <div>
                     <form asp-action="FilterInquiryDetail" asp-controller="PropertyInquiry" asp-area="Admin" id="filter-search" method="get">
-
-                        <input type="hidden" asp-for="Page" />
-                        <input type="hidden" asp-for="PropertyInquiryId" />
+                        <input type="hidden" value="@filterMembers.PropertyInquiryId" name="PropertyInquiryId" />
+                        <input type="hidden" value="@filterMembers.PlaceId"  name="PlaceId" />
 
                         <div class="form-group col-lg-12 col-sm-12">
                             <label>محل استقرار</label>
-                            <input type="text" class="form-control" asp-for="PlaceName" placeholder="محل استقرار">
+                            <input type="text" class="form-control" value="@filterMembers.PlaceName" name="PlaceName" placeholder="محل استقرار">
                         </div>
 
                         <div class="form-group col-lg-12 col-sm-12">
                             <label> دسته بندی</label>
-                            <input type="text" class="form-control" asp-for="CategoryName" placeholder=" دسته بندی">
+                            <input type="text" class="form-control" value="@filterMembers.CategoryName" name="CategoryName" placeholder=" دسته بندی">
+                        </div>
+
+                        <div class="form-group col-lg-12 col-sm-12">
+
+                            <label>وضعیت </label>
+                            <select name="IsExistInInquiey_Inquiry" class="form-control" asp-items="Html.GetEnumSelectList(typeof(EquipmentManagement.Domain.DTO.SiteSide.PropertyInquiry.IsExistInInquiey_Inquiry))">
+                            </select>
+
                         </div>
 
                         <hr />
@@ -58,7 +116,8 @@
                                     <a asp-action="FilterInquiryDetail"
                                        asp-controller="PropertyInquiry"
                                        asp-area="Admin"
-                                       asp-route-PropertyInquiryId="@Model.PropertyInquiryId"
+                                       asp-route-PropertyInquiryId="@filterMembers.PropertyInquiryId"
+                                       asp-route-PlaceId="@filterMembers.PlaceId"
                                        class="btn btn-labeled w-100 btn-darkorange ">
                                         <i class="btn-label glyphicon glyphicon-remove"></i>حذف فیلتر
                                     </a>
@@ -76,11 +135,11 @@
             <div class="header bordered-azure">
                 <div class="flex-style">
                     <span>@ViewData["Title"]</span>
-                    <span>تعداد کل : @Model.AllEntitiesCount</span>
+                    <span>تعداد کل : @Model.Count()</span>
                 </div>
             </div>
 
-            @if (Model.Entities != null && Model.Entities.Any())
+            @if (Model != null && Model.Any())
             {
                 <table class="table table-hover table-bordered tc vm">
                     <thead class="tc vm">
@@ -102,7 +161,7 @@
                             </th>
 
                             <th class="tc vm">
-                                 دسته بندی
+                                وضعیت
                             </th>
 
                             <th class="tc vm">
@@ -111,7 +170,7 @@
                         </tr>
                     </thead>
                     <tbody class="tc vm">
-                        @foreach (var property in Model.Entities)
+                        @foreach (var property in Model)
                         {
                             <tr class="tc vm" remove-ajax-item="@property.PropertyId">
 
@@ -140,9 +199,28 @@
                                 </td>
 
                                 <td class="vm">
-                                    <div class="flex-style-center">
-                                        <p> @property.CategoryTitle</p>
-                                    </div>
+
+                                    @if (property.IsExistInInquiey == IsExistInInquiey.FoundInInquiry)
+                                    {
+                                        <div class="flex-style-center">
+                                            <p class="badge badge-success"> یافت شده در استعلام</p>
+                                        </div>
+                                    }
+
+                                    @if (property.IsExistInInquiey == IsExistInInquiey.NotFoundInInquiry)
+                                    {
+                                        <div class="flex-style-center">
+                                            <p class="badge badge-warning"> دراستعلام یافت نشده </p>
+                                        </div>
+                                    }
+
+                                    @if (property.IsExistInInquiey == IsExistInInquiey.NewProductsFromAnotherPlaces)
+                                    {
+                                        <div class="flex-style-center">
+                                            <p class="badge badge-danger"> یافت شده اما به این مکان تعلق ندارد </p>
+                                        </div>
+                                    }
+
                                 </td>
 
                                 <td class="tc vm">
@@ -156,12 +234,6 @@
                         }
                     </tbody>
                 </table>
-
-                <div class="footer tc">
-
-                    <partial name="_Paging" model="@Model.GetCurrentPaging()" />
-
-                </div>
             }
             else
             {

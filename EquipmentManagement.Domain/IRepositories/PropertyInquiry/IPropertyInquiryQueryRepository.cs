@@ -7,6 +7,10 @@ public interface IPropertyInquiryQueryRepository
     Task<FilterSystemPropertyInquiriesDTO> FilterSystemPropertyInquiries(FilterSystemPropertyInquiriesDTO filter,
                                                                          CancellationToken cancellation);
 
-    Task<FilterInquiryDetailDTO> FilterInquiryDetail(FilterInquiryDetailDTO filter,
+    Task<List<FilterInquiryDetail>> FilterInquiryDetail(FilterInquiryDetailDTO filter,
                                                                   CancellationToken cancellation);
+
+    Task<FilterPropertiesInquiry_BadgesCountDTO> FilterInquiryDetail_BadgesCount(ulong placeId,
+                                                                                 ulong inquiryId,
+                                                                                 CancellationToken cancellation = default);
 }

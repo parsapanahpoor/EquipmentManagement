@@ -2,11 +2,13 @@
 
 namespace EquipmentManagement.Application.CQRS.SiteSide.PropertyInquiry.Query;
 
-public class FilterPropertyInquiryDetailQuery : IRequest<List<FilterInquiryDetail>>
+public record FilterPropertyInquiryDetail_BadgesCountQuery : IRequest<FilterPropertiesInquiry_BadgesCountDTO>
 {
     #region properties
 
-    public FilterInquiryDetailDTO FilterInquiryDetailDTO { get; set; }
+    public ulong PlaceId { get; set; }
+
+    public ulong InquiryId { get; set; }
 
     #endregion
 }

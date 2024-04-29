@@ -7,6 +7,8 @@ public class AddNewExcelFileForPropertyInquiryCommand : IRequest<AddNewExcelFile
 {
     public ulong UserId { get; set; }
 
+    public ulong PlaceId { get; set; }
+
     public AddNewExcelFileDTO Model { get; set; }
 }
 

@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "افزودن فایل گردش اموال";
+    var places = ViewBag.places as List<EquipmentManagement.Domain.DTO.SiteSide.Places.SelectListOfPlacesDTO>;
 }
 
 @section Scripts
@@ -19,7 +20,8 @@
 
 <form method="post" asp-action="AddNewExcelFile" asp-controller="PropertyInquiry" asp-area="Admin" enctype="multipart/form-data">
     <div class="row">
-        <div class="col-lg-12 col-sm-12">
+
+        <div class="col-lg-9 col-sm-12">
             <div class="widget">
                 <div class="widget-header bordered-bottom bordered-green">
                     <span class="widget-caption"> @ViewData["Title"] </span>
@@ -49,6 +51,73 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="col-lg-3 col-sm-12">
+            <div class="row">
+
+                <div class="col-lg-12">
+
+                    <div class="widget">
+                        <div class="widget-header bordered-bottom bordered-green flex-style">
+                            <span class="widget-caption"> انتخاب مکان </span>
+                        </div>
+                        <div class="widget-body @((places != null && places.Any()) ? "no-padding" : "")">
+
+                            @if (places != null && places.Any())
+                            {
+                                <div class="panel-group accordion">
+                                    @foreach (var place in places.Where(s => s.ParentId == null))
+                                    {
+                                        var isPermissionSelected = false;
+
+                                        <div class="panel panel-default">
+
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a class="accordion-toggle @((isPermissionSelected) ? "" : "collapsed")" data-toggle="collapse" href="#permission-@place.PlaceId" aria-expanded="@((isPermissionSelected) ? "true" : "false")">
+                                                        @place.PlaceTitle
+                                                    </a>
+                                                </h4>
+                                            </div>
+
+                                            <div id="permission-@place.PlaceId" class="panel-collapse collapse @((isPermissionSelected) ? "in" : "")" aria-expanded="@((isPermissionSelected) ? "true" : "false")" style="height: @((isPermissionSelected) ? "auto" : "0")">
+                                                <div class="panel-body" style="padding: 5px 15px 0 15px !important">
+
+                                                    @if (places.Any(s => s.ParentId.HasValue && s.ParentId.Value == place.PlaceId))
+                                                    {
+                                                        @foreach (var subPermission in places.Where(s => s.ParentId.HasValue && s.ParentId.Value == place.PlaceId))
+                                                        {
+                                                            var isSubPermissionSelected = false;
+
+                                                            <div class="form-group">
+                                                                <div class="checkbox">
+                                                                    <label>
+                                                                        <input type="checkbox" value="@subPermission.PlaceId" name="PlaceId" data-id="@subPermission.PlaceId" data-parentId="@place.PlaceId" @((isSubPermissionSelected) ? "checked" : "")>
+                                                                        <span class="text"> @subPermission.PlaceTitle </span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <partial name="_NotFoundPartial" />
+                            }
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
 
     </div>

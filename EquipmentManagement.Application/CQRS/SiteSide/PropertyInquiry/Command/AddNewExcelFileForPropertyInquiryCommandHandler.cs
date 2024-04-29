@@ -3,6 +3,7 @@ using EquipmentManagement.Application.Extensions;
 using EquipmentManagement.Application.Generators;
 using EquipmentManagement.Application.StaticTools;
 using EquipmentManagement.Domain.Entities.PropertyInquiry;
+using EquipmentManagement.Domain.IRepositories.Place;
 using EquipmentManagement.Domain.IRepositories.Product;
 using EquipmentManagement.Domain.IRepositories.PropertyInquiry;
 using Microsoft.AspNetCore.Http;
@@ -19,15 +20,18 @@ public record AddNewExcelFileForPropertyInquiryCommandHandler : IRequestHandler<
     private readonly IPropertyInquiryQueryRepository _propertyInquiryQueryRepository;
     private readonly IPropertyInquiryCommandRepository _propertyInquiryCommandRepository;
     private readonly IProductQueryRepository _productQueryRepository;
+    private readonly IPlacesQueryRepository _placesQueryRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public AddNewExcelFileForPropertyInquiryCommandHandler(IPropertyInquiryQueryRepository propertyInquiryQueryRepository,
                                                            IPropertyInquiryCommandRepository propertyInquiryCommandRepository,
+                                                           IPlacesQueryRepository placesQueryRepository,
                                                            IUnitOfWork unitOfWork,
                                                            IProductQueryRepository productQueryRepository)
     {
         _propertyInquiryCommandRepository = propertyInquiryCommandRepository;
         _propertyInquiryQueryRepository = propertyInquiryQueryRepository;
+        _placesQueryRepository = placesQueryRepository;
         _productQueryRepository = productQueryRepository;
         _unitOfWork = unitOfWork;
     }
@@ -36,10 +40,24 @@ public record AddNewExcelFileForPropertyInquiryCommandHandler : IRequestHandler<
 
     public async Task<AddNewExcelFileForPropertyInquiryResult> Handle(AddNewExcelFileForPropertyInquiryCommand request, CancellationToken cancellationToken)
     {
+        #region Check Place
+
+        if (!await _placesQueryRepository.IsExistAny_Place_ById(request.PlaceId, cancellationToken))
+        {
+            return new AddNewExcelFileForPropertyInquiryResult()
+            {
+                PropertyInquiryId = null,
+                ResState = AddNewExcelFileForPropertyInquiryResultState.Faild
+            };
+        }
+
+        #endregion
+
         //Fill PropertyInquiry Model
         Domain.Entities.PropertyInquiry.PropertyInquiry propertyInquiry = new()
         {
             UserId = request.UserId,
+            PlaceId = request.PlaceId,
         };
 
         //Add File To Server 

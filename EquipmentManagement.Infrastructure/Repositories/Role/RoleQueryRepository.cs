@@ -89,6 +89,7 @@ public class RoleQueryRepository : QueryGenericRepository<Domain.Entities.Accoun
     {
         var query = _context.Role
                            .AsNoTracking()
+                           .Where(p=> !p.IsDelete)
                            .OrderByDescending(p => p.CreateDate)
                            .AsQueryable();
 

@@ -40,6 +40,11 @@
                         <input type="hidden" asp-for="Page" />
 
                         <div class="form-group col-lg-12 col-sm-12">
+                            <label>عنوان اتاق </label>
+                            <input type="text" class="form-control" asp-for="PlaceTitle" placeholder="عنوان اتاق">
+                        </div>
+
+                        <div class="form-group col-lg-12 col-sm-12">
                             <label>جستجو از تاریخ</label>
                             <input type="text" class="form-control" AdminDatePicker="1"  asp-for="StartTime" placeholder="از تاریخ">
                         </div>
@@ -90,6 +95,10 @@
                             </th>
 
                             <th class="tc vm">
+                                نام اتاق
+                            </th>
+
+                            <th class="tc vm">
                                 نام کاربری اپراتور
                             </th>
 
@@ -115,6 +124,12 @@
 
                                 <td class="vm">
                                     <div class="flex-style-center">
+                                        <p> @inquiry.PlaceTitle</p>
+                                    </div>
+                                </td>
+
+                                <td class="vm">
+                                    <div class="flex-style-center">
                                         <p> @inquiry.Username</p>
                                     </div>
                                 </td>
@@ -127,7 +142,11 @@
 
                                 <td class="tc vm">
 
-                                    <a asp-action="FilterInquiryDetail" asp-controller="PropertyInquiry" asp-area="Admin" asp-route-PropertyInquiryId="@inquiry.InquiryId" class="btn btn-azure btn-circle btn-xs"><i class="glyphicon glyphicon-eye-open"></i></a>
+                                    <a asp-action="FilterInquiryDetail" 
+                                       asp-controller="PropertyInquiry" 
+                                       asp-route-PropertyInquiryId="@inquiry.InquiryId" 
+                                       asp-route-PlaceId="@inquiry.PlaceId" 
+                                       class="btn btn-azure btn-circle btn-xs"><i class="glyphicon glyphicon-eye-open"></i></a>
 
                                 </td>
                             </tr>

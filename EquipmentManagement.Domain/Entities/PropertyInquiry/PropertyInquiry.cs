@@ -6,6 +6,8 @@ public sealed class PropertyInquiry : BaseEntities<ulong>
 
     public ulong UserId { get; set; }
 
+    public  ulong PlaceId { get; set; }
+
     public string ExcelFile { get; set; }
 
     #endregion
