@@ -18,15 +18,8 @@ public record FilterProductQueryHandler : IRequestHandler<FilterProductQuery, Fi
 
     #endregion
 
-    public async Task<FilterProductDTO> Handle(FilterProductQuery request, CancellationToken cancellationToken)
+    public async Task<FilterProductDTO> Handle(FilterProductQuery request, CancellationToken cancellationToken = default)
     {
-        return await _productQueryRepository.FilterProducts(new FilterProductDTO()
-        {
-            CategoryTitle = request.CategoryTitle,
-            CategoryId = request.CategoryId,
-            PlaceId = request.PlaceId,
-            PlaceTitle = request.PlaceTitle,
-            ProductTitle = request.ProductTitle,
-        });
+        return await _productQueryRepository.FilterProducts(request.filter);
     }
 }

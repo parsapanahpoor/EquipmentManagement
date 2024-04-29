@@ -20,13 +20,8 @@ public class ProductController : SiteBaseController
     {
         return View(await Mediator.Send(new FilterProductQuery()
         {
-            CategoryId = filter.CategoryId,
-            CategoryTitle = filter.CategoryTitle,
-            PlaceId = filter.PlaceId,
-            PlaceTitle = filter.PlaceTitle,
-            ProductTitle = filter.ProductTitle,
-        },
-        cancellation));
+            filter = filter
+        }));
     }
 
     #endregion

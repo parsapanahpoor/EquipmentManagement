@@ -21,8 +21,7 @@ public class UserController : SiteBaseController
     {
         FilterUserQuery query = new FilterUserQuery()
         {
-            Username = filter.Username,
-            Mobile = filter.Mobile,
+            filter = filter
         };
 
         return View(await Mediator.Send(query, cancellationToken));

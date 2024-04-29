@@ -5,9 +5,7 @@ public class FilterPlacesQuery : IRequest<FilterPlacesDTO>
 {
     #region properties
 
-    public ulong? ParentId{ get; set; }
-
-    public string? PlaceTitle { get; set; }
+    public FilterPlacesDTO Filter { get; set; }
 
     #endregion
 }

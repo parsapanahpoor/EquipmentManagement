@@ -20,8 +20,7 @@ public class PlacesController : SiteBaseController
     {
         var model = await Mediator.Send(new FilterPlacesQuery()
         {
-            ParentId = filter.ParentId,
-            PlaceTitle = filter.PlaceTitle
+            Filter = filter,    
         } , 
         cancellation);
 

@@ -18,12 +18,6 @@ public record FilterUserQueryHandler : IRequestHandler<FilterUserQuery, FilterUs
 
     public async Task<FilterUsersDTO> Handle(FilterUserQuery request, CancellationToken cancellationToken)
     {
-        FilterUsersDTO model = new()
-        {
-            Username = request.Username,
-            Mobile = request.Mobile,
-        };
-
-        return await _userQueryRepository.FilterUsers(model , cancellationToken);
+        return await _userQueryRepository.FilterUsers(request.filter , cancellationToken);
     }
 }

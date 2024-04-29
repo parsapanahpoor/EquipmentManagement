@@ -6,9 +6,7 @@ public class FilterUserQuery : IRequest<FilterUsersDTO>
 {
     #region properties
 
-    public string? Username { get; set; }
-
-    public string? Mobile { get; set; }
+    public FilterUsersDTO filter { get; set; }
 
     #endregion
 }

@@ -18,11 +18,6 @@ public record FilterPlacesQueryHandler : IRequestHandler<FilterPlacesQuery, Filt
 
     public async Task<FilterPlacesDTO> Handle(FilterPlacesQuery request, CancellationToken cancellationToken)
     {
-        return await _placesQueryRepository.FilterPlaces(new FilterPlacesDTO()
-        {
-            ParentId = request.ParentId,
-            PlaceTitle = request.PlaceTitle
-        },
-        cancellationToken);
+        return await _placesQueryRepository.FilterPlaces(request.Filter , cancellationToken);
     }
 }
