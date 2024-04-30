@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 namespace EquipmentManagement.Domain.DTO.SiteSide.PropertyInquiry;
 
-public class FilterSystemPropertyInquiriesDTO : BasePaging<PropertyInquiryDTO>
+public class FilterSystemPropertyInquiriesDTO 
 {
     #region properties
 

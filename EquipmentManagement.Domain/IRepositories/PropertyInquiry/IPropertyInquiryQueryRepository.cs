@@ -4,7 +4,7 @@ namespace EquipmentManagement.Domain.IRepositories.PropertyInquiry;
 
 public interface IPropertyInquiryQueryRepository
 {
-    Task<FilterSystemPropertyInquiriesDTO> FilterSystemPropertyInquiries(FilterSystemPropertyInquiriesDTO filter,
+    Task<List<PropertyInquiryDTO>> FilterSystemPropertyInquiries(FilterSystemPropertyInquiriesDTO filter,
                                                                          CancellationToken cancellation);
 
     Task<List<FilterInquiryDetail>> FilterInquiryDetail(FilterInquiryDetailDTO filter,

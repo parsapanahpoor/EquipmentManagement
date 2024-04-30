@@ -20,12 +20,12 @@ public class PropertyInquiryQueryRepository : QueryGenericRepository<Domain.Enti
 
     #endregion
 
-    public async Task<FilterSystemPropertyInquiriesDTO> FilterSystemPropertyInquiries(FilterSystemPropertyInquiriesDTO filter,
+    public async Task<List<PropertyInquiryDTO>> FilterSystemPropertyInquiries(FilterSystemPropertyInquiriesDTO filter,
                                                                                       CancellationToken cancellation)
     {
         var inquiries = _context.PropertyInquiries
         .Where(p => !p.IsDelete)
-        .OrderByDescending(s => s.CreateDate)
+        .OrderBy(s => s.CreateDate)
         .AsQueryable();
 
         var query = from q in inquiries
@@ -81,9 +81,7 @@ public class PropertyInquiryQueryRepository : QueryGenericRepository<Domain.Enti
 
         #endregion
 
-        await filter.Paging(query);
-
-        return filter;
+        return await query.ToListAsync();
     }
     public async Task<FilterPropertiesInquiry_BadgesCountDTO> FilterInquiryDetail_BadgesCount(ulong placeId ,
                                                                                               ulong inquiryId ,

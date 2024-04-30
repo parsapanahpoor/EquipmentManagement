@@ -1,17 +1,32 @@
 ﻿@using EquipmentManagement.Application.Convertors
-@model EquipmentManagement.Domain.DTO.SiteSide.PropertyInquiry.FilterSystemPropertyInquiriesDTO;
+@using EquipmentManagement.Domain.DTO.SiteSide.PropertyInquiry
+@model List<PropertyInquiryDTO>;
 
 @{
     ViewData["Title"] = "تاریخچه گردش اموال";
+
+    var filterProperties = ViewBag.FilterProperties as FilterSystemPropertyInquiriesDTO;
 }
 
 @section Styles
 {
+    <link href="/admin/css/dataTables.bootstrap.rtl.css" rel="stylesheet" />
 }
 
 @section Scripts
 {
-    <partial name="_JqueryValidation" />
+    <script src="~/admin/js/datatable/jquery.dataTables.min.js"></script>
+    <script src="~/admin/js/datatable/ZeroClipboard.js"></script>
+    <script src="~/admin/js/datatable/dataTables.tableTools.min.js"></script>
+    <script src="~/admin/js/datatable/dataTables.bootstrap.min.js"></script>
+    <script src="~/admin/js/datatable/datatables-init-AllRecords.js"></script>
+    <script>
+        InitiateSimpleDataTable.init();
+        InitiateEditableDataTable.init();
+        InitiateExpandableDataTable.init();
+        InitiateSearchableDataTable.init();
+    </script>
+
 }
 
 @section Breadcrumbs
@@ -22,7 +37,7 @@
 }
 
 <div class="row">
-    <div class="col-lg-3 col-sm-12">
+    <div class="col-lg-12 col-sm-12">
 
         <a class="btn btn-sky w-100 margin-bottom-10"
            asp-action="AddNewExcelFile"
@@ -37,21 +52,20 @@
                 <div>
                     <form asp-action="ListOfSystemInquiries" asp-controller="PropertyInquiry" asp-area="Admin" id="filter-search" method="get">
 
-                        <input type="hidden" asp-for="Page" />
 
-                        <div class="form-group col-lg-12 col-sm-12">
+                        <div class="form-group col-lg-4 col-sm-12">
                             <label>عنوان اتاق </label>
-                            <input type="text" class="form-control" asp-for="PlaceTitle" placeholder="عنوان اتاق">
+                            <input type="text" class="form-control" name="PlaceTitle" value="@filterProperties.PlaceTitle" placeholder="عنوان اتاق">
                         </div>
 
-                        <div class="form-group col-lg-12 col-sm-12">
+                        <div class="form-group col-lg-4 col-sm-12">
                             <label>جستجو از تاریخ</label>
-                            <input type="text" class="form-control" AdminDatePicker="1"  asp-for="StartTime" placeholder="از تاریخ">
+                            <input type="text" class="form-control" AdminDatePicker="1" value="@filterProperties.StartTime" name="StartTime" placeholder="از تاریخ">
                         </div>
 
-                        <div class="form-group col-lg-12 col-sm-12">
+                        <div class="form-group col-lg-4 col-sm-12">
                             <label>جستجو تا تاریخ</label>
-                            <input type="text" class="form-control" AdminDatePicker="2" asp-for="EndTime" placeholder="تا تاریخ">
+                            <input type="text" class="form-control" AdminDatePicker="2" value="@filterProperties.EndTime" name="EndTime" placeholder="تا تاریخ">
                         </div>
 
                         <hr />
@@ -74,97 +88,88 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-lg-9 col-sm-12">
-        <div class="well with-header with-footer table-responsive">
-            <div class="header bordered-azure">
-                <div class="flex-style">
-                    <span>@ViewData["Title"]</span>
-                    <span>@Model.GetShownEntitiesPagesTitle()</span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-sm-12">
+
+    <div id="horizontal-form">
+
+        @if (Model != null && Model.Any())
+        {
+
+            <div class="widget-body no-padding">
+                <div id="searchable_wrapper" class="dataTables_wrapper form-inline">
+
+                    <table class="table table-bordered table-hover table-striped dataTable" id="searchable" role="grid" aria-describedby="searchable_info">
+                        <thead class="bordered-darkorange">
+                            <tr role="row">
+
+                                <th  tabindex="0" aria-controls="searchable" rowspan="1" colspan="1" >کد گردش اموال </th>
+                                <th  tabindex="0" aria-controls="searchable" rowspan="1" colspan="1" >نام اتاق</th>
+                                <th  tabindex="0" aria-controls="searchable" rowspan="1" colspan="1" >نام کاربری اپراتور </th>
+                                <th  tabindex="0" aria-controls="searchable" rowspan="1" colspan="1" >تاریخ گردش اموال  </th>
+                                <th  tabindex="0" aria-controls="searchable" rowspan="1" colspan="1" >عملیات  </th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var inquiry in Model)
+                            {
+                                <tr class="tc vm" remove-ajax-item="@inquiry.InquiryId">
+
+                                    <td class="vm">
+                                        <div class="flex-style-center">
+                                            <p> @inquiry.InquiryId</p>
+                                        </div>
+                                    </td>
+
+                                    <td class="vm">
+                                        <div class="flex-style-center">
+                                            <p> @inquiry.PlaceTitle</p>
+                                        </div>
+                                    </td>
+
+                                    <td class="vm">
+                                        <div class="flex-style-center">
+                                            <p> @inquiry.Username</p>
+                                        </div>
+                                    </td>
+
+                                    <td class="vm">
+                                        <div class="flex-style-center">
+                                            <p> @inquiry.CreateDate.ToShamsi()</p>
+                                        </div>
+                                    </td>
+
+                                    <td class="tc vm">
+
+                                        <a asp-action="FilterInquiryDetail"
+                                           asp-controller="PropertyInquiry"
+                                           asp-route-PropertyInquiryId="@inquiry.InquiryId"
+                                           asp-route-PlaceId="@inquiry.PlaceId"
+                                           class="btn btn-azure btn-circle btn-xs"><i class="glyphicon glyphicon-eye-open"></i></a>
+
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
+        }
+        else
+        {
+            <partial name="_AdminNotFoundPartial" />
+        }
 
-            @if (Model.Entities != null && Model.Entities.Any())
-            {
-                <table class="table table-hover table-bordered tc vm">
-                    <thead class="tc vm">
-                        <tr class="tc vm">
-                            <th class="tc vm">
-                                 کد گردش اموال 
-                            </th>
-
-                            <th class="tc vm">
-                                نام اتاق
-                            </th>
-
-                            <th class="tc vm">
-                                نام کاربری اپراتور
-                            </th>
-
-                            <th class="tc vm">
-                               تاریخ گردش اموال 
-                            </th>
-
-                            <th class="tc vm">
-                                عملیات
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="tc vm">
-                        @foreach (var inquiry in Model.Entities)
-                        {
-                            <tr class="tc vm" remove-ajax-item="@inquiry.InquiryId">
-
-                                <td class="vm">
-                                    <div class="flex-style-center">
-                                        <p> @inquiry.InquiryId</p>
-                                    </div>
-                                </td>
-
-                                <td class="vm">
-                                    <div class="flex-style-center">
-                                        <p> @inquiry.PlaceTitle</p>
-                                    </div>
-                                </td>
-
-                                <td class="vm">
-                                    <div class="flex-style-center">
-                                        <p> @inquiry.Username</p>
-                                    </div>
-                                </td>
-
-                                <td class="vm">
-                                    <div class="flex-style-center">
-                                        <p> @inquiry.CreateDate.ToShamsi()</p>
-                                    </div>
-                                </td>
-
-                                <td class="tc vm">
-
-                                    <a asp-action="FilterInquiryDetail" 
-                                       asp-controller="PropertyInquiry" 
-                                       asp-route-PropertyInquiryId="@inquiry.InquiryId" 
-                                       asp-route-PlaceId="@inquiry.PlaceId" 
-                                       class="btn btn-azure btn-circle btn-xs"><i class="glyphicon glyphicon-eye-open"></i></a>
-
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-
-                <div class="footer tc">
-
-                    <partial name="_Paging" model="@Model.GetCurrentPaging()" />
-
-                </div>
-            }
-            else
-            {
-                <partial name="_NotFoundPartial" />
-            }
-        </div>
     </div>
+</div>
 </div>
 

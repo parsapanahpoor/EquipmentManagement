@@ -17,6 +17,8 @@ public class PropertyInquiryController : SiteBaseController
     public async Task<IActionResult> ListOfSystemInquiries(FilterSystemPropertyInquiriesDTO filter ,
                                                            CancellationToken cancellation = default)
     {
+        ViewBag.FilterProperties = filter;
+
         return View(await Mediator.Send(new FilterSystemPropertyInquiriesQuery()
         {
             Filter = filter
