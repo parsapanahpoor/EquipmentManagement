@@ -77,6 +77,7 @@ public class EquipmentManagementDbContext : DbContext
     #region Organization Chart
 
     public DbSet<OrganizationChartAggregate> OrganizationCharts { get; set; }
+    public DbSet<UserSelectedOrganizationChartEntity> UserSelectedOrganizationCharts { get; set; }
 
     #endregion
 

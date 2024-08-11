@@ -1,4 +1,7 @@
 ﻿using Bogus.DataSets;
+using EquipmentManagement.Application.CQRS.SiteSide.OrganizationChart.Command.AddUserSelectedOrganziation;
+using EquipmentManagement.Application.CQRS.SiteSide.OrganizationChart.Query.ListOfOrganizationCharts;
+using EquipmentManagement.Application.CQRS.SiteSide.OrganizationChart.Query.UserSelectedOrganizationChartIds;
 using EquipmentManagement.Application.CQRS.SiteSide.ProductCategories.Query;
 using EquipmentManagement.Application.CQRS.SiteSide.Role.Query;
 using EquipmentManagement.Application.CQRS.SiteSide.User.Command;
@@ -181,7 +184,7 @@ public class UserController : SiteBaseController
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> ChangePassword(ChangeUserPasswordDTO model ,
+    public async Task<IActionResult> ChangePassword(ChangeUserPasswordDTO model,
                                                     CancellationToken cancellationToken)
     {
         #region Model State Validation
@@ -228,6 +231,60 @@ public class UserController : SiteBaseController
     }
 
     #endregion
+
+    #endregion
+
+    #region Organization Chart 
+
+    [HttpGet]
+    public async Task<IActionResult> UserOrganizationCharts(ulong userId,
+        string? organizationChartTitle,
+        CancellationToken cancellationToken)
+    {
+        ViewData["selectedOrganizationchartIds"] = await Mediator.Send(new UserSelectedOrganizationChartIdsQuery(userId),
+            cancellationToken);
+        ViewData["userId"] = userId;
+        ViewData["organizationChartTitle"] = organizationChartTitle;
+
+        var model = string.IsNullOrEmpty(organizationChartTitle) ?
+                    await Mediator.Send(new ListOfOrganizationQuery(), cancellationToken) :
+                    await Mediator.Send(new ListOfOrganizationWithTitleQuery(organizationChartTitle),
+                    cancellationToken);
+
+        return View(model);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> UserOrganizationCharts(ulong userId,
+                                                 List<ulong>? Permissions,
+                                                 CancellationToken cancellationToken)
+    {
+        if (Permissions == null || !Permissions.Any())
+        {
+            TempData[ErrorMessage] = "عنوان اجباری است.";
+            return RedirectToAction(nameof(FilterUsers));
+        }
+
+        #region Update User Organization Chart
+
+        var res = await Mediator.Send(new AddUserSelectedOrganziationQuery(userId, Permissions), 
+            cancellationToken);
+
+        if (res)
+        {
+            TempData[SuccessMessage] = "عنوان سازمانی انتخابی باموفقیت ثبت گردید.";
+            return RedirectToAction(nameof(FilterUsers));
+        }
+
+        #endregion
+
+        ViewData["selectedOrganizationchartIds"] = await Mediator.Send(new UserSelectedOrganizationChartIdsQuery(userId),
+            cancellationToken);
+
+        ViewData["userId"] = userId;
+
+        return View(await Mediator.Send(new ListOfOrganizationQuery(), cancellationToken));
+    }
 
     #endregion
 }

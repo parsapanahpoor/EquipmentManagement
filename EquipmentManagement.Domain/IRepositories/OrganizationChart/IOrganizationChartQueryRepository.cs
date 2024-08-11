@@ -15,4 +15,12 @@ public interface IOrganizationChartQueryRepository
 
     Task<OrganizationChartEntryModel?> FillOrganizationChartEntryModel(ulong organizationChartId,
         CancellationToken cancellation);
+
+    Task<List<OrganizationChartSelectedForUserDto>?> FillOrganizationChartSelectedForUserDto(string brandTitle,
+        CancellationToken cancellation);
+
+    Task<List<ulong>?> Get_OrganizationChartsIds_ByUserId(ulong userId,
+        CancellationToken cancellation);
+
+    Task<List<OrganizationChartSelectedForUserDto>?> FillOrganizationChartSelectedForUserDto(CancellationToken cancellation);
 }

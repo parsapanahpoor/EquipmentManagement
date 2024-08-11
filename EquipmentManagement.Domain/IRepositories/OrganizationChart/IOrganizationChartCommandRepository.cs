@@ -8,4 +8,6 @@ public interface IOrganizationChartCommandRepository
         CancellationToken cancellationToken);
 
     void Update(OrganizationChartAggregate aggregate);
+    Task Add_UserSelectedOrganizatiuonChart(UserSelectedOrganizationChartEntity model,
+        CancellationToken cancellationToken);
 }

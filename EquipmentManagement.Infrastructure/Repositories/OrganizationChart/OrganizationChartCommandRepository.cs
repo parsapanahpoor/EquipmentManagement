@@ -16,4 +16,8 @@ public class OrganizationChartCommandRepository :
     => _context = context;
 
     #endregion
+
+    public async Task Add_UserSelectedOrganizatiuonChart(UserSelectedOrganizationChartEntity model  , 
+        CancellationToken cancellationToken)
+    => await _context.UserSelectedOrganizationCharts.AddAsync(model , cancellationToken);
 }

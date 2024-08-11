@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EquipmentManagement.Domain.Entities.OrganizationChart;
+using System.ComponentModel.DataAnnotations;
 
 namespace EquipmentManagement.Domain.Entities.Users;
 
@@ -36,4 +37,6 @@ public class User : BaseEntities<ulong>
     public DateTime? ExpireMobileSMSDateTime { get; set; }
 
     #endregion
+
+    public ICollection<UserSelectedOrganizationChartEntity> UserSelectedOrganizationChartEntities { get; set; }
 }

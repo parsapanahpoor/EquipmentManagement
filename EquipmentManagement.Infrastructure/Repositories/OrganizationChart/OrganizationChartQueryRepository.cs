@@ -68,4 +68,67 @@ public class OrganizationChartQueryRepository :
                              })
                              .FirstOrDefaultAsync();
     }
+
+    public async Task<List<ulong>?> Get_OrganizationChartsIds_ByUserId(ulong userId ,
+        CancellationToken cancellation)
+    => await _context.UserSelectedOrganizationCharts
+                             .AsNoTracking()
+                             .Where(p => !p.IsDelete &&
+                                    p.Id == userId)
+                             .Select(p => p.OrganizationChartId)
+                             .ToListAsync();
+
+    public async Task<List<OrganizationChartSelectedForUserDto>?> FillOrganizationChartSelectedForUserDto(CancellationToken cancellation)
+    => await _context.OrganizationCharts
+                             .AsNoTracking()
+                             .Where(p => !p.IsDelete && !p.ParentId.HasValue)
+                             .Select(p => new OrganizationChartSelectedForUserDto()
+                             {
+                                 OrganizationChart = p , 
+                                 OrganizationChartChildren = _context.OrganizationCharts
+                                 .AsNoTracking()
+                                 .Where(c=> !c.IsDelete && 
+                                 c.ParentId == p.Id)
+                                 .Select(c=> new OrganizationChartAggregate()
+                                 {
+                                     Id = c.Id,
+                                     ParentId= c.ParentId,
+                                     IsDelete = c.IsDelete,
+                                     CreateDate = c.CreateDate,
+                                     Description = c.Description,
+                                     Title = c.Title,
+                                     UpdateDate = c.UpdateDate,
+                                 })
+                                 .ToList()
+                             })
+                             .ToListAsync();
+
+    public async Task<List<OrganizationChartSelectedForUserDto>?> FillOrganizationChartSelectedForUserDto(string brandTitle,
+        CancellationToken cancellation)
+    {
+        return await _context.OrganizationCharts
+                             .AsNoTracking()
+                             .Where(p => !p.IsDelete)
+                             .Select(p => new OrganizationChartSelectedForUserDto()
+                             {
+                                 OrganizationChart = p,
+                                 OrganizationChartChildren = _context.OrganizationCharts
+                                 .AsNoTracking()
+                                 .Where(c => !c.IsDelete &&
+                                 c.ParentId == p.Id && 
+                                 c.Title.Contains(brandTitle))
+                                 .Select(c => new OrganizationChartAggregate()
+                                 {
+                                     Id = c.Id,
+                                     ParentId = c.ParentId,
+                                     IsDelete = c.IsDelete,
+                                     CreateDate = c.CreateDate,
+                                     Description = c.Description,
+                                     Title = c.Title,
+                                     UpdateDate = c.UpdateDate,
+                                 })
+                                 .ToList()
+                             })
+                             .ToListAsync();
+    }
 }
