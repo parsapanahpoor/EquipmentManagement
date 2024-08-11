@@ -1,0 +1,187 @@
+﻿@model EquipmentManagement.Domain.DTO.SiteSide.OrganizationChart.FilterOrganizationChartsDto;
+@using EquipmentManagement.Application.Convertors;
+
+@{
+    ViewData["Title"] = "مدیریت چارت سازمانی";
+}
+
+@section Scripts
+{
+}
+
+@section breadcrumbs
+{
+
+    <li class="active">@ViewData["Title"]</li>
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-xl-3 col-lg-3">
+
+            @if (Model.ParentId.HasValue)
+            {
+                <a class="btn btn-sky w-100 margin-bottom-10"
+                   asp-action="CreateOrganizationChart"
+                   asp-controller="OrganizationChart"
+                   asp-area=""
+                   asp-route-parentId="@Model.ParentId">ایجاد چارت سازمانی جدید </a>
+            }
+            else
+            {
+                <a class="btn btn-sky w-100 margin-bottom-10"
+                   asp-action="CreateOrganizationChart"
+                   asp-controller="OrganizationChart"
+                   asp-area="">ایجاد چارت سازمانی جدید </a>
+            }
+
+
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-green">
+                    <span class="widget-caption"> فیلتر  </span>
+                </div>
+                <div class="widget-body">
+                    <div class="row">
+                        <div class="basic-form">
+                            <form asp-area="" asp-controller="OrganizationChart" asp-action="FilterOrganizationChart" method="get" id="filter-search">
+                                <input type="hidden" asp-for="Page" />
+                                <input type="hidden" asp-for="ParentId" />
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-12">
+                                        <label>عنوان </label>
+                                        <input type="text" asp-for="Title" class="form-control" placeholder="عنوان ">
+                                    </div>
+
+                                </div>
+
+                                <hr />
+
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-labeled w-100 btn-palegreen">
+                                        <i class="btn-label glyphicon glyphicon-filter"></i>فیلتر
+                                    </button>
+                                </div>
+
+                                @if (Context.Request.QueryString.HasValue)
+                                {
+                                    <div class="form-group col-md-12">
+                                        <a asp-area="" asp-controller="OrganizationChart" asp-action="FilterOrganizationChart" class="btn btn-labeled w-100 btn-darkorange">
+                                            <i class="btn-label glyphicon glyphicon-remove"></i>حذف فیلتر
+                                        </a>
+                                    </div>
+                                }
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-md-12 col-lg-9">
+            <div class="well with-header with-footer table-responsive">
+                <div class="header bordered-azure">
+                    <div class="flex-style">
+                        <span>چارت سازمانی </span>
+                        <span>تعداد کل : @Model.AllEntitiesCount</span>
+                    </div>
+                </div>
+
+                @if (Model != null)
+                {
+                    <table class="table table-hover table-bordered tc tableShowListInAdmin">
+
+                        <thead class="tc">
+                            <tr class="tc">
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    نام عنوان
+                                </th>
+                                <th>
+                                    تاریخ ثبت
+                                </th>
+                                <th>
+                                    امکانات
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var organizationChart in Model.Entities)
+                            {
+                                <tr id="profile_@organizationChart.Id" remove-ajax-item="@organizationChart.Id">
+
+                                    <td>
+                                        @organizationChart.Id
+                                    </td>
+
+                                    <td>
+                                        @organizationChart.Title
+                                    </td>
+
+                                    <td>
+                                        @organizationChart.CreateDate.ToShamsi()
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex justify-content-center ">
+
+
+
+                                            @if (!Model.ParentId.HasValue)
+                                            {
+                                                <a title="نمایش زیر مجموعه ها"
+                                                   asp-controller="OrganizationChart"
+                                                   asp-action="FilterOrganizationChart"
+                                                   asp-route-ParentId="@organizationChart.Id"
+                                                   class="btn btn-warning btn-circle btn-xs">
+                                                    <i class="glyphicon glyphicon-align-justify"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a title="نمایش محصولات زیرمجموعه" 
+                                                asp-controller="OrganizationChart"
+                                                   asp-action="FilterOrganizationChart"
+                                                   asp-route-ParentId="@organizationChart.Id"
+                                                   class="btn btn-success btn-circle btn-xs">
+                                                    <i class="fa fa-gears"></i>
+                                                </a>
+                                            }
+
+                                            <a title="ویرایش اطلاعات"
+                                               asp-controller="OrganizationChart"
+                                               asp-action="EditOrganizationChart"
+                                               asp-route-organizationChartId="@organizationChart.Id"
+                                               class="btn btn-info btn-circle btn-xs">
+                                                <i class="glyphicon glyphicon-edit"></i>
+                                            </a>
+
+                                            <button onclick="DeleteAjax(@organizationChart.Id, '@Url.Action("DeleteOrganizationChart", "OrganizationChart", new {area = "", OrganizationChartId = organizationChart.Id})')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <partial name="_Paging" model="@Model.GetCurrentPaging()" />
+                }
+                else
+                {
+                    <partial name="_NotFoundPartial" />
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

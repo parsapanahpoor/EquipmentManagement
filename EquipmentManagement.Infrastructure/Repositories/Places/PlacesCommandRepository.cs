@@ -14,5 +14,4 @@ public class PlacesCommandRepository : CommandGenericRepository<Domain.Entities.
     }
 
     #endregion
-
 }
