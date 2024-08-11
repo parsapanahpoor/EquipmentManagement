@@ -4,6 +4,7 @@ using EquipmentManagement.Infrastructure.ApplicationDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EquipmentManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(EquipmentManagementDbContext))]
-    partial class EquipmentManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240811151216_Add-UserSelectedOrganizationChart-Table")]
+    partial class AddUserSelectedOrganizationChartTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,6 +158,9 @@ namespace EquipmentManagement.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("OrganizationChartAggregateId")
+                        .HasColumnType("decimal(20,0)");
+
+                    b.Property<decimal>("OrganizationChartId")
                         .HasColumnType("decimal(20,0)");
 
                     b.Property<DateTime>("UpdateDate")

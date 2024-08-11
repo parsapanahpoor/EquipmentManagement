@@ -3,6 +3,7 @@ using EquipmentManagement.Application.CQRS.SiteSide.OrganizationChart.Command.De
 using EquipmentManagement.Application.CQRS.SiteSide.OrganizationChart.Command.Edit;
 using EquipmentManagement.Application.CQRS.SiteSide.OrganizationChart.Query.Filter;
 using EquipmentManagement.Application.CQRS.SiteSide.OrganizationChart.Query.Get;
+using EquipmentManagement.Application.CQRS.SiteSide.OrganizationChart.Query.GetUsersSelectedChart;
 using EquipmentManagement.Domain.DTO.SiteSide.OrganizationChart;
 using EquipmentManagement.Presentation.HttpManager;
 using Microsoft.AspNetCore.Mvc;
@@ -116,6 +117,14 @@ public class OrganizationChartController : SiteBaseController
 
         return JsonResponseStatus.Error();
     }
+
+    #endregion
+
+    #region List Of Users Selected Organization Chart
+
+    public async Task<IActionResult> ListOfUserSelectedOrganizationChart(ulong organizationChartId,
+        CancellationToken cancellationToken)
+        => View(await Mediator.Send(new GetUsersSelectedChartQuery(organizationChartId) , cancellationToken));
 
     #endregion
 }

@@ -1,0 +1,100 @@
+﻿@model List<EquipmentManagement.Domain.Entities.Users.User>;
+@using EquipmentManagement.Application.Convertors;
+
+@{
+    ViewData["Title"] = "مدیریت چارت سازمانی";
+}
+
+@section Scripts
+{
+}
+
+@section breadcrumbs
+{
+
+    <li class="active">@ViewData["Title"]</li>
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="well with-header with-footer table-responsive">
+                <div class="header bordered-azure">
+                    <div class="flex-style">
+                        <span>کارمندان دارای این نقش </span>
+                        <span>تعداد کل : @Model.Count()</span>
+                    </div>
+                </div>
+
+                @if (Model != null && Model.Any())
+                {
+                    <table class="table table-hover table-bordered tc tableShowListInAdmin">
+
+                        <thead class="tc">
+                            <tr class="tc">
+                                <th>
+                                    نام کاربری
+                                </th>
+                                <th>
+                                    موبایل
+                                </th>
+                                <th>
+                                    تاریخ ثبت نام
+                                </th>
+                                <th>
+                                    امکانات
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr id="profile_@item.Id" remove-ajax-item="@item.Id">
+                                    <td>
+                                        @item.Username
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.Mobile))
+                                        {
+                                            @item.Mobile
+                                        }
+                                    </td>
+                                    <td>
+                                        @item.CreateDate.ToShamsi()
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex justify-content-center ">
+
+                                            @if (!item.IsDelete)
+                                            {
+                                                <a title="عنوان سازمانی"
+                                                   asp-controller="User"
+                                                   asp-action="UserOrganizationCharts"
+                                                   asp-route-userId="@item.Id"
+                                                   class="btn btn-warning btn-circle btn-xs">
+                                                    <i class="glyphicon glyphicon-lock"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <div class="badge badge-danger">حذف شده</div>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <partial name="_NotFoundPartial" />
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

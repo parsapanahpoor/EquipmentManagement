@@ -106,6 +106,12 @@
                                 <th>
                                     تاریخ ثبت
                                 </th>
+                                @if (Model.ParentId.HasValue)
+                                {
+                                    <th>
+                                        تعداد کارمندان این عنوان
+                                    </th>
+                                }
                                 <th>
                                     امکانات
                                 </th>
@@ -130,6 +136,13 @@
                                         @organizationChart.CreateDate.ToShamsi()
                                     </td>
 
+                                    @if (Model.ParentId.HasValue)
+                                    {
+                                        <td>
+                                            @organizationChart.UserSelectedOrganizationChartEntities.Count()
+                                        </td>
+                                    }
+
                                     <td>
                                         <div class="d-flex justify-content-center ">
 
@@ -147,12 +160,12 @@
                                             }
                                             else
                                             {
-                                                <a title="نمایش محصولات زیرمجموعه" 
-                                                asp-controller="OrganizationChart"
-                                                   asp-action="FilterOrganizationChart"
-                                                   asp-route-ParentId="@organizationChart.Id"
+                                                <a title="نمایش اعضای این عنوان"
+                                                   asp-controller="OrganizationChart"
+                                                   asp-action="ListOfUserSelectedOrganizationChart"
+                                                   asp-route-organizationChartId="@organizationChart.Id"
                                                    class="btn btn-success btn-circle btn-xs">
-                                                    <i class="fa fa-gears"></i>
+                                                    <i class="fa fa-users"></i>
                                                 </a>
                                             }
 

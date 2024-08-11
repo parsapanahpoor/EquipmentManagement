@@ -20,19 +20,23 @@ public class OrganizationChartQueryRepository :
 
     #endregion
 
-    public async Task<FilterOrganizationChartsDto> FilterOrganizationChart(FilterOrganizationChartsDto organizationChartAggregate, 
+    public async Task<FilterOrganizationChartsDto> FilterOrganizationChart(FilterOrganizationChartsDto organizationChartAggregate,
             CancellationToken cancellationToken)
     {
         var query = _context.OrganizationCharts
                                             .AsNoTracking()
-                                            .Where(p => !p.IsDelete && !p.ParentId.HasValue)
+                                            .Include(p=> p.UserSelectedOrganizationChartEntities)
+                                            .Where(p => !p.IsDelete && 
+                                            !p.ParentId.HasValue)
                                             .OrderByDescending(p => p.CreateDate)
                                             .AsQueryable();
 
         if (organizationChartAggregate.ParentId.HasValue)
             query = _context.OrganizationCharts
                                              .AsNoTracking()
-                                             .Where(p => !p.IsDelete && p.ParentId == organizationChartAggregate.ParentId)
+                                             .Include(p => p.UserSelectedOrganizationChartEntities)
+                                             .Where(p => !p.IsDelete &&
+                                             p.ParentId == organizationChartAggregate.ParentId)
                                              .OrderByDescending(p => p.CreateDate)
                                              .AsQueryable();
 
@@ -69,30 +73,31 @@ public class OrganizationChartQueryRepository :
                              .FirstOrDefaultAsync();
     }
 
-    public async Task<List<ulong>?> Get_OrganizationChartsIds_ByUserId(ulong userId ,
+    public async Task<List<ulong>?> Get_OrganizationChartsIds_ByUserId(ulong userId,
         CancellationToken cancellation)
     => await _context.UserSelectedOrganizationCharts
                              .AsNoTracking()
                              .Where(p => !p.IsDelete &&
-                                    p.Id == userId)
-                             .Select(p => p.OrganizationChartId)
+                                    p.UserId == userId)
+                             .Select(p => p.OrganizationChartAggregateId)
                              .ToListAsync();
 
     public async Task<List<OrganizationChartSelectedForUserDto>?> FillOrganizationChartSelectedForUserDto(CancellationToken cancellation)
     => await _context.OrganizationCharts
                              .AsNoTracking()
                              .Where(p => !p.IsDelete && !p.ParentId.HasValue)
+                             .OrderByDescending(p=> p.CreateDate)
                              .Select(p => new OrganizationChartSelectedForUserDto()
                              {
-                                 OrganizationChart = p , 
+                                 OrganizationChart = p,
                                  OrganizationChartChildren = _context.OrganizationCharts
                                  .AsNoTracking()
-                                 .Where(c=> !c.IsDelete && 
+                                 .Where(c => !c.IsDelete &&
                                  c.ParentId == p.Id)
-                                 .Select(c=> new OrganizationChartAggregate()
+                                 .Select(c => new OrganizationChartAggregate()
                                  {
                                      Id = c.Id,
-                                     ParentId= c.ParentId,
+                                     ParentId = c.ParentId,
                                      IsDelete = c.IsDelete,
                                      CreateDate = c.CreateDate,
                                      Description = c.Description,
@@ -105,17 +110,17 @@ public class OrganizationChartQueryRepository :
 
     public async Task<List<OrganizationChartSelectedForUserDto>?> FillOrganizationChartSelectedForUserDto(string brandTitle,
         CancellationToken cancellation)
-    {
-        return await _context.OrganizationCharts
+    => await _context.OrganizationCharts
                              .AsNoTracking()
                              .Where(p => !p.IsDelete)
+                             .OrderByDescending(p=> p.CreateDate)
                              .Select(p => new OrganizationChartSelectedForUserDto()
                              {
                                  OrganizationChart = p,
                                  OrganizationChartChildren = _context.OrganizationCharts
                                  .AsNoTracking()
                                  .Where(c => !c.IsDelete &&
-                                 c.ParentId == p.Id && 
+                                 c.ParentId == p.Id &&
                                  c.Title.Contains(brandTitle))
                                  .Select(c => new OrganizationChartAggregate()
                                  {
@@ -130,5 +135,23 @@ public class OrganizationChartQueryRepository :
                                  .ToList()
                              })
                              .ToListAsync();
-    }
+
+    public async Task<List<UserSelectedOrganizationChartEntity>> Get_UserSelectedOrganizationCharts_ByUserId(ulong userId,
+        CancellationToken cancellationToken)
+        => await _context.UserSelectedOrganizationCharts
+            .Where(p => !p.IsDelete &&
+            p.UserId == userId)
+            .ToListAsync();
+
+    public async Task<List<Domain.Entities.Users.User>> Get_Users_FromUserSelectedOrganizationChart(ulong organizationChartId,
+        CancellationToken cancellationToken)
+        => await _context.UserSelectedOrganizationCharts
+        .AsNoTracking()
+        .Include(p => p.User)
+        .Where(p => !p.IsDelete &&
+        p.OrganizationChartAggregateId == organizationChartId)
+        .OrderByDescending(p => p.CreateDate)
+        .Select(p => p.User)
+        .ToListAsync();
+
 }

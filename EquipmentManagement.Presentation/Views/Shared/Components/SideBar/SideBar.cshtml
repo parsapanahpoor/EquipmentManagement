@@ -143,6 +143,28 @@
             </ul>
         </li>
 
+        <!--Organization Chart-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-building-o"></i>
+                <span class="menu-text"> چارت سازمانی</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-action="FilterOrganizationChart" asp-controller="OrganizationChart" asp-area="">
+                        <span class="menu-text"> لیست عناوین سازمانی  </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="CreateOrganizationChart" asp-controller="OrganizationChart" asp-area="">
+                        <span class="menu-text"> ایجاد عنوان جدید </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <!--Current User Info-->
         <li>
             <a href="#" class="menu-dropdown">
