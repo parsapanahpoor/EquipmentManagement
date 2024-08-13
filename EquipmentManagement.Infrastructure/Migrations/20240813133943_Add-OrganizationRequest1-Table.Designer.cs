@@ -4,6 +4,7 @@ using EquipmentManagement.Infrastructure.ApplicationDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EquipmentManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(EquipmentManagementDbContext))]
-    partial class EquipmentManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240813133943_Add-OrganizationRequest1-Table")]
+    partial class AddOrganizationRequest1Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,7 +217,13 @@ namespace EquipmentManagement.Infrastructure.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
+                    b.Property<decimal?>("OrganizationChartAggregateId")
+                        .HasColumnType("decimal(20,0)");
+
                     b.Property<decimal>("OrganizationChartId")
+                        .HasColumnType("decimal(20,0)");
+
+                    b.Property<decimal?>("OrganziationRequestEntityId")
                         .HasColumnType("decimal(20,0)");
 
                     b.Property<decimal>("OrganziationRequestId")
@@ -225,9 +234,9 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrganizationChartId");
+                    b.HasIndex("OrganizationChartAggregateId");
 
-                    b.HasIndex("OrganziationRequestId");
+                    b.HasIndex("OrganziationRequestEntityId");
 
                     b.ToTable("RequestDecisionMakers");
                 });
@@ -550,15 +559,13 @@ namespace EquipmentManagement.Infrastructure.Migrations
                 {
                     b.HasOne("EquipmentManagement.Domain.Entities.OrganizationChart.OrganizationChartAggregate", "OrganizationChartAggregate")
                         .WithMany("DecisionMakers")
-                        .HasForeignKey("OrganizationChartId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("OrganizationChartAggregateId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("EquipmentManagement.Domain.Entities.OrganizationRequest.OrganziationRequestEntity", "OrganziationRequestEntity")
                         .WithMany("DecisionMakers")
-                        .HasForeignKey("OrganziationRequestId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("OrganziationRequestEntityId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("OrganizationChartAggregate");
 

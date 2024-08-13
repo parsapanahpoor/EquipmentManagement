@@ -1,0 +1,167 @@
+﻿@model List<EquipmentManagement.Domain.DTO.SiteSide.OrganizationChart.OrganizationChartSelectedForUserDto>
+
+@{
+    ViewData["Title"] = "عناوین چارت سازمانی";
+
+    var selectedOrganizationChartIds = ViewData["selectedOrganizationChartIds"] as List<ulong>;
+    var requestId = ViewData["requestId"] as ulong?;
+    var organizationChartTitle = ViewData["organizationChartTitle"] as string;
+}
+
+@section Scripts
+{
+    <partial name="_JqueryValidation" />
+}
+
+@section breadcrumbs
+{
+    <li>
+        <a asp-area="" asp-controller="OrganizationRequest" asp-action="FilterOrganziationRequest"> مدیریت درخواست های سازمانی   </a>
+        <a href="javascript:void(0)"> @ViewData["Title"] </a>
+    </li>
+}
+
+<div class="row">
+    <div class="col-lg-12 col-sm-12">
+        <div class="widget">
+            <div class="widget-header bordered-bottom bordered-green">
+                <span class="widget-caption"> عناوین چارت سازمانی </span>
+            </div>
+            <div class="widget-body">
+                <div>
+                    <form asp-action="FilterRequestDesicionMarks" asp-controller="OrganizationRequest" asp-area="" id="filter-search" method="get">
+                        <input name="requestId" type="hidden" value="@requestId" />
+
+                        <div class="form-group">
+                            <label> عنوان  </label>
+                            <input type="text" class="form-control" name="organizationChartTitle" value="@organizationChartTitle">
+                        </div>
+
+                        <hr />
+
+                        <div class="row">
+                            <div class="col-md-12 flex-style">
+
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-labeled w-100 btn-palegreen">
+                                        <i class="btn-label glyphicon glyphicon-filter"></i>فیلتر
+                                    </button>
+                                </div>
+
+                                @if (Context.Request.QueryString.HasValue)
+                                {
+                                    <div class="col-md-4">
+                                        <a asp-action="FilterOrganziationRequest"
+                                           asp-controller="OrganizationRequest"
+                                           asp-area=""
+                                           asp-route-userId="@requestId"
+                                           class="btn btn-labeled w-100 btn-darkorange">
+                                            <i class="btn-label glyphicon glyphicon-remove"></i>حذف فیلتر
+                                        </a>
+                                    </div>
+                                }
+
+                                <div class="col-md-4">
+                                    <a asp-action="FilterOrganziationRequest"
+                                       asp-controller="OrganizationRequest"
+                                       asp-area=""
+                                       class="btn btn-labeled w-100 btn-warning">
+                                        <i class="btn-label glyphicon glyphicon-remove"></i>بازگشت به صفحه ی قبل
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<form method="post" asp-action="FilterRequestDesicionMarks" asp-controller="OrganizationRequest" asp-area="">
+    <input name="requestId" type="hidden" value="@requestId" />
+
+    <div class="row">
+
+        <div class="col-lg-12 col-sm-12">
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="widget">
+                        <div class="widget-header bordered-bottom bordered-blue flex-style">
+
+                            <span class="widget-caption" style="margin-top:10px;"> عنوان چارت سازمانی موردنظرتان  را انتخاب  کنید </span>
+
+                            <div class="checkbox" style="margin-left:10px" type="submit">
+                                <input style="margin-top:10px;margin-left:10px" type="submit" class="btn btn-success" value="ثبت">
+                            </div>
+
+                        </div>
+
+                        <div class="widget-body @((Model != null && Model.Any()) ? "no-padding" : "")">
+
+                            @if (Model != null && Model.Any())
+                            {
+                                <div class="panel-group accordion">
+
+                                    @foreach (var mainOrganizationChart in Model)
+                                    {
+                                        if (mainOrganizationChart.OrganizationChartChildren != null && mainOrganizationChart.OrganizationChartChildren.Any())
+                                        {
+                                            var isPermissionSelected = (mainOrganizationChart.OrganizationChartChildren != null &&
+                                            selectedOrganizationChartIds != null &&
+                                            selectedOrganizationChartIds.Any() &&
+                                            mainOrganizationChart.OrganizationChartChildren.Any(p => selectedOrganizationChartIds.Contains(p.Id))) ? true : false;
+
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a class="accordion-toggle @((isPermissionSelected) ? "" : "collapsed")" data-toggle="collapse" href="#permission-@mainOrganizationChart.OrganizationChart!.Id" aria-expanded="@((isPermissionSelected) ? "true" : "false")">
+                                                            @mainOrganizationChart.OrganizationChart.Title
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="permission-@mainOrganizationChart.OrganizationChart.Id" class="panel-collapse collapse @((isPermissionSelected) ? "in" : "")" aria-expanded="@((isPermissionSelected) ? "true" : "false")" style="height: @((isPermissionSelected) ? "auto" : "0")">
+                                                    <div class="panel-body" style="padding: 5px 15px 15px 15px !important">
+
+                                                        @if (mainOrganizationChart.OrganizationChartChildren != null && mainOrganizationChart.OrganizationChartChildren.Any())
+                                                        {
+                                                            @foreach (var child in mainOrganizationChart.OrganizationChartChildren)
+                                                            {
+                                                                bool isSecondCategorySelected = (selectedOrganizationChartIds.Contains(child.Id)) ? true : false;
+
+                                                                <div class="form-group">
+                                                                    <div class="checkbox">
+                                                                        <label>
+                                                                            <input type="checkbox" value="@child.Id" name="Permissions" data-id="@child.Id" data-parentId="@child.Id" @((isSecondCategorySelected) ? "checked" : "")>
+                                                                            <span class="text"> @child.Title </span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <partial name="_NotFoundPartial" />
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,5 +1,6 @@
 ﻿@model EquipmentManagement.Domain.DTO.SiteSide.OrganizationRequest.FilterOrganizationRequestsDto;
 @using EquipmentManagement.Application.Convertors;
+@using EquipmentManagement.Application.Utilities.Extentions;
 
 @{
     ViewData["Title"] = "مدیریت درخواهست های سازمانی";
@@ -25,12 +26,12 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-xl-12 col-lg-3">
+        <div class="col-12 col-xl-12 col-lg-12">
 
             <a class="btn btn-sky w-100 margin-bottom-10"
                asp-action="CreateOrganizationRequest"
                asp-controller="OrganizationRequest"
-               asp-area="">ایجاد درخواهست های سازمانی جدید </a>
+               asp-area="">ایجاد درخواست های سازمانی جدید </a>
 
         </div>
 
@@ -56,7 +57,7 @@
                                     نوع درخواست
                                 </th>
                                 <th>
-                                    تعداد ناظران درخواست
+                                    تعداد عناوین سازمانی ناظر
                                 </th>
                                 <th>
                                     امکانات
@@ -75,7 +76,7 @@
                                     </td>
 
                                     <td>
-                                        @organizationRequest.GetType()
+                                        @organizationRequest.RequestType.GetEnumName()
                                     </td>
 
                                     <td>
@@ -88,7 +89,7 @@
                                             <a title="نمایش ناظران این درخواست"
                                                asp-controller="OrganizationRequest"
                                                asp-action="FilterRequestDesicionMarks"
-                                               asp-route-organizationRequestId="@organizationRequest.Id"
+                                               asp-route-requestId="@organizationRequest.Id"
                                                class="btn btn-success btn-circle btn-xs">
                                                 <i class="fa fa-users"></i>
                                             </a>
@@ -96,12 +97,12 @@
                                             <a title="ویرایش اطلاعات"
                                                asp-controller="OrganizationRequest"
                                                asp-action="EditOrganizationRequest"
-                                               asp-route-organizationChartId="@organizationRequest.Id"
+                                               asp-route-organizationRequestId="@organizationRequest.Id"
                                                class="btn btn-info btn-circle btn-xs">
                                                 <i class="glyphicon glyphicon-edit"></i>
                                             </a>
 
-                                            <button onclick="DeleteAjax(@organizationRequest.Id, '@Url.Action("DeleteOrganizationRequest", "OrganizationRequest", new {area = "", OrganizationRequestId = organizationRequest.Id})')" 
+                                            <button onclick="DeleteAjax(@organizationRequest.Id, '@Url.Action("DeleteOrganizationRequest", "OrganizationRequest", new {area = "", OrganizationRequestId = organizationRequest.Id})')"
                                             class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
 
                                         </div>

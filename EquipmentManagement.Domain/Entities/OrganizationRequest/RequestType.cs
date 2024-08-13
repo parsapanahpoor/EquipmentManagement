@@ -1,6 +1,8 @@
-﻿namespace EquipmentManagement.Domain.Entities.OrganizationRequest;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EquipmentManagement.Domain.Entities.OrganizationRequest;
 
 public enum RequestType
 {
-    Repair
+    [Display(Name ="درخواست تعمیرات")]Repair
 }

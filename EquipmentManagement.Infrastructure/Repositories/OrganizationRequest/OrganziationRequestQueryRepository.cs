@@ -1,4 +1,6 @@
-﻿using EquipmentManagement.Domain.DTO.SiteSide.OrganizationRequest;
+﻿using EquipmentManagement.Domain.DTO.SiteSide.OrganizationChart;
+using EquipmentManagement.Domain.DTO.SiteSide.OrganizationRequest;
+using EquipmentManagement.Domain.Entities.OrganizationChart;
 using EquipmentManagement.Domain.Entities.OrganizationRequest;
 using EquipmentManagement.Domain.IRepositories.OranizationRequest;
 using Microsoft.EntityFrameworkCore;
@@ -34,5 +36,42 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
 
         return filter;
     }
+
+    public async Task<bool> IsExistAnyOrganizationRequestByRequestType(RequestType requestType,
+        CancellationToken cancellationToken)
+    => await _context.OrganziationRequests
+        .AsNoTracking()
+        .AnyAsync(p => !p.IsDelete &&
+        p.RequestType == requestType);
+
+    public async Task<OrganizationRequestEntryModel?> FillOrganizationRequestEntryModel(ulong organizationRequestId,
+      CancellationToken cancellation)
+    => await _context.OrganziationRequests
+                             .AsNoTracking()
+                             .Where(p => !p.IsDelete &&
+                                    p.Id == organizationRequestId)
+                             .Select(p => new OrganizationRequestEntryModel()
+                             {
+                                 Id = p.Id,
+                                 IsActive = p.IsActive,
+                                 RequestType = p.RequestType
+                             })
+                             .FirstOrDefaultAsync();
+
+    public async Task<List<RequestDecisionMaker>> Get_RequestDecisionMaker_ByRequestId(ulong requestId,
+     CancellationToken cancellationToken)
+     => await _context.RequestDecisionMakers
+         .Where(p => !p.IsDelete &&
+         p.OrganziationRequestId == requestId)
+         .ToListAsync();
+
+    public async Task<List<ulong>?> Get_OrganizationChartsIds_ByRequestId(ulong requestId,
+       CancellationToken cancellation)
+    => await _context.RequestDecisionMakers
+                            .AsNoTracking()
+                            .Where(p => !p.IsDelete &&
+                                   p.OrganziationRequestId == requestId)
+                            .Select(p => p.OrganizationChartId)
+                            .ToListAsync();
 }
 
