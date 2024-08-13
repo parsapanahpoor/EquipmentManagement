@@ -1,0 +1,125 @@
+﻿@model EquipmentManagement.Domain.DTO.SiteSide.OrganizationRequest.FilterOrganizationRequestsDto;
+@using EquipmentManagement.Application.Convertors;
+
+@{
+    ViewData["Title"] = "مدیریت درخواهست های سازمانی";
+}
+
+@section Scripts
+{
+}
+
+@section breadcrumbs
+{
+
+    <li class="active">@ViewData["Title"]</li>
+}
+
+<form asp-area=""
+      asp-controller="OrganizationRequest"
+      asp-action="FilterOrganizationRequest"
+      method="get" id="filter-search">
+    <input type="hidden" asp-for="Page" />
+
+</form>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-xl-12 col-lg-3">
+
+            <a class="btn btn-sky w-100 margin-bottom-10"
+               asp-action="CreateOrganizationRequest"
+               asp-controller="OrganizationRequest"
+               asp-area="">ایجاد درخواهست های سازمانی جدید </a>
+
+        </div>
+
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="well with-header with-footer table-responsive">
+                <div class="header bordered-azure">
+                    <div class="flex-style">
+                        <span>درخواهست های سازمانی </span>
+                        <span>تعداد کل : @Model.AllEntitiesCount</span>
+                    </div>
+                </div>
+
+                @if (Model != null)
+                {
+                    <table class="table table-hover table-bordered tc tableShowListInAdmin">
+
+                        <thead class="tc">
+                            <tr class="tc">
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    نوع درخواست
+                                </th>
+                                <th>
+                                    تعداد ناظران درخواست
+                                </th>
+                                <th>
+                                    امکانات
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var organizationRequest in Model.Entities)
+                            {
+                                <tr id="profile_@organizationRequest.Id" remove-ajax-item="@organizationRequest.Id">
+
+                                    <td>
+                                        @organizationRequest.Id
+                                    </td>
+
+                                    <td>
+                                        @organizationRequest.GetType()
+                                    </td>
+
+                                    <td>
+                                        @organizationRequest.DecisionMakers.Count()
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex justify-content-center ">
+
+                                            <a title="نمایش ناظران این درخواست"
+                                               asp-controller="OrganizationRequest"
+                                               asp-action="FilterRequestDesicionMarks"
+                                               asp-route-organizationRequestId="@organizationRequest.Id"
+                                               class="btn btn-success btn-circle btn-xs">
+                                                <i class="fa fa-users"></i>
+                                            </a>
+
+                                            <a title="ویرایش اطلاعات"
+                                               asp-controller="OrganizationRequest"
+                                               asp-action="EditOrganizationRequest"
+                                               asp-route-organizationChartId="@organizationRequest.Id"
+                                               class="btn btn-info btn-circle btn-xs">
+                                                <i class="glyphicon glyphicon-edit"></i>
+                                            </a>
+
+                                            <button onclick="DeleteAjax(@organizationRequest.Id, '@Url.Action("DeleteOrganizationRequest", "OrganizationRequest", new {area = "", OrganizationRequestId = organizationRequest.Id})')" 
+                                            class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <partial name="_Paging" model="@Model.GetCurrentPaging()" />
+                }
+                else
+                {
+                    <partial name="_NotFoundPartial" />
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -165,6 +165,28 @@
             </ul>
         </li>
 
+        <!--Organization Request-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-print"></i>
+                <span class="menu-text"> درخواست های سازمانی</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-action="FilterOrganizationRequest" asp-controller="OrganizationRequest" asp-area="">
+                        <span class="menu-text"> لیست درخواست های سازمانی  </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="CreateOrganizationRequest" asp-controller="OrganizationRequest" asp-area="">
+                        <span class="menu-text"> ایجاد درخواست جدید </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <!--Current User Info-->
         <li>
             <a href="#" class="menu-dropdown">

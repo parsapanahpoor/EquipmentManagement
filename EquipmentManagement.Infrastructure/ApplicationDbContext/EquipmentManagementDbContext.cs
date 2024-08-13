@@ -3,6 +3,7 @@
 using EquipmentManagement.Domain.Entities.Account;
 using EquipmentManagement.Domain.Entities.OperatorLogger;
 using EquipmentManagement.Domain.Entities.OrganizationChart;
+using EquipmentManagement.Domain.Entities.OrganizationRequest;
 using EquipmentManagement.Domain.Entities.Places;
 using EquipmentManagement.Domain.Entities.Product;
 using EquipmentManagement.Domain.Entities.ProductCategory;
@@ -71,6 +72,13 @@ public class EquipmentManagementDbContext : DbContext
     #region Logger 
 
     public DbSet<OperatorExcelUploadLogger> OperatorExcelUploadLoggers { get; set; }
+
+    #endregion
+
+    #region Organization Chart
+
+    public DbSet<OrganziationRequestEntity> OrganziationRequests { get; set; }
+    public DbSet<RequestDecisionMaker> RequestDecisionMakers { get; set; }
 
     #endregion
 

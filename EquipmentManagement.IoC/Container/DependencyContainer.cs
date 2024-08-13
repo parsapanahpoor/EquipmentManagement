@@ -1,6 +1,7 @@
 ﻿#region Usings
 
 using EquipmentManagement.Application.Common.IUnitOfWork;
+using EquipmentManagement.Domain.IRepositories.OranizationRequest;
 using EquipmentManagement.Domain.IRepositories.OrganizationChart;
 using EquipmentManagement.Domain.IRepositories.Place;
 using EquipmentManagement.Domain.IRepositories.Product;
@@ -9,6 +10,7 @@ using EquipmentManagement.Domain.IRepositories.PropertyInquiry;
 using EquipmentManagement.Domain.IRepositories.Role;
 using EquipmentManagement.Domain.IRepositories.User;
 using EquipmentManagement.Infrastructure.Repositories.OrganizationChart;
+using EquipmentManagement.Infrastructure.Repositories.OrganizationRequest;
 using EquipmentManagement.Infrastructure.Repositories.Places;
 using EquipmentManagement.Infrastructure.Repositories.Product;
 using EquipmentManagement.Infrastructure.Repositories.ProductCategory;
@@ -55,6 +57,10 @@ public static class DependencyContainer
         //Organization Chart
         services.AddScoped<IOrganizationChartCommandRepository , OrganizationChartCommandRepository>();
         services.AddScoped<IOrganizationChartQueryRepository , OrganizationChartQueryRepository>();
+
+        //Organization Request
+        services.AddScoped<IOrganziationRequestCommandRepository, OrganziationRequestCommandRepository>();
+        services.AddScoped<IOrganziationRequestQueryRepository, OrganziationRequestQueryRepository>();
 
         #endregion
 
