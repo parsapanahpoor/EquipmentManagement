@@ -1,5 +1,4 @@
-﻿using EquipmentManagement.Application.CQRS.SiteSide.Places.Command;
-using EquipmentManagement.Application.CQRS.SiteSide.Product.Command;
+﻿using EquipmentManagement.Application.CQRS.SiteSide.Product.Command;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Command.EditProduct;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.EditProduct;
@@ -169,6 +168,15 @@ public class ProductController : SiteBaseController
         if (res) return JsonResponseStatus.Success();
 
         return JsonResponseStatus.Error();
+    }
+
+    #endregion
+
+    #region Create Repair Request
+
+    public async Task<IActionResult> CreateRepairRequest()
+    {
+        return View();
     }
 
     #endregion

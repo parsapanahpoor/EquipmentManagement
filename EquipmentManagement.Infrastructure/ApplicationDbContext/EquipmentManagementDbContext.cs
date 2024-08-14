@@ -82,10 +82,13 @@ public class EquipmentManagementDbContext : DbContext
 
     #endregion
 
-    #region Organization Chart
+    #region Organization Request
 
     public DbSet<OrganizationChartAggregate> OrganizationCharts { get; set; }
     public DbSet<UserSelectedOrganizationChartEntity> UserSelectedOrganizationCharts { get; set; }
+    public DbSet<RepairRequest> RepairRequests { get; set; }
+    public DbSet<DecisionRepairRequestRespons> DecisionRepairRequestRespons { get; set; }
+    public DbSet<ExpertVisitorOpinionEntity> ExpertVisitorOpinions { get; set; }
 
     #endregion
 
