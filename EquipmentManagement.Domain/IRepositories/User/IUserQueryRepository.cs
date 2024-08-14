@@ -25,5 +25,7 @@ public interface IUserQueryRepository
 
     Task<bool> IsValidNationalIdForUserEditByAdmin(string nationalId, ulong userId, CancellationToken cancellationToken);
 
+    Task<List<Domain.Entities.Users.User>> ListOfUsers(CancellationToken cancellationToken);
+
     #endregion
 }

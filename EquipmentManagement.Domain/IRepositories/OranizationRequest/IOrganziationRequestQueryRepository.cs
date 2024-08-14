@@ -22,4 +22,10 @@ public interface IOrganziationRequestQueryRepository
 
     Task<List<ulong>?> Get_OrganizationChartsIds_ByRequestId(ulong requestId,
        CancellationToken cancellation);
+
+    Task<bool> IExistAny_DesicionMaker_ForRequest(ulong organziationRequestId,
+        CancellationToken cancellationToken);
+
+    Task<bool> IsExistAnyConfiguration_ForRepairRequest(CancellationToken cancellationToken);
+    Task<OrganziationRequestEntity?> GetFirstConfiguration_ForRepairRequest(CancellationToken cancellationToken);
 }

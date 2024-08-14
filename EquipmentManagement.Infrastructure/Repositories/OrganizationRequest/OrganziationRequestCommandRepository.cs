@@ -22,5 +22,13 @@ public class OrganziationRequestCommandRepository :
     public async Task Add_RequestDecisionMaker(RequestDecisionMaker model,
     CancellationToken cancellationToken)
         => await _context.RequestDecisionMakers.AddAsync(model, cancellationToken);
+
+    public async Task Add_ExpertVisitorRequest(ExpertVisitorOpinionEntity data , 
+        CancellationToken cancellationToken)
+        => await _context.ExpertVisitorOpinions.AddAsync(data, cancellationToken);
+
+    public async Task Add_RepairRequest(RepairRequest data,
+        CancellationToken cancellationToken)
+        => await _context.RepairRequests.AddAsync(data, cancellationToken);
 }
 

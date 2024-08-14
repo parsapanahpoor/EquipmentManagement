@@ -56,6 +56,12 @@ public class UserQueryRepository : QueryGenericRepository<Domain.Entities.Users.
 
     #region Site Side
 
+    public async Task<List<Domain.Entities.Users.User>> ListOfUsers(CancellationToken cancellationToken)
+        => await _context.Users
+        .AsNoTracking()
+        .Where(p => !p.IsDelete)
+        .ToListAsync();
+
     public async Task<FilterUsersDTO> FilterUsers(FilterUsersDTO filter , CancellationToken cancellation)
     {
         var query = _context.Users

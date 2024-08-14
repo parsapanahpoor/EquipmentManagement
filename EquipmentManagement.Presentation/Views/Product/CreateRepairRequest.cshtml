@@ -1,0 +1,179 @@
+﻿@using EquipmentManagement.Application.Convertors
+@using EquipmentManagement.Domain.Entities.OrganizationRequest
+@model EquipmentManagement.Domain.DTO.SiteSide.OrganizationRequest.CreateRepairRequestFormInfoDto
+
+@{
+    ViewData["Title"] = "ایجاد درخواست تعمیر";
+}
+
+@section Styles
+{
+    <link href="/admin/css/dataTables.bootstrap.rtl.css" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    <partial name="_JqueryValidation" />
+
+    <script src="~/admin/js/datatable/jquery.dataTables.min.js"></script>
+    <script src="~/admin/js/datatable/ZeroClipboard.js"></script>
+    <script src="~/admin/js/datatable/dataTables.tableTools.min.js"></script>
+    <script src="~/admin/js/datatable/dataTables.bootstrap.min.js"></script>
+    <script src="~/admin/js/datatable/datatables-init.js"></script>
+    <script>
+        InitiateSimpleDataTable.init();
+        InitiateEditableDataTable.init();
+        InitiateExpandableDataTable.init();
+        InitiateSearchableDataTable.init();
+    </script>
+
+}
+
+@section Breadcrumbs
+{
+    <li>
+        <a asp-area="" asp-controller="Product" asp-action="FilterProduct"> مدیریت تجهیزات  </a>
+        <a href="javascript:void(0)"> @ViewData["Title"] </a>
+    </li>
+}
+
+<form method="post"
+      asp-action="CreateRepairRequest"
+      asp-controller="Product" 
+    asp-area="" 
+    enctype="multipart/form-data">
+
+    <input name="productId" value="@Model.Product!.Id" type="hidden" />
+
+    <div class="row">
+        <div class="col-lg-12 col-sm-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-green">
+                    <span class="widget-caption"> @ViewData["Title"] </span>
+                </div>
+                <div class="widget-body">
+                    <div>
+
+                        <div class="row">
+
+                            <div class="form-group col-md-4 col-sm-12">
+                                <label> نام کالا </label>
+                                <input type="text" class="form-control" readonly value="@Model.Product!.ProductTitle">
+                            </div>
+
+                            <div class="form-group col-md-4 col-sm-12">
+                                <label> کدانبار </label>
+                                <input type="text" class="form-control" readonly value="@Model.Product.BarCode">
+                            </div>
+
+                            <div class="form-group col-md-4 col-sm-12">
+                                <label> Rf-Id </label>
+                                <input type="text" class="form-control" readonly value="@Model.Product.BarCode">
+                            </div>
+
+                        </div>
+
+                        <hr class="margin-bottom-10 margin-top-10" />
+
+                        <div class="row">
+
+                            <div class="form-group col-md-4 col-sm-12">
+                                <label> نام درخواست دهنده </label>
+                                <input type="text" class="form-control" readonly value="@Model.Employee!.Username">
+                            </div>
+
+                            <div class="form-group col-md-4 col-sm-12">
+                                <label> موبایل درخواست دهنده </label>
+                                <input type="text" class="form-control" readonly value="@Model.Employee.Mobile">
+                            </div>
+
+                            <div class="form-group col-md-4 col-sm-12">
+                                <label> کدملی درخواست دهنده  </label>
+                                <input type="text" class="form-control" readonly value="@Model.Employee.NationalId">
+                            </div>
+
+
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label> کدملی درخواست دهنده  </label>
+                                <textarea type="text" class="form-control" name="description" placeholder="علت درخواست  و عیب کالا را ذکر  کنید."></textarea>
+                            </div>
+
+                        </div>
+
+                        <hr class="margin-bottom-10 margin-top-10" />
+
+                        @if (Model.ListOfUsers != null && Model.ListOfUsers.Any())
+                        {
+                            <div class="widget-body no-padding mt-5">
+                                <div id="searchable_wrapper" class="dataTables_wrapper form-inline">
+
+                                    <table class="table table-bordered table-hover table-striped dataTable" id="searchable" role="grid" aria-describedby="searchable_info">
+                                        <thead class="tc">
+                                            <tr class="tc">
+                                                <th>
+                                                    نام کاربری
+                                                </th>
+                                                <th>
+                                                    موبایل
+                                                </th>
+                                                <th>
+                                                    امکانات
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            @foreach (var item in Model.ListOfUsers)
+                                            {
+                                                <tr id="profile_@item.Id" remove-ajax-item="@item.Id">
+                                                    <td>
+                                                        @item.Username
+                                                    </td>
+                                                    <td>
+                                                        @if (!string.IsNullOrEmpty(item.Mobile))
+                                                        {
+                                                            @item.Mobile
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center ">
+
+                                                            <label>
+                                                                <input type="checkbox" name="expertUserId" value="@item.Id" >
+                                                                <span class="text"> انتخاب </span>
+                                                            </label>
+                                                           
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <partial name="_NotFoundPartial" />
+                        }
+
+
+                        <div class="row mt-5">
+                            <div class="col-md-12 flex-style">
+                                <button type="submit" class="btn btn-labeled btn-palegreen">
+                                    <i class="btn-label glyphicon glyphicon-ok"></i>ثبت
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>

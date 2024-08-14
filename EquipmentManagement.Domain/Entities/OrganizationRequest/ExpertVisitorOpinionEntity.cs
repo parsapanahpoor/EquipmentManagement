@@ -8,7 +8,6 @@ public class ExpertVisitorOpinionEntity : BaseEntities<ulong>
     public ulong ExpertUserId { get; set; }
     public ExpertVisitorResponsType ResponsType { get; set; }
     public string? Description { get; set; }
-    public bool IsNeedToOutSource { get; set; }
 }
 
 public enum ExpertVisitorResponsType

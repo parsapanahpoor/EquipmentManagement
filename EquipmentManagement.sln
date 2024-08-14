@@ -13,15 +13,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{D631E6A7-264C-40ED-9435-A5815C98814D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquipmentManagement.Application", "EquipmentManagement.Application\EquipmentManagement.Application.csproj", "{ED5A8EC5-520F-4217-B262-125DBE845B0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EquipmentManagement.Application", "EquipmentManagement.Application\EquipmentManagement.Application.csproj", "{ED5A8EC5-520F-4217-B262-125DBE845B0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquipmentManagement.Domain", "EquipmentManagement.Domain\EquipmentManagement.Domain.csproj", "{7E045CA8-BE59-43DE-8B4F-0FE07A564249}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EquipmentManagement.Domain", "EquipmentManagement.Domain\EquipmentManagement.Domain.csproj", "{7E045CA8-BE59-43DE-8B4F-0FE07A564249}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquipmentManagement.Infrastructure", "EquipmentManagement.Infrastructure\EquipmentManagement.Infrastructure.csproj", "{DB6E9174-6C65-436A-83E4-461E11C2F1A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EquipmentManagement.Infrastructure", "EquipmentManagement.Infrastructure\EquipmentManagement.Infrastructure.csproj", "{DB6E9174-6C65-436A-83E4-461E11C2F1A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquipmentManagement.IoC", "EquipmentManagement.IoC\EquipmentManagement.IoC.csproj", "{921EF02C-3414-4323-9014-5E22E1C813D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EquipmentManagement.IoC", "EquipmentManagement.IoC\EquipmentManagement.IoC.csproj", "{921EF02C-3414-4323-9014-5E22E1C813D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquipmentManagement.Presentation", "EquipmentManagement.Presentation\EquipmentManagement.Presentation.csproj", "{111B331B-4E47-4E2B-A9A0-A60D67DACA8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EquipmentManagement.Presentation", "EquipmentManagement.Presentation\EquipmentManagement.Presentation.csproj", "{111B331B-4E47-4E2B-A9A0-A60D67DACA8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

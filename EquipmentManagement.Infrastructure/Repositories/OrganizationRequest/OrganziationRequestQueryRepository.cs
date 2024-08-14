@@ -73,5 +73,21 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
                                    p.OrganziationRequestId == requestId)
                             .Select(p => p.OrganizationChartId)
                             .ToListAsync();
+
+    public async Task<bool> IsExistAnyConfiguration_ForRepairRequest(CancellationToken cancellationToken)
+        => await _context.OrganziationRequests
+        .AnyAsync(p => !p.IsDelete &&
+        p.RequestType == RequestType.Repair);
+
+    public async Task<OrganziationRequestEntity?> GetFirstConfiguration_ForRepairRequest(CancellationToken cancellationToken)
+       => await _context.OrganziationRequests
+       .FirstOrDefaultAsync(p => !p.IsDelete &&
+       p.RequestType == RequestType.Repair);
+
+    public async Task<bool> IExistAny_DesicionMaker_ForRequest(ulong organziationRequestId,
+        CancellationToken cancellationToken)
+        => await _context.RequestDecisionMakers
+        .AnyAsync(p => !p.IsDelete &&
+        p.OrganziationRequestId == organziationRequestId);
 }
 

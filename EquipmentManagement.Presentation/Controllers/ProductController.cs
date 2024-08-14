@@ -1,7 +1,10 @@
 ﻿using EquipmentManagement.Application.CQRS.SiteSide.Product.Command;
+using EquipmentManagement.Application.CQRS.SiteSide.Product.Command.CreateRepairRequest;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Command.EditProduct;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query;
+using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.CreateRepairRequestFormInfo;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.EditProduct;
+using EquipmentManagement.Application.Extensions;
 using EquipmentManagement.Application.Security;
 using EquipmentManagement.Domain.DTO.SiteSide.Product;
 using EquipmentManagement.Presentation.HttpManager;
@@ -174,9 +177,53 @@ public class ProductController : SiteBaseController
 
     #region Create Repair Request
 
-    public async Task<IActionResult> CreateRepairRequest()
+    [HttpGet]
+    public async Task<IActionResult> CreateRepairRequest(ulong productId,
+        CancellationToken cancellationToken)
+    => View(await Mediator.Send(new CreateRepairRequestFormInfoQuery(
+        productId, 
+        User.GetUserId()),
+        cancellationToken));
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateRepairRequest(ulong productId,
+        ulong expertUserId,
+        string? description,
+        CancellationToken cancellationToken)
     {
-        return View();
+        if (ModelState.IsValid)
+        {
+            var result = await Mediator.Send(new CreateRepairRequestCommand(
+                productId,
+                expertUserId,
+                User.GetUserId(),
+                description)
+             , cancellationToken);
+
+            switch (result)
+            {
+                case CreateRepairRequestCommandRespons.Success:
+                    TempData[SuccessMessage] = "درخواست باموفقیت انجام شده است .";
+                    return RedirectToAction("Landing", "Home");
+
+                case CreateRepairRequestCommandRespons.Failure:
+                    TempData[ErrorMessage] = "عملیات باشکست مواجه شده است.";
+                    break;
+
+                case CreateRepairRequestCommandRespons.DosentConfig:
+                    TempData[ErrorMessage] = "درحال حاضر ایجاد درخواست در دسترس نمی باشد .";
+                    return RedirectToAction(nameof(FilterProduct));
+
+                default:
+                    break;
+            }
+        }
+
+        TempData[ErrorMessage] = "عملیات باشکست مواجه شده است.";
+        return View(await Mediator.Send(new CreateRepairRequestFormInfoQuery(
+            productId,
+            User.GetUserId()),
+            cancellationToken));
     }
 
     #endregion

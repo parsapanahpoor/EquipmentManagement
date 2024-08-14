@@ -6,8 +6,10 @@ public class RepairRequest : BaseEntities<ulong>
 {
     public ulong EmployeeUserId { get; set; }
     public ulong ProductId { get; set; }
-    public RepairRequestState RepairRequestState { get; set; }
+    public RepairRequestState DesicionMakersRepairRequestState { get; set; }
+    public RepairRequestState ExpertVisitorRepairRequestState { get; set; }
     public string? Description { get; set; }
+    public bool IsNeedToOutSource { get; set; }
 }
 
 public enum RepairRequestState
