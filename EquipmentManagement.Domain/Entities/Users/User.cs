@@ -1,4 +1,5 @@
 ﻿using EquipmentManagement.Domain.Entities.OrganizationChart;
+using EquipmentManagement.Domain.Entities.OrganizationRequest;
 using System.ComponentModel.DataAnnotations;
 
 namespace EquipmentManagement.Domain.Entities.Users;
@@ -38,5 +39,6 @@ public class User : BaseEntities<ulong>
 
     #endregion
 
-    public ICollection<UserSelectedOrganizationChartEntity> UserSelectedOrganizationChartEntities { get; set; }
+    public ICollection<UserSelectedOrganizationChartEntity>? UserSelectedOrganizationChartEntities { get; set; }
+    public ICollection<RepairRequest>? RepairRequests { get; set; }
 }

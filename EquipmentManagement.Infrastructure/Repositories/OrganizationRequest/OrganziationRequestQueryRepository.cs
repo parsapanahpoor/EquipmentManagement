@@ -1,4 +1,5 @@
-﻿using EquipmentManagement.Domain.DTO.SiteSide.OrganizationChart;
+﻿using EquipmentManagement.Domain.DTO.SiteSide.Dashboard;
+using EquipmentManagement.Domain.DTO.SiteSide.OrganizationChart;
 using EquipmentManagement.Domain.DTO.SiteSide.OrganizationRequest;
 using EquipmentManagement.Domain.Entities.OrganizationChart;
 using EquipmentManagement.Domain.Entities.OrganizationRequest;
@@ -89,5 +90,38 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
         => await _context.RequestDecisionMakers
         .AnyAsync(p => !p.IsDelete &&
         p.OrganziationRequestId == organziationRequestId);
+
+    public async Task<List<RepairRequestDto>> FillRepairRequestDto(ulong userId,
+        CancellationToken cancellationToken)
+    => await _context.ExpertVisitorOpinions
+        .AsNoTracking()
+        .Where(p => !p.IsDelete &&
+        p.ResponsType == ExpertVisitorResponsType.WaitingForRespons)
+        .Select(p => new RepairRequestDto()
+        {
+            CreateDate = p.CreateDate,
+            ProductName = _context.RepairRequests
+            .Include(rq => rq.Product)
+            .Where(rq => !rq.IsDelete &&
+            rq.Id == p.RepairRequestId)
+            .Select(rq => rq.Product!.ProductTitle)
+            .FirstOrDefault(),
+
+            RepairRequestId = p.RepairRequestId,
+            VisitorRole = VisitorRole.ExpertVisitor,
+            RequesterUsername = _context.RepairRequests
+           .Include(rq => rq.User)
+            .Where(rq => !rq.IsDelete &&
+            rq.Id == p.RepairRequestId)
+            .Select(rq => rq.User.Username)
+            .FirstOrDefault(),
+
+            Description = _context.RepairRequests
+            .Where(rq => !rq.IsDelete &&
+            rq.Id == p.RepairRequestId)
+            .Select(rq => rq.Description)
+            .FirstOrDefault(),
+        })
+        .ToListAsync();
 }
 

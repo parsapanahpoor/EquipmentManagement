@@ -1,4 +1,5 @@
-﻿using EquipmentManagement.Domain.Entities.Places;
+﻿using EquipmentManagement.Domain.Entities.OrganizationRequest;
+using EquipmentManagement.Domain.Entities.Places;
 using System.Runtime.CompilerServices;
 
 namespace EquipmentManagement.Domain.Entities.Product;
@@ -25,9 +26,9 @@ public sealed class Product : BaseEntities<ulong>
 
     #region Relations
 
-    public Place Place { get; set; }
-
-    public Domain.Entities.ProductCategory.ProductCategory ProductCategory { get; set; }
+    public Place? Place { get; set; }
+    public ProductCategory.ProductCategory? ProductCategory { get; set; }
+    public ICollection<RepairRequest>? RepairRequests { get; set; }
 
     #endregion
 }

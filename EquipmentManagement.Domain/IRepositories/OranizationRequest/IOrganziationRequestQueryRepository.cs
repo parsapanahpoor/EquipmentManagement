@@ -1,4 +1,5 @@
-﻿using EquipmentManagement.Domain.DTO.SiteSide.OrganizationRequest;
+﻿using EquipmentManagement.Domain.DTO.SiteSide.Dashboard;
+using EquipmentManagement.Domain.DTO.SiteSide.OrganizationRequest;
 using EquipmentManagement.Domain.Entities.OrganizationRequest;
 
 namespace EquipmentManagement.Domain.IRepositories.OranizationRequest;
@@ -24,6 +25,9 @@ public interface IOrganziationRequestQueryRepository
        CancellationToken cancellation);
 
     Task<bool> IExistAny_DesicionMaker_ForRequest(ulong organziationRequestId,
+        CancellationToken cancellationToken);
+
+    Task<List<RepairRequestDto>> FillRepairRequestDto(ulong userId,
         CancellationToken cancellationToken);
 
     Task<bool> IsExistAnyConfiguration_ForRepairRequest(CancellationToken cancellationToken);

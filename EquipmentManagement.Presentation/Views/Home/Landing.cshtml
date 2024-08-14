@@ -1,7 +1,10 @@
-﻿@{
+﻿@using EquipmentManagement.Application.Convertors
+@using EquipmentManagement.Application.Utilities.Extentions
+@model EquipmentManagement.Domain.DTO.SiteSide.Dashboard.DashboardDto;
+
+@{
     ViewData["Title"] = "داشبورد سامانه";
 }
-
 
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -65,3 +68,40 @@
         </div>
     </div>
 </div>
+
+@if (Model.RepairRequest != null && Model.RepairRequest.Any())
+{
+    <div class="row">
+        <div class="col-lg-6 col-sm-12 col-xs-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-themeprimary">
+                    <i class="widget-icon fa fa-tasks themeprimary"></i>
+                    <span class="widget-caption themeprimary">درخواست های تعمیر کالا ارجاع داده شده به شما</span>
+                </div>
+                <div class="widget-body no-padding">
+                    <div class="task-container">
+                        <ul class="tasks-list">
+
+                            @foreach (var request in Model.RepairRequest)
+                            {
+                                <li class="task-item">
+                                    <div class="task-state">
+                                       @request.RequesterUsername
+                                    </div>
+                                    <div class="task-time">@request.CreateDate.ToShamsi()</div>
+                                    <div class="task-body">@request.ProductName</div>
+                                    <div class="task-assignedto">
+                                        <span class="label label-warning">
+                                            بررسی درخواست
+                                        </span>
+                                    </div>
+                                </li>
+                            }
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

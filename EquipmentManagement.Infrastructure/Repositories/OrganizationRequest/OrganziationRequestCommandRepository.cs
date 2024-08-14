@@ -1,5 +1,4 @@
-﻿using EquipmentManagement.Domain.Entities.OrganizationChart;
-using EquipmentManagement.Domain.Entities.OrganizationRequest;
+﻿using EquipmentManagement.Domain.Entities.OrganizationRequest;
 using EquipmentManagement.Domain.IRepositories.OranizationRequest;
 
 namespace EquipmentManagement.Infrastructure.Repositories.OrganizationRequest;

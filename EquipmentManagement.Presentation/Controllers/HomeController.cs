@@ -1,5 +1,7 @@
 #region Using
 
+using EquipmentManagement.Application.CQRS.SiteSide.Dashboard.Query.DashboardInfo;
+using EquipmentManagement.Application.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace EquipmentManagement.Presentation.Controllers;
@@ -7,7 +9,7 @@ namespace EquipmentManagement.Presentation.Controllers;
 #endregion
 
 [Authorize]
-public class HomeController : Controller
+public class HomeController : SiteBaseController
 {
     #region Index
 
@@ -21,10 +23,9 @@ public class HomeController : Controller
 
     #region Panel Landing
 
-    public async Task<IActionResult> Landing()
-    {
-        return View();
-    }
+    public async Task<IActionResult> Landing(CancellationToken cancellation)
+    => View(await Mediator.Send(new DashboardInfoQuery(User.GetUserId()),
+        cancellation));
 
     #endregion
 }
