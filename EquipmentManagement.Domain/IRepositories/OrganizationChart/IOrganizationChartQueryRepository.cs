@@ -28,5 +28,6 @@ public interface IOrganizationChartQueryRepository
     Task<List<Entities.Users.User>> Get_Users_FromUserSelectedOrganizationChart(ulong organizationChartId,
         CancellationToken cancellationToken);
 
+    Task<List<UserSelectedOrganizationChartEntity>> Get_RepairRequestDesiciners(CancellationToken cancellationToken);
     Task<List<OrganizationChartSelectedForUserDto>?> FillOrganizationChartSelectedForUserDto(CancellationToken cancellation);
 }

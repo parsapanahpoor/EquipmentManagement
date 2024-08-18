@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 using EquipmentManagement.Application.CQRS.SiteSide.OrganizationRequest.Query.RequestSelectedChartIds;
 using EquipmentManagement.Application.CQRS.SiteSide.OrganizationChart.Query.ListOfOrganizationCharts;
 using EquipmentManagement.Application.CQRS.SiteSide.OrganizationRequest.Command.AddRequestSelectedOrganziation;
+using EquipmentManagement.Application.CQRS.SiteSide.OrganizationRequest.Query.RepairRequestDetail;
+using EquipmentManagement.Application.Extensions;
+using EquipmentManagement.Domain.Entities.OrganizationRequest;
+using EquipmentManagement.Application.CQRS.SiteSide.RepairRequest.Command.NewFolder;
 
 namespace EquipmentManagement.Presentation.Controllers;
 
@@ -155,6 +159,63 @@ public class OrganizationRequestController : SiteBaseController
         ViewData["requestId"] = requestId;
 
         return View(await Mediator.Send(new ListOfOrganizationQuery(), cancellationToken));
+    }
+
+    #endregion
+
+    #region Show Repair Request Detail
+
+    [HttpGet]
+    public async Task<IActionResult> ShowRepairRequestDetail(ulong repairRequestId,
+        CancellationToken cancellationToken)
+    {
+        var model = await Mediator.Send(new RepairRequestDetailQuery(
+            User.GetUserId(),
+            repairRequestId
+            ), cancellationToken);
+
+        if (model == null)
+        {
+            TempData[ErrorMessage] = "شما مجوز دیدن این بخش را ندارید.";
+            return RedirectToAction("Landing", "Home");
+        }
+
+        return View(model);
+    }
+
+    #endregion
+
+    #region Change Repair Request State 
+
+    [HttpPost]
+    public async Task<IActionResult> ChangeRepairRequestState(ulong repairRequestId,
+        RepairRequestState requestState,
+        bool outSource,
+        string description)
+    {
+        if (!ModelState.IsValid)
+        {
+            TempData[ErrorMessage] = "شما مجوز دیدن این بخش را ندارید.";
+            return RedirectToAction(nameof(ShowRepairRequestDetail) , 
+                new { repairRequestId = repairRequestId });
+        }
+
+        var result = await Mediator.Send(new ChangeRepairRequestStateCommand(
+            User.GetUserId() , 
+            repairRequestId , 
+            requestState , 
+            outSource , 
+            description));
+
+        if (result)
+        {
+            TempData[SuccessMessage] = "عملیات باموفقیت انجام شده است.";
+            return RedirectToAction("Landing", "Home");
+        }
+
+        TempData[ErrorMessage] = "شما مجوز دیدن این بخش را ندارید.";
+        return RedirectToAction(nameof(ShowRepairRequestDetail),
+            new { repairRequestId = repairRequestId });
     }
 
     #endregion

@@ -4,6 +4,7 @@ namespace EquipmentManagement.Domain.Entities.OrganizationRequest;
 
 public class DecisionRepairRequestRespons : BaseEntities<ulong>
 {
+    public ulong RepariRequestId { get; set; }
     public ulong OrganizationChartId { get; set; }
     public ulong EmployeeUserId { get; set; }
     public string? RejectDescription { get; set; }

@@ -30,4 +30,8 @@
 	  <ProjectReference Include="..\EquipmentManagement.Domain\EquipmentManagement.Domain.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="CQRS\SiteSide\RepairRequest\Query\" />
+	</ItemGroup>
+
 </Project>

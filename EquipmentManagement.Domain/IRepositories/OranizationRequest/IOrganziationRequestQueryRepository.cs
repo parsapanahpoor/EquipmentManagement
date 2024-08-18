@@ -30,6 +30,20 @@ public interface IOrganziationRequestQueryRepository
     Task<List<RepairRequestDto>> FillRepairRequestDto(ulong userId,
         CancellationToken cancellationToken);
 
+    Task<RepairRequest?> GetRepairRequestById(ulong repairReuqestId,
+        CancellationToken cancellationToken);
+
+    Task<ExpertVisitorOpinionEntity?> Get_ExpertOpinion_ByRepairRequestId(ulong repairRequestId,
+        CancellationToken cancellationToken);
+
+    Task<DecisionRepairRequestRespons> Get_DecisionRepairRequestRespons_ByRequestIdAndUserId(
+        ulong requestId,
+        ulong userId ,
+        CancellationToken cancellationToken);
+
+    Task<bool> IsRequestNotBeFinished(ulong repairRequestId,
+        CancellationToken cancellationToken);
+
     Task<bool> IsExistAnyConfiguration_ForRepairRequest(CancellationToken cancellationToken);
     Task<OrganziationRequestEntity?> GetFirstConfiguration_ForRepairRequest(CancellationToken cancellationToken);
 }

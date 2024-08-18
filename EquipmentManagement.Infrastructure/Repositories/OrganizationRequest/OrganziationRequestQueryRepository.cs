@@ -123,5 +123,39 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
             .FirstOrDefault(),
         })
         .ToListAsync();
+
+    public async Task<RepairRequest?> GetRepairRequestById(ulong repairReuqestId,
+        CancellationToken cancellationToken)
+        => await _context.RepairRequests
+        .AsNoTracking()
+        .Where(p => !p.IsDelete &&
+        p.Id == repairReuqestId)
+        .FirstOrDefaultAsync();
+
+    public async Task<ExpertVisitorOpinionEntity?> Get_ExpertOpinion_ByRepairRequestId(ulong repairRequestId,
+        CancellationToken cancellationToken)
+        => await _context.ExpertVisitorOpinions
+        .AsNoTracking()
+        .Where(p=> !p.IsDelete && 
+        p.RepairRequestId == repairRequestId)
+        .FirstOrDefaultAsync();
+
+    public async Task<DecisionRepairRequestRespons?> Get_DecisionRepairRequestRespons_ByRequestIdAndUserId(
+        ulong requestId,
+        ulong userId,
+        CancellationToken cancellationToken)
+        => await _context.DecisionRepairRequestRespons
+        .AsNoTracking()
+        .Where(p => !p.IsDelete &&
+        p.RepariRequestId == requestId && 
+        p.EmployeeUserId == userId)
+        .FirstOrDefaultAsync();
+
+    public async Task<bool> IsRequestNotBeFinished(ulong repairRequestId , 
+        CancellationToken cancellationToken)
+        => await _context.DecisionRepairRequestRespons.AnyAsync(p=> !p.IsDelete && 
+        p.RepariRequestId == repairRequestId && 
+        p.Response == DecisionRepairRespons.Reject);
+    
 }
 

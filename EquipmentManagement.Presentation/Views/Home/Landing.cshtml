@@ -86,14 +86,21 @@
                             {
                                 <li class="task-item">
                                     <div class="task-state">
-                                       @request.RequesterUsername
+                                        @request.RequesterUsername
                                     </div>
                                     <div class="task-time">@request.CreateDate.ToShamsi()</div>
                                     <div class="task-body">@request.ProductName</div>
                                     <div class="task-assignedto">
-                                        <span class="label label-warning">
-                                            بررسی درخواست
-                                        </span>
+
+                                        <a asp-action="ShowRepairRequestDetail"
+                                           asp-area=""
+                                           asp-controller="OrganizationRequest"
+                                           asp-route-repairRequestId="@request.RepairRequestId">
+                                            <span class="label label-warning">
+                                                بررسی درخواست
+                                            </span>
+                                        </a>
+
                                     </div>
                                 </li>
                             }

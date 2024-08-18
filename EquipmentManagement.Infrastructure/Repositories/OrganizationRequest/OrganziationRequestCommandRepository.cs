@@ -3,8 +3,8 @@ using EquipmentManagement.Domain.IRepositories.OranizationRequest;
 
 namespace EquipmentManagement.Infrastructure.Repositories.OrganizationRequest;
 
-public class OrganziationRequestCommandRepository : 
-    CommandGenericRepository<OrganziationRequestEntity>, 
+public class OrganziationRequestCommandRepository :
+    CommandGenericRepository<OrganziationRequestEntity>,
     IOrganziationRequestCommandRepository
 {
     #region Ctor
@@ -22,12 +22,25 @@ public class OrganziationRequestCommandRepository :
     CancellationToken cancellationToken)
         => await _context.RequestDecisionMakers.AddAsync(model, cancellationToken);
 
-    public async Task Add_ExpertVisitorRequest(ExpertVisitorOpinionEntity data , 
+    public async Task Add_DecisionRepairRequestRespons(DecisionRepairRequestRespons data,
+        CancellationToken cancellationToken)
+        => await _context.DecisionRepairRequestRespons.AddAsync(data, cancellationToken);
+
+    public async Task Add_ExpertVisitorRequest(ExpertVisitorOpinionEntity data,
         CancellationToken cancellationToken)
         => await _context.ExpertVisitorOpinions.AddAsync(data, cancellationToken);
 
     public async Task Add_RepairRequest(RepairRequest data,
         CancellationToken cancellationToken)
         => await _context.RepairRequests.AddAsync(data, cancellationToken);
+
+    public void Update_ExpertVisitorResponse(ExpertVisitorOpinionEntity data)
+        => _context.ExpertVisitorOpinions.Update(data);
+
+    public void Update_DecisionRepairRequestRespons(DecisionRepairRequestRespons data)
+            => _context.DecisionRepairRequestRespons.Update(data);
+
+    public void Update_RepairRequest(RepairRequest data)
+         => _context.RepairRequests.Update(data);
 }
 

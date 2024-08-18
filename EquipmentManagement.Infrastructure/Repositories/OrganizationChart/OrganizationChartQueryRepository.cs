@@ -2,8 +2,10 @@
 using EquipmentManagement.Domain.DTO.SiteSide.OrganizationChart;
 using EquipmentManagement.Domain.DTO.SiteSide.ProductCategory;
 using EquipmentManagement.Domain.Entities.OrganizationChart;
+using EquipmentManagement.Domain.Entities.OrganizationRequest;
 using EquipmentManagement.Domain.IRepositories.OrganizationChart;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace EquipmentManagement.Infrastructure.Repositories.OrganizationChart;
 
@@ -154,4 +156,37 @@ public class OrganizationChartQueryRepository :
         .Select(p => p.User)
         .ToListAsync();
 
+    public async Task<List<UserSelectedOrganizationChartEntity>> Get_RepairRequestDesiciners(CancellationToken cancellationToken)
+    {
+        var userSelectedOrganizationCharts = new List<UserSelectedOrganizationChartEntity>();
+
+        var repairRequesttId = await _context.OrganziationRequests
+            .AsNoTracking()
+            .Where(p => !p.IsDelete &&
+            p.RequestType == RequestType.Repair)
+            .Select(p => p.Id)
+            .FirstOrDefaultAsync();
+
+        var organizationCharts = await _context.RequestDecisionMakers
+            .AsNoTracking()
+            .Where(p => !p.IsDelete &&
+            p.OrganziationRequestId == repairRequesttId)
+            .Select(p => p.OrganizationChartId)
+            .ToListAsync();
+
+        foreach (var organizationChartId in organizationCharts)
+        {
+            var userSelectedOrganizationChart = await _context.UserSelectedOrganizationCharts
+                .AsNoTracking()
+                .Where(p => !p.IsDelete &&
+                p.OrganizationChartAggregateId == organizationChartId)
+                .FirstOrDefaultAsync();
+
+            if (userSelectedOrganizationChart is not null &&
+                !userSelectedOrganizationCharts.Contains(userSelectedOrganizationChart))
+                userSelectedOrganizationCharts.Add(userSelectedOrganizationChart);
+        }
+
+        return userSelectedOrganizationCharts;
+    }
 }
