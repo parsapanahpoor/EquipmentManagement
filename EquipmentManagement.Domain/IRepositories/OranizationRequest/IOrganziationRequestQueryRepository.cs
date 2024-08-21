@@ -21,6 +21,9 @@ public interface IOrganziationRequestQueryRepository
     Task<List<RequestDecisionMaker>> Get_RequestDecisionMaker_ByRequestId(ulong requestId,
      CancellationToken cancellationToken);
 
+    Task<List<DecisionRepairRequestDto>> Get_DecisionRepairRequestDto_ByRequestId(ulong requestId,
+       CancellationToken cancellationToken);
+
     Task<List<ulong>?> Get_OrganizationChartsIds_ByRequestId(ulong requestId,
        CancellationToken cancellation);
 
@@ -30,13 +33,16 @@ public interface IOrganziationRequestQueryRepository
     Task<List<RepairRequestDto>> FillRepairRequestDto(ulong userId,
         CancellationToken cancellationToken);
 
+    Task<List<RepairRequestDto>> GetLastestNewRequestAsDecisinorsForCurrentUser(ulong userId,
+      CancellationToken cancellationToken);
+
     Task<RepairRequest?> GetRepairRequestById(ulong repairReuqestId,
         CancellationToken cancellationToken);
 
     Task<ExpertVisitorOpinionEntity?> Get_ExpertOpinion_ByRepairRequestId(ulong repairRequestId,
         CancellationToken cancellationToken);
 
-    Task<DecisionRepairRequestRespons> Get_DecisionRepairRequestRespons_ByRequestIdAndUserId(
+    Task<List<DecisionRepairRequestRespons>?> Get_DecisionRepairRequestRespons_ByRequestIdAndUserId(
         ulong requestId,
         ulong userId ,
         CancellationToken cancellationToken);

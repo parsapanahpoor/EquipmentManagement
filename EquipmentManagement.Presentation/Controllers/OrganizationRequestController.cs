@@ -179,6 +179,11 @@ public class OrganizationRequestController : SiteBaseController
             TempData[ErrorMessage] = "شما مجوز دیدن این بخش را ندارید.";
             return RedirectToAction("Landing", "Home");
         }
+        if (model.ExpertVisitorOpinion.ResponsType == ExpertVisitorResponsType.Reject ) 
+        {
+            TempData[ErrorMessage] = "امکان مشاهده ی درخواست های رد شده وجود ندارد .";
+            return RedirectToAction("Landing", "Home");
+        }
 
         return View(model);
     }
@@ -193,6 +198,13 @@ public class OrganizationRequestController : SiteBaseController
         bool outSource,
         string description)
     {
+        if (string.IsNullOrEmpty(description))
+        {
+            TempData[ErrorMessage] = "توضیحات اجباری است";
+            return RedirectToAction(nameof(ShowRepairRequestDetail),
+                new { repairRequestId = repairRequestId });
+        }
+
         if (!ModelState.IsValid)
         {
             TempData[ErrorMessage] = "شما مجوز دیدن این بخش را ندارید.";

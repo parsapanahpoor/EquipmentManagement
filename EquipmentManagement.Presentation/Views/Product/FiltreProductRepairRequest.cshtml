@@ -1,0 +1,160 @@
+﻿@using EquipmentManagement.Application.Convertors;
+@using EquipmentManagement.Domain.Entities.OrganizationRequest
+@model EquipmentManagement.Domain.DTO.SiteSide.Product.FiltreProductRepairRequestDto
+
+@{
+    ViewData["Title"] = "لیست درخواست های تعمیر";
+}
+
+@section Scripts
+{
+}
+
+@section breadcrumbs
+{
+    <li class="active">@ViewData["Title"]</li>
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <form asp-area=""
+              asp-controller="Product"
+              asp-action="FiltreProductRepairRequest"
+              method="get"
+              id="filter-search">
+
+            <input type="hidden" asp-for="Page" />
+            <input type="hidden" asp-for="ProductId" />
+
+        </form>
+
+        <div class="col-12 col-xl-12 col-lg-12">
+
+            <a class="btn btn-sky w-100 margin-bottom-10"
+               asp-action="CreateRepairRequest"
+               asp-controller="Product"
+               asp-route-productId="@Model.ProductId"
+               asp-area="">افزودن درخواست جدید </a>
+
+        </div>
+
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="well with-header with-footer table-responsive">
+                <div class="header bordered-azure">
+                    <div class="flex-style">
+                        <span>درخواست های تعمیر </span>
+                        <span>تعداد کل : @Model.AllEntitiesCount</span>
+                    </div>
+                </div>
+
+                @if (Model != null)
+                {
+                    <table class="table table-hover table-bordered tc tableShowListInAdmin">
+
+                        <thead class="tc">
+                            <tr class="tc">
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    نام درخواست دهنده
+                                </th>
+                                <th>
+                                    نظر بررسی کارشناس
+                                </th>
+                                <th>
+                                    نظر بررسی مدیران
+                                </th>
+                                <th>
+                                    تاریخ درج درخواست
+                                </th>
+                                <th>
+                                    امکانات
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var product in Model.Entities)
+                            {
+                                <tr id="profile_@product.Id" remove-ajax-item="@product.Id">
+
+                                    <td>
+                                        @product.Id
+                                    </td>
+                                    <td>
+                                        @product.User.Username
+                                    </td>
+                                    <td>
+                                        @if (product.ExpertVisitorRepairRequestState == RepairRequestState.Accepted)
+                                        {
+                                            <p class="label label-success">
+                                                تایید شده
+                                            </p>
+                                        }
+                                        @if (product.ExpertVisitorRepairRequestState == RepairRequestState.WaitingForRespons)
+                                        {
+                                            <p class="label label-warning">
+                                                در انتظار بررسی
+                                            </p>
+                                        }
+                                        @if (product.ExpertVisitorRepairRequestState == RepairRequestState.Reject)
+                                        {
+                                            <p class="label label-danger">
+                                                رد شده
+                                            </p>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (product.DesicionMakersRepairRequestState == RepairRequestState.Accepted)
+                                        {
+                                            <p class="label label-success">
+                                                تایید شده
+                                            </p>
+                                        }
+                                        @if (product.DesicionMakersRepairRequestState == RepairRequestState.WaitingForRespons)
+                                        {
+                                            <p class="label label-warning">
+                                                در انتظار بررسی
+                                            </p>
+                                        }
+                                        @if (product.DesicionMakersRepairRequestState == RepairRequestState.Reject)
+                                        {
+                                            <p class="label label-danger">
+                                                رد شده
+                                            </p>
+                                        }
+                                    </td>
+                                    <td>
+                                        @product.CreateDate.ToShamsi()
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-center ">
+
+                                            <a asp-action="ShowRepairRequestDetail"
+                                               asp-area=""
+                                               asp-controller="OrganizationRequest"
+                                               asp-route-repairRequestId="@product.Id"
+                                                class="btn btn-info btn-circle btn-xs">
+                                                <i class="glyphicon glyphicon-eye-open"></i>
+                                            </a>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <partial name="_Paging" model="@Model.GetCurrentPaging()" />
+                }
+                else
+                {
+                    <partial name="_NotFoundPartial" />
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

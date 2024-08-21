@@ -66,6 +66,23 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
          p.OrganziationRequestId == requestId)
          .ToListAsync();
 
+    public async Task<List<DecisionRepairRequestDto>> Get_DecisionRepairRequestDto_ByRequestId(ulong requestId,
+       CancellationToken cancellationToken)
+       => await _context.DecisionRepairRequestRespons
+           .Where(p => !p.IsDelete &&
+           p.RepariRequestId == requestId)
+        .Select(p => new DecisionRepairRequestDto()
+        {
+            RejectDescription = p.RejectDescription,
+            Response = p.Response,
+            User = _context.Users
+            .AsNoTracking()
+            .Where(c => !c.IsDelete &&
+            c.Id == p.EmployeeUserId)
+            .FirstOrDefault(),
+        })
+           .ToListAsync();
+
     public async Task<List<ulong>?> Get_OrganizationChartsIds_ByRequestId(ulong requestId,
        CancellationToken cancellation)
     => await _context.RequestDecisionMakers
@@ -103,7 +120,7 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
             ProductName = _context.RepairRequests
             .Include(rq => rq.Product)
             .Where(rq => !rq.IsDelete &&
-            rq.Id == p.RepairRequestId)
+                  rq.Id == p.RepairRequestId)
             .Select(rq => rq.Product!.ProductTitle)
             .FirstOrDefault(),
 
@@ -112,17 +129,75 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
             RequesterUsername = _context.RepairRequests
            .Include(rq => rq.User)
             .Where(rq => !rq.IsDelete &&
-            rq.Id == p.RepairRequestId)
+                   rq.Id == p.RepairRequestId)
             .Select(rq => rq.User.Username)
             .FirstOrDefault(),
 
             Description = _context.RepairRequests
             .Where(rq => !rq.IsDelete &&
-            rq.Id == p.RepairRequestId)
+                   rq.Id == p.RepairRequestId)
             .Select(rq => rq.Description)
+            .FirstOrDefault(),
+
+            DesicionMakersRepairRequestState = _context.RepairRequests
+            .Where(rq => !rq.IsDelete &&
+                   rq.Id == p.RepairRequestId)
+            .Select(rq => rq.DesicionMakersRepairRequestState)
+            .FirstOrDefault(),
+
+            ExpertVisitorRepairRequestState = _context.RepairRequests
+            .Where(rq => !rq.IsDelete &&
+                   rq.Id == p.RepairRequestId)
+            .Select(rq => rq.ExpertVisitorRepairRequestState)
             .FirstOrDefault(),
         })
         .ToListAsync();
+
+    public async Task<List<RepairRequestDto>> GetLastestNewRequestAsDecisinorsForCurrentUser(ulong userId,
+      CancellationToken cancellationToken)
+      => await _context.DecisionRepairRequestRespons
+          .AsNoTracking()
+          .Where(p => !p.IsDelete &&
+          p.Response == DecisionRepairRespons.WaitingForRespons)
+          .Select(p => new RepairRequestDto()
+          {
+              CreateDate = p.CreateDate,
+              ProductName = _context.RepairRequests
+              .Include(rq => rq.Product)
+              .Where(rq => !rq.IsDelete &&
+              rq.Id == p.RepariRequestId)
+              .Select(rq => rq.Product!.ProductTitle)
+              .FirstOrDefault(),
+
+              RepairRequestId = p.RepariRequestId,
+              VisitorRole = VisitorRole.DesicionMaker,
+
+              RequesterUsername = _context.RepairRequests
+             .Include(rq => rq.User)
+              .Where(rq => !rq.IsDelete &&
+              rq.Id == p.RepariRequestId)
+              .Select(rq => rq.User.Username)
+              .FirstOrDefault(),
+
+              Description = _context.RepairRequests
+              .Where(rq => !rq.IsDelete &&
+              rq.Id == p.RepariRequestId)
+              .Select(rq => rq.Description)
+              .FirstOrDefault(),
+
+              DesicionMakersRepairRequestState = _context.RepairRequests
+            .Where(rq => !rq.IsDelete &&
+                   rq.Id == p.RepariRequestId)
+            .Select(rq => rq.DesicionMakersRepairRequestState)
+            .FirstOrDefault(),
+
+              ExpertVisitorRepairRequestState = _context.RepairRequests
+            .Where(rq => !rq.IsDelete &&
+                   rq.Id == p.RepariRequestId)
+            .Select(rq => rq.ExpertVisitorRepairRequestState)
+            .FirstOrDefault(),
+          })
+          .ToListAsync();
 
     public async Task<RepairRequest?> GetRepairRequestById(ulong repairReuqestId,
         CancellationToken cancellationToken)
@@ -136,26 +211,27 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
         CancellationToken cancellationToken)
         => await _context.ExpertVisitorOpinions
         .AsNoTracking()
-        .Where(p=> !p.IsDelete && 
+        .Where(p => !p.IsDelete &&
         p.RepairRequestId == repairRequestId)
         .FirstOrDefaultAsync();
 
-    public async Task<DecisionRepairRequestRespons?> Get_DecisionRepairRequestRespons_ByRequestIdAndUserId(
+    public async Task<List<DecisionRepairRequestRespons>?> Get_DecisionRepairRequestRespons_ByRequestIdAndUserId(
         ulong requestId,
         ulong userId,
         CancellationToken cancellationToken)
         => await _context.DecisionRepairRequestRespons
         .AsNoTracking()
         .Where(p => !p.IsDelete &&
-        p.RepariRequestId == requestId && 
+        p.RepariRequestId == requestId &&
         p.EmployeeUserId == userId)
-        .FirstOrDefaultAsync();
+        .ToListAsync();
 
-    public async Task<bool> IsRequestNotBeFinished(ulong repairRequestId , 
+    public async Task<bool> IsRequestNotBeFinished(ulong repairRequestId,
         CancellationToken cancellationToken)
-        => await _context.DecisionRepairRequestRespons.AnyAsync(p=> !p.IsDelete && 
-        p.RepariRequestId == repairRequestId && 
-        p.Response == DecisionRepairRespons.Reject);
-    
+        => await _context.DecisionRepairRequestRespons.AnyAsync(p => !p.IsDelete &&
+        p.RepariRequestId == repairRequestId && (
+        p.Response == DecisionRepairRespons.Reject ||
+        p.Response == DecisionRepairRespons.WaitingForRespons));
+
 }
 

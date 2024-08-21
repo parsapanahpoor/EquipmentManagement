@@ -1,5 +1,6 @@
 ﻿@using EquipmentManagement.Application.Convertors
 @using EquipmentManagement.Application.Utilities.Extentions
+@using EquipmentManagement.Domain.Entities.OrganizationRequest
 @model EquipmentManagement.Domain.DTO.SiteSide.Dashboard.DashboardDto;
 
 @{
@@ -82,7 +83,8 @@
                     <div class="task-container">
                         <ul class="tasks-list">
 
-                            @foreach (var request in Model.RepairRequest)
+                            @foreach (var request in Model.RepairRequest.Where(p=> p.ExpertVisitorRepairRequestState != RepairRequestState.Reject && 
+                            p.DesicionMakersRepairRequestState != RepairRequestState.Reject))
                             {
                                 <li class="task-item">
                                     <div class="task-state">

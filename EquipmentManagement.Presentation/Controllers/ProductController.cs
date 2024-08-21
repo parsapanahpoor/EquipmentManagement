@@ -4,6 +4,7 @@ using EquipmentManagement.Application.CQRS.SiteSide.Product.Command.EditProduct;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.CreateRepairRequestFormInfo;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.EditProduct;
+using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.FiltreProductRepairRequest;
 using EquipmentManagement.Application.Extensions;
 using EquipmentManagement.Application.Security;
 using EquipmentManagement.Domain.DTO.SiteSide.Product;
@@ -181,7 +182,7 @@ public class ProductController : SiteBaseController
     public async Task<IActionResult> CreateRepairRequest(ulong productId,
         CancellationToken cancellationToken)
     => View(await Mediator.Send(new CreateRepairRequestFormInfoQuery(
-        productId, 
+        productId,
         User.GetUserId()),
         cancellationToken));
 
@@ -225,6 +226,17 @@ public class ProductController : SiteBaseController
             User.GetUserId()),
             cancellationToken));
     }
+
+    #endregion
+
+    #region Filtre Product Repair Request 
+
+    [HttpGet]
+    public async Task<IActionResult> FiltreProductRepairRequest(FiltreProductRepairRequestDto filter,
+        CancellationToken cancellationToken)
+        => View(await Mediator.Send(
+            new FiltreProductRepairRequestQuery(filter),
+            cancellationToken));
 
     #endregion
 }

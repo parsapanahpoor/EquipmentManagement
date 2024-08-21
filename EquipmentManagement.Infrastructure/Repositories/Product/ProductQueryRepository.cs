@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace EquipmentManagement.Infrastructure.Repositories.Product;
 
-public class ProductQueryRepository : QueryGenericRepository<Domain.Entities.Product.Product>, IProductQueryRepository
+public class ProductQueryRepository : 
+    QueryGenericRepository<Domain.Entities.Product.Product>,
+    IProductQueryRepository
 {
     #region Ctor
 
@@ -20,6 +22,27 @@ public class ProductQueryRepository : QueryGenericRepository<Domain.Entities.Pro
     #endregion
 
     #region Site Side
+
+    public async Task<FiltreProductRepairRequestDto> FiltreProductRepairRequest(
+        FiltreProductRepairRequestDto filter , 
+        CancellationToken cancellationToken)
+    {
+        var query = _context.RepairRequests
+                            .Include(p => p.User)
+                                        .AsNoTracking()
+                                        .Where(p => !p.IsDelete && 
+                                        p.ProductId == filter.ProductId)
+                                        .OrderByDescending(p => p.CreateDate)
+                                        .AsQueryable();
+
+        #region paging
+
+        await filter.Paging(query);
+
+        #endregion
+
+        return filter;
+    }
 
     public async Task<FilterProductDTO> FilterProducts(FilterProductDTO filter)
     {

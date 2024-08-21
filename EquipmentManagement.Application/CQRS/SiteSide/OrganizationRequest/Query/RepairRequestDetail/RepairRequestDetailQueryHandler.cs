@@ -6,12 +6,12 @@ using EquipmentManagement.Domain.IRepositories.User;
 namespace EquipmentManagement.Application.CQRS.SiteSide.OrganizationRequest.Query.RepairRequestDetail;
 
 public record RepairRequestDetailQueryHandler(
-    IOrganziationRequestQueryRepository OrganziationRequestQueryRepository , 
-    IUserQueryRepository UserQueryRepository ,
+    IOrganziationRequestQueryRepository OrganziationRequestQueryRepository,
+    IUserQueryRepository UserQueryRepository,
     IProductQueryRepository ProductQueryRepository) :
     IRequestHandler<RepairRequestDetailQuery, RepairRequestDetailDto?>
 {
-    public async Task<RepairRequestDetailDto?> Handle(RepairRequestDetailQuery request, 
+    public async Task<RepairRequestDetailDto?> Handle(RepairRequestDetailQuery request,
         CancellationToken cancellationToken)
     {
         //Get Reuqest By Id 
@@ -26,18 +26,29 @@ public record RepairRequestDetailQueryHandler(
 
         if (expertOpinion == null)
             return null;
-        if (expertOpinion.ExpertUserId != request.UserId)
+
+        var repairRequestDecisions = await OrganziationRequestQueryRepository.Get_DecisionRepairRequestDto_ByRequestId(
+            repairRequest.Id,
+            cancellationToken);
+
+        if (repairRequestDecisions == null &&
+            expertOpinion.ExpertUserId != request.UserId)
             return null;
 
-    
+        if (repairRequestDecisions != null  && 
+            repairRequestDecisions.Any() &&
+             (!repairRequestDecisions.Any(x => x.User!.Id == request.UserId) &&
+            expertOpinion.ExpertUserId != request.UserId))
+            return null;
 
         return new RepairRequestDetailDto()
         {
             Employee = await UserQueryRepository.GetByIdAsync(cancellationToken, repairRequest.EmployeeUserId),
             Product = await ProductQueryRepository.GetByIdAsync(cancellationToken, repairRequest.ProductId),
             ExpertVisitorOpinion = expertOpinion,
-            ExpertVisitor = await UserQueryRepository.GetByIdAsync(cancellationToken , expertOpinion.ExpertUserId),
-            RepairRequest = repairRequest
+            ExpertVisitor = await UserQueryRepository.GetByIdAsync(cancellationToken, expertOpinion.ExpertUserId),
+            RepairRequest = repairRequest,
+            DecisionsRespons = repairRequestDecisions
         };
     }
 }

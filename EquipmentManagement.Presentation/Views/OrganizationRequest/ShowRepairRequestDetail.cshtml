@@ -1,4 +1,5 @@
-﻿@using EquipmentManagement.Domain.Entities.OrganizationRequest
+﻿@using EquipmentManagement.Application.Extensions
+@using EquipmentManagement.Domain.Entities.OrganizationRequest
 @model EquipmentManagement.Domain.DTO.SiteSide.OrganizationRequest.RepairRequestDetailDto
 
 @{
@@ -35,7 +36,7 @@
                 <div class="widget-body">
                     <div>
 
-                        <div class="row">
+                        <div class="row" style="background-color: #b8f2f2; margin-left: 0px;margin-right: 0px; padding-top: 10px;">
 
                             <div class="form-group col-md-4 col-sm-12">
                                 <label> نام کالا </label>
@@ -56,7 +57,7 @@
 
                         <hr class="margin-bottom-10 margin-top-10" />
 
-                        <div class="row">
+                        <div class="row " style=" background-color: #b8f2f2; margin-left: 0px;margin-right: 0px; padding-top: 10px;">
 
                             <div class="form-group col-md-4 col-sm-12">
                                 <label> نام درخواست دهنده </label>
@@ -86,7 +87,7 @@
                         {
                             <hr class="margin-bottom-10 margin-top-10" />
 
-                            <div class="row">
+                            <div class="row " style=" background-color: #f2d9b8; margin-left: 0px;margin-right: 0px; padding-top: 10px;">
 
                                 @if (Model.ExpertVisitor != null)
                                 {
@@ -122,19 +123,19 @@
                                                readonly
                                                value="درخواست رد شده است.">
                                     }
-                                    
+
                                 </div>
 
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label> آیا نیاز به برون سپاری دارد ؟  </label>
-                                    <input type="text" 
-                                        class="form-control" 
-                                        readonly 
-                                        value="@(Model.RepairRequest.IsNeedToOutSource ? "بله " : "خیر")"> 
+                                    <input type="text"
+                                           class="form-control"
+                                           readonly
+                                           value="@(Model.RepairRequest.IsNeedToOutSource ? "بله " : "خیر")">
                                 </div>
 
                                 <div class="form-group col-md-12 col-sm-12">
-                                    <label> علت درخواست  و عیب کالا  </label>
+                                    <label> نظر کارشناس  </label>
                                     <textarea type="text" class="form-control" readonly>@Model.ExpertVisitorOpinion.Description</textarea>
                                 </div>
 
@@ -144,21 +145,23 @@
                         @if (Model.ExpertVisitorOpinion != null &&
                         Model.ExpertVisitorOpinion.ResponsType == ExpertVisitorResponsType.WaitingForRespons)
                         {
-                            <hr class="margin-bottom-10 margin-top-10" />
+                            <hr class="margin-bottom-10 margin-top-10 " />
 
-                            <div class="row">
+                            <div class="row " style=" background-color: #f2d9b8; margin-left: 0px;margin-right: 0px; padding-top: 10px;">
 
                                 <div class="form-group col-md-6 col-sm-12">
-                                    <label> نظر کارشناس 
+                                    <label>
+                                        نظر کارشناس
                                         <span style="color:red;">*</span>
                                     </label>
-                                    <select name="requestState" 
-                                        class="form-control" 
+                                    <select name="requestState"
+                                            class="form-control"
                                             asp-items="Html.GetEnumSelectList(typeof(RepairRequestState))"></select>
                                 </div>
 
                                 <div class="form-group col-md-6 col-sm-12">
-                                    <label> آیا نیاز به برون سپاری دارد ؟
+                                    <label>
+                                        آیا نیاز به برون سپاری دارد ؟
                                         <span style="color:red;">*</span>
                                     </label>
                                     <select name="outSource" class="form-control">
@@ -168,17 +171,112 @@
                                 </div>
 
                                 <div class="form-group col-md-12 col-sm-12">
-                                    <label> نظریه ی کارشناس بازدید کننده :
+                                    <label>
+                                        نظریه ی کارشناس بازدید کننده :
                                         <span style="color:red;">*</span>
                                     </label>
-                                    <textarea type="text" class="form-control" name="description" placeholder="علت درخواست  و عیب کالا را ذکر  کنید."></textarea>
+                                    <textarea type="text" class="form-control" name="description" placeholder="نظریه ی کارشناس."></textarea>
                                 </div>
 
                             </div>
                         }
 
-                        @if (Model.ExpertVisitorOpinion != null &&
-                        Model.ExpertVisitorOpinion.ResponsType == ExpertVisitorResponsType.WaitingForRespons)
+                        @if (Model.DecisionsRespons != null && Model.DecisionsRespons.Any())
+                        {
+                            foreach (var decisionRespons in Model.DecisionsRespons)
+                            {
+                                <hr class="margin-bottom-10 margin-top-10" />
+
+                                <div class="row " style=" background-color: #f7ccec; margin-left: 0px;margin-right: 0px; padding-top: 10px;">
+
+                                    @if (Model.ExpertVisitor != null)
+                                    {
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label> نام  </label>
+                                            <input type="text" class="form-control" readonly value="@decisionRespons.User.Username">
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label> موبایل  </label>
+                                            <input type="text" class="form-control" readonly value="@decisionRespons.User.Mobile">
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label> کدملی   </label>
+                                            <input type="text" class="form-control" readonly value="@decisionRespons.User.NationalId">
+                                        </div>
+                                    }
+
+                                    <div class="form-group col-md-12 col-sm-12">
+                                        <label> نظر کارشناس  </label>
+                                        @if (decisionRespons.Response == DecisionRepairRespons.Accepted)
+                                        {
+                                            <input type="text"
+                                                   class="form-control"
+                                                   readonly
+                                                   value="درخواست تایید شده است.">
+                                        }
+                                        @if (decisionRespons.Response == DecisionRepairRespons.Reject)
+                                        {
+                                            <input type="text"
+                                                   class="form-control"
+                                                   readonly
+                                                   value="درخواست رد شده است.">
+                                        }
+                                        @if (decisionRespons.Response == DecisionRepairRespons.WaitingForRespons)
+                                        {
+                                            <input type="text"
+                                                   class="form-control"
+                                                   readonly
+                                                   value="هنوز بررسی نشده است.">
+                                        }
+
+                                    </div>
+
+                                    <div class="form-group col-md-12 col-sm-12">
+                                        <label> نظر  </label>
+                                        <textarea type="text" class="form-control" readonly>@decisionRespons.RejectDescription</textarea>
+                                    </div>
+
+                                </div>
+                            }
+                        }
+
+                        @if (Model.DecisionsRespons != null && Model.DecisionsRespons.Any())
+                        {
+                            if (Model.DecisionsRespons.Any(p => p.User.Id == User.GetUserId() &&
+                            p.Response == DecisionRepairRespons.WaitingForRespons))
+                            {
+                                <hr class="margin-bottom-10 margin-top-10" />
+
+                                <div class="row " style=" background-color: #f7ccec; margin-left: 0px;margin-right: 0px; padding-top: 10px;">
+
+                                    <div class="form-group col-md-12 col-sm-12">
+                                        <label>
+                                            لطفا وضعیت را مشخص کنید :  
+                                            <span style="color:red;">*</span>
+                                        </label>
+                                        <select name="requestState"
+                                                class="form-control"
+                                                asp-items="Html.GetEnumSelectList(typeof(RepairRequestState))"></select>
+                                    </div>
+
+                                    <div class="form-group col-md-12 col-sm-12">
+                                        <label>
+                                            نظریه شما :
+                                            <span style="color:red;">*</span>
+                                        </label>
+                                        <textarea type="text" class="form-control" name="description" placeholder="لطفا نظر خود را وارد نمایید"></textarea>
+                                    </div>
+
+                                </div>
+                            }
+                        }
+
+                        @if (Model.ExpertVisitorOpinion != null && (
+                        (Model.ExpertVisitorOpinion.ExpertUserId == User.GetUserId() && 
+                        Model.ExpertVisitorOpinion.ResponsType == ExpertVisitorResponsType.WaitingForRespons) ||
+                        Model.DecisionsRespons.Any(p=> p.User.Id == User.GetUserId() && p.Response == DecisionRepairRespons.WaitingForRespons)))
                         {
                             <div class="row mt-5">
                                 <div class="col-md-12 flex-style">

@@ -7,12 +7,19 @@ public record DashboardInfoQueryHandler(
     IOrganziationRequestQueryRepository organziationRequestQueryRepository) :
     IRequestHandler<DashboardInfoQuery, DashboardDto>
 {
-    public async Task<DashboardDto> Handle(DashboardInfoQuery request, 
+    public async Task<DashboardDto> Handle(
+        DashboardInfoQuery request,
         CancellationToken cancellationToken)
-    => new DashboardDto()
     {
-        RepairRequest = await organziationRequestQueryRepository.FillRepairRequestDto(request.UserId, cancellationToken)
-    };
+        var repairRequests = new List<RepairRequestDto>();
+        repairRequests.AddRange(await organziationRequestQueryRepository.FillRepairRequestDto(request.UserId, cancellationToken));
+        repairRequests.AddRange(await organziationRequestQueryRepository.GetLastestNewRequestAsDecisinorsForCurrentUser(request.UserId, cancellationToken));
 
+
+        return new DashboardDto()
+        {
+            RepairRequest = repairRequests.DistinctBy(p=> p.RepairRequestId).ToList(),
+        };
+    }
 }
 

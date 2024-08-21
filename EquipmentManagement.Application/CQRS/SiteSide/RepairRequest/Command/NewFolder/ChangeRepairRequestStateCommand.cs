@@ -55,6 +55,19 @@ public record ChangeRepairRequestStateCommandHandler(
 
             OrganziationRequestCommandRepository.Update_ExpertVisitorResponse(expertOpinion);
 
+            if (expertOpinion.ResponsType == ExpertVisitorResponsType.Accepted)
+            {
+                repairRequest.ExpertVisitorRepairRequestState = RepairRequestState.Accepted;
+                repairRequest.IsNeedToOutSource = request.outSource;
+                OrganziationRequestCommandRepository.Update_RepairRequest(repairRequest);
+            }
+            if (expertOpinion.ResponsType == ExpertVisitorResponsType.Reject)
+            {
+                repairRequest.ExpertVisitorRepairRequestState = RepairRequestState.Reject;
+                repairRequest.IsNeedToOutSource = request.outSource;
+                OrganziationRequestCommandRepository.Update_RepairRequest(repairRequest);
+            }
+
             //Add Record for Repair Request Decisioners
             var userSelectedOrganizationChart = await OrganziationChartQueryRepository.Get_RepairRequestDesiciners(cancellationToken);
             if (userSelectedOrganizationChart != null && userSelectedOrganizationChart.Any())
@@ -82,23 +95,31 @@ public record ChangeRepairRequestStateCommandHandler(
 
         if (expertOpinion.ResponsType == ExpertVisitorResponsType.Accepted)
         {
-            var decisionsRespons = await OrganziationRequestQueryRepository
+            var decisionsResponses = await OrganziationRequestQueryRepository
                 .Get_DecisionRepairRequestRespons_ByRequestIdAndUserId(request.repairRequestId,
                 request.userId,
                 cancellationToken);
 
-            if (decisionsRespons is null)
+            if (decisionsResponses is null || !decisionsResponses.Any())
                 return false;
 
-            decisionsRespons.UpdateDate = DateTime.Now;
-            decisionsRespons.RejectDescription = request.description;
-            decisionsRespons.Response = request.requestState == RepairRequestState.Accepted ?
-                DecisionRepairRespons.Accepted :
-                DecisionRepairRespons.Reject;
+            //Update Decision Reponse
+            if (decisionsResponses.Any(p => p.EmployeeUserId == request.userId && p.Response == DecisionRepairRespons.WaitingForRespons))
+            {
+                foreach (var decisionsRespons in decisionsResponses.Where(p => p.EmployeeUserId == request.userId && p.Response == DecisionRepairRespons.WaitingForRespons))
+                {
+                    decisionsRespons.UpdateDate = DateTime.Now;
+                    decisionsRespons.RejectDescription = request.description;
+                    decisionsRespons.Response = request.requestState == 
+                        RepairRequestState.Accepted ?
+                        DecisionRepairRespons.Accepted :
+                        DecisionRepairRespons.Reject;
 
-            OrganziationRequestCommandRepository.Update_DecisionRepairRequestRespons(decisionsRespons);
+                    OrganziationRequestCommandRepository.Update_DecisionRepairRequestRespons(decisionsRespons);
+                }
+            }
 
-            if (decisionsRespons.Response == DecisionRepairRespons.Accepted)
+            if (request.requestState == RepairRequestState.Accepted)
             {
                 if (!await OrganziationRequestQueryRepository.IsRequestNotBeFinished(request.repairRequestId,
                     cancellationToken))
@@ -107,12 +128,12 @@ public record ChangeRepairRequestStateCommandHandler(
                     OrganziationRequestCommandRepository.Update_RepairRequest(repairRequest);
                 }
             }
-            if (decisionsRespons.Response == DecisionRepairRespons.Reject)
+            if (request.requestState == RepairRequestState.Reject)
             {
                 repairRequest.DesicionMakersRepairRequestState = RepairRequestState.Reject;
                 OrganziationRequestCommandRepository.Update_RepairRequest(repairRequest);
             }
-            
+
             await UnitOfWork.SaveChangesAsync(cancellationToken);
         }
 

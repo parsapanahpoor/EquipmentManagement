@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EquipmentManagement.Domain.Entities.OrganizationRequest;
+using System.ComponentModel.DataAnnotations;
 
 namespace EquipmentManagement.Domain.DTO.SiteSide.Dashboard;
 
@@ -15,6 +16,8 @@ public record RepairRequestDto
     public string? ProductName { get; set; }
     public VisitorRole VisitorRole { get; set; }
     public string? Description { get; set; }
+    public RepairRequestState DesicionMakersRepairRequestState { get; set; }
+    public RepairRequestState ExpertVisitorRepairRequestState { get; set; }
 }
 
 public enum VisitorRole

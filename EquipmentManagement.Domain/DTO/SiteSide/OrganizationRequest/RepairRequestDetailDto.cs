@@ -9,4 +9,5 @@ public record RepairRequestDetailDto
     public Entities.Users.User? ExpertVisitor { get; set; }
     public Entities.Product.Product? Product { get; set; }
     public ExpertVisitorOpinionEntity? ExpertVisitorOpinion { get; set; }
+    public List<DecisionRepairRequestDto>? DecisionsRespons { get; set; }
 }

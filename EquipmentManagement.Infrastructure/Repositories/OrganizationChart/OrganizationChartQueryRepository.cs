@@ -27,8 +27,8 @@ public class OrganizationChartQueryRepository :
     {
         var query = _context.OrganizationCharts
                                             .AsNoTracking()
-                                            .Include(p=> p.UserSelectedOrganizationChartEntities)
-                                            .Where(p => !p.IsDelete && 
+                                            .Include(p => p.UserSelectedOrganizationChartEntities)
+                                            .Where(p => !p.IsDelete &&
                                             !p.ParentId.HasValue)
                                             .OrderByDescending(p => p.CreateDate)
                                             .AsQueryable();
@@ -88,7 +88,7 @@ public class OrganizationChartQueryRepository :
     => await _context.OrganizationCharts
                              .AsNoTracking()
                              .Where(p => !p.IsDelete && !p.ParentId.HasValue)
-                             .OrderByDescending(p=> p.CreateDate)
+                             .OrderByDescending(p => p.CreateDate)
                              .Select(p => new OrganizationChartSelectedForUserDto()
                              {
                                  OrganizationChart = p,
@@ -115,7 +115,7 @@ public class OrganizationChartQueryRepository :
     => await _context.OrganizationCharts
                              .AsNoTracking()
                              .Where(p => !p.IsDelete)
-                             .OrderByDescending(p=> p.CreateDate)
+                             .OrderByDescending(p => p.CreateDate)
                              .Select(p => new OrganizationChartSelectedForUserDto()
                              {
                                  OrganizationChart = p,
@@ -142,7 +142,7 @@ public class OrganizationChartQueryRepository :
         CancellationToken cancellationToken)
         => await _context.UserSelectedOrganizationCharts
             .Where(p => !p.IsDelete &&
-            p.UserId == userId)
+               p.UserId == userId)
             .ToListAsync();
 
     public async Task<List<Domain.Entities.Users.User>> Get_Users_FromUserSelectedOrganizationChart(ulong organizationChartId,
@@ -151,7 +151,7 @@ public class OrganizationChartQueryRepository :
         .AsNoTracking()
         .Include(p => p.User)
         .Where(p => !p.IsDelete &&
-        p.OrganizationChartAggregateId == organizationChartId)
+              p.OrganizationChartAggregateId == organizationChartId)
         .OrderByDescending(p => p.CreateDate)
         .Select(p => p.User)
         .ToListAsync();
@@ -163,14 +163,14 @@ public class OrganizationChartQueryRepository :
         var repairRequesttId = await _context.OrganziationRequests
             .AsNoTracking()
             .Where(p => !p.IsDelete &&
-            p.RequestType == RequestType.Repair)
+               p.RequestType == RequestType.Repair)
             .Select(p => p.Id)
             .FirstOrDefaultAsync();
 
         var organizationCharts = await _context.RequestDecisionMakers
             .AsNoTracking()
             .Where(p => !p.IsDelete &&
-            p.OrganziationRequestId == repairRequesttId)
+               p.OrganziationRequestId == repairRequesttId)
             .Select(p => p.OrganizationChartId)
             .ToListAsync();
 
@@ -179,12 +179,18 @@ public class OrganizationChartQueryRepository :
             var userSelectedOrganizationChart = await _context.UserSelectedOrganizationCharts
                 .AsNoTracking()
                 .Where(p => !p.IsDelete &&
-                p.OrganizationChartAggregateId == organizationChartId)
-                .FirstOrDefaultAsync();
+                     p.OrganizationChartAggregateId == organizationChartId)
+                .ToListAsync();
 
             if (userSelectedOrganizationChart is not null &&
-                !userSelectedOrganizationCharts.Contains(userSelectedOrganizationChart))
-                userSelectedOrganizationCharts.Add(userSelectedOrganizationChart);
+                userSelectedOrganizationChart.Any())
+            {
+                foreach (var item in userSelectedOrganizationChart)
+                {
+                    if (!userSelectedOrganizationCharts.Contains(item))
+                     userSelectedOrganizationCharts.Add(item);
+                }
+            }
         }
 
         return userSelectedOrganizationCharts;

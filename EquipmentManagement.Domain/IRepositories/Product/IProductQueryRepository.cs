@@ -6,6 +6,10 @@ public interface IProductQueryRepository
 {
     #region Site Side
 
+    Task<FiltreProductRepairRequestDto> FiltreProductRepairRequest(
+        FiltreProductRepairRequestDto filter,
+        CancellationToken cancellationToken);
+
     Task<FilterProductDTO> FilterProducts(FilterProductDTO filter);
 
     Task<bool> IsExistAny_Product_ByBarCode(string barCode,CancellationToken cancellationToken);

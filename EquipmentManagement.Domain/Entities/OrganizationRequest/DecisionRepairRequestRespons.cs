@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EquipmentManagement.Domain.Entities.Users;
+using System.ComponentModel.DataAnnotations;
 
 namespace EquipmentManagement.Domain.Entities.OrganizationRequest;
 
