@@ -97,6 +97,64 @@ public class ProductQueryRepository :
         return filter;
     }
 
+    public async Task<List<FilterProductForExcelFilesDTO>> FilterProductsForExcelFiles(FilterProductForExcelFilesDTO filter)
+    {
+        var query = _context.Products
+                            .Include(p => p.Place)
+                            .Include(p => p.ProductCategory)
+                                        .AsNoTracking()
+                                        .Where(p => !p.IsDelete)
+                                        .OrderByDescending(p => p.CreateDate)
+                                        .AsQueryable();
+
+        #region filter
+
+        if ((!string.IsNullOrEmpty(filter.ProductTitle)))
+        {
+            query = query.Where(u => u.ProductTitle.Contains(filter.ProductTitle));
+        }
+
+        if (filter.PlaceId.HasValue)
+        {
+            query = query.Where(p => p.Place.Id == filter.PlaceId.Value);
+        }
+
+        if (filter.CategoryId.HasValue)
+        {
+            query = query.Where(p => p.ProductCategory.Id == filter.CategoryId.Value);
+        }
+
+        if ((!string.IsNullOrEmpty(filter.PlaceTitle)))
+        {
+            query = query.Where(u => u.Place.PlaceTitle.Contains(filter.PlaceTitle));
+        }
+
+        if ((!string.IsNullOrEmpty(filter.CategoryTitle)))
+        {
+            query = query.Where(u => u.ProductCategory.CategoryTitle.Contains(filter.CategoryTitle));
+        }
+
+        if ((!string.IsNullOrEmpty(filter.BarCode)))
+        {
+            query = query.Where(u => u.BarCode.Contains(filter.BarCode));
+        }
+
+        #endregion
+
+        return await query.Select(p=> new FilterProductForExcelFilesDTO()
+        {
+            BarCode = p.BarCode,
+            CategoryId = p.ProductCategoryId,
+            ProductTitle = p.ProductTitle,
+            CategoryTitle = p.ProductCategory.CategoryTitle,
+            PlaceId = p.PlaceId,
+            PlaceTitle = p.Place.PlaceTitle,
+            Id = p.Id,
+            CreateDate = p.CreateDate
+        })
+        .ToListAsync();
+    }
+
     public async Task<bool> IsExist_Product_ByRfId(string rfId , CancellationToken cancellationToken)
     {
         return await _context.Products

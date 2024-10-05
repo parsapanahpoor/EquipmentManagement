@@ -6,11 +6,16 @@
     <meta charset="utf-8" />
     <title>@ViewData["Title"]</title>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+
     <partial name="_MetaTags" />
     <partial name="_HeaderReferences" />
 
     @await RenderSectionAsync("Styles", false)
-        
+
+    @await RenderSectionAsync("UpperScript", false)
+
 </head>
 <body>
     @await Component.InvokeAsync("Header")

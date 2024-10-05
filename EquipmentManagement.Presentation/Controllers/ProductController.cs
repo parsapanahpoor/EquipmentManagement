@@ -29,6 +29,19 @@ public class ProductController : SiteBaseController
 
     #endregion
 
+    #region List Of Products For Excel Files 
+
+    public async Task<IActionResult> FilterProductForExcelFiles(FilterProductForExcelFilesDTO filter,
+                                                                CancellationToken cancellation = default)
+    {
+        return View(await Mediator.Send(new FilterProductForExcelFilesQuery()
+        {
+            filter = filter
+        }));
+    }
+
+    #endregion
+
     #region Create Product
 
     [HttpGet]

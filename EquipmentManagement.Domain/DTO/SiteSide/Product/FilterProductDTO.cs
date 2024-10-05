@@ -20,3 +20,25 @@ public class FilterProductDTO : BasePaging<Domain.Entities.Product.Product>
 
     #endregion
 }
+
+public record FilterProductForExcelFilesDTO
+{
+    #region properties
+
+    public ulong Id { get; set; }
+    public string? ProductTitle { get; init; }
+
+    public string? PlaceTitle { get; init; }
+
+    public string? CategoryTitle { get; init; }
+
+    public ulong? PlaceId { get; init; }
+
+    public ulong? CategoryId { get; init; }
+
+    public string? BarCode { get; init; }
+
+    public DateTime CreateDate { get; set; }
+
+    #endregion
+}
