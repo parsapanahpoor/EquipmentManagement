@@ -18,5 +18,7 @@ public interface IPlacesQueryRepository
 
     Task<List<SelectListOfPlacesDTO>> FillSelectListOfPlacesDTO(CancellationToken cancellation);
 
+    Task<List<FilterPlacesForExcelFileDTO>> FilterPlacesForExcelFile(CancellationToken cancellationToken);
+
     #endregion
 }

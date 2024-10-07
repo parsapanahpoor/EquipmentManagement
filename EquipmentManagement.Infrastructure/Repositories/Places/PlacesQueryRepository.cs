@@ -2,6 +2,7 @@
 using EquipmentManagement.Domain.DTO.SiteSide.Places;
 using EquipmentManagement.Domain.IRepositories.Place;
 using Microsoft.EntityFrameworkCore;
+using NPOI.HSSF.Record;
 
 namespace EquipmentManagement.Infrastructure.Repositories.Places;
 
@@ -53,6 +54,49 @@ public class PlacesQueryRepository : QueryGenericRepository<Domain.Entities.Plac
         #endregion
 
         return filter;
+    }
+
+    public async Task<List<FilterPlacesForExcelFileDTO>> FilterPlacesForExcelFile( CancellationToken cancellationToken)
+    {
+        var returnModel = new List<FilterPlacesForExcelFileDTO>();
+
+        var parents = await _context.Places
+                            .AsNoTracking()
+                            .Where(p => !p.IsDelete && !p.ParentId.HasValue)
+                            .OrderByDescending(p => p.CreateDate)
+                            .Select(p => new FilterPlacesForExcelFileDTO()
+                            {
+                                PlaceTitle = p.PlaceTitle,
+                                Id = p.Id,
+                                ParentId = p.ParentId,
+                                ParentPlace = null,
+                            })
+                            .ToListAsync();
+
+        foreach (var p in parents)
+        {
+            var childs = await _context.Places
+                            .AsNoTracking()
+                            .Where(s => !s.IsDelete && s.ParentId.HasValue && s.ParentId.Value == p.Id)
+                            .OrderByDescending(p => p.CreateDate)
+                            .Select(s => new FilterPlacesForExcelFileDTO()
+                            {
+                                PlaceTitle = s.PlaceTitle,
+                                Id = s.Id,
+                                ParentId = s.ParentId,
+                                ParentPlace = p.PlaceTitle,
+                            })
+                            .ToListAsync();
+
+            returnModel.Add(p);
+
+            foreach (var item in childs)
+            {
+                returnModel.Add(item);
+            }
+        }
+
+        return returnModel;
     }
 
     public async Task<List<Domain.Entities.Places.Place>> GetSubPlacesByPlaceParentId(ulong parentId,

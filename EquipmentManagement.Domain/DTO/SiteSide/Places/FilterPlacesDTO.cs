@@ -12,3 +12,18 @@ public class FilterPlacesDTO : BasePaging<Domain.Entities.Places.Place>
 
     #endregion
 }
+
+public class FilterPlacesForExcelFileDTO
+{
+    #region properties
+
+    public ulong Id { get; set; }
+
+    public ulong? ParentId { get; set; }
+
+    public string? ParentPlace { get; set; }
+
+    public string? PlaceTitle { get; set; }
+
+    #endregion
+}

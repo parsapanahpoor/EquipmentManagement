@@ -1,28 +1,40 @@
 ﻿using EquipmentManagement.Application.CQRS.SiteSide.Places.Command;
 using EquipmentManagement.Application.CQRS.SiteSide.Places.Query;
-using EquipmentManagement.Application.CQRS.SiteSide.ProductCategories.Command;
 using EquipmentManagement.Application.Security;
 using EquipmentManagement.Domain.DTO.SiteSide.FilterPlaces;
 using EquipmentManagement.Domain.DTO.SiteSide.Places;
-using EquipmentManagement.Domain.Entities.ProductCategory;
 using EquipmentManagement.Presentation.HttpManager;
 using Microsoft.AspNetCore.Mvc;
 namespace EquipmentManagement.Presentation.Controllers;
 
 [PermissionChecker("ManagePlaces")]
-public class PlacesController : SiteBaseController 
+public class PlacesController : SiteBaseController
 {
     #region Filter Places 
 
     [PermissionChecker("FilterPlaces")]
-    public async Task<IActionResult> FilterPlaces(FilterPlacesDTO filter , 
+    public async Task<IActionResult> FilterPlaces(FilterPlacesDTO filter,
                                                   CancellationToken cancellation)
     {
         var model = await Mediator.Send(new FilterPlacesQuery()
         {
-            Filter = filter,    
-        } , 
+            Filter = filter,
+        },
         cancellation);
+
+        return View(model);
+    }
+
+    #endregion
+
+    #region Filter Places 
+
+    [PermissionChecker("FilterPlaces")]
+    public async Task<IActionResult> FilterPlacesForExcelFile(CancellationToken cancellation)
+    {
+        var model = await Mediator.Send(
+            new FilterPlacesForExcelFileQuery(),
+            cancellation);
 
         return View(model);
     }
@@ -43,7 +55,7 @@ public class PlacesController : SiteBaseController
 
     [PermissionChecker("CreatePlace")]
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreatePlace(CreatePlaceDTO createPlace , 
+    public async Task<IActionResult> CreatePlace(CreatePlaceDTO createPlace,
                                                  CancellationToken cancellationToken)
     {
         #region Create Place
@@ -52,9 +64,9 @@ public class PlacesController : SiteBaseController
         {
             var res = await Mediator.Send(new CreatePlaceCommand()
             {
-                ParentId = createPlace.ParentId,    
+                ParentId = createPlace.ParentId,
                 Title = createPlace.Title,
-            } , 
+            },
             cancellationToken);
 
             if (res)
@@ -76,10 +88,10 @@ public class PlacesController : SiteBaseController
 
     [PermissionChecker("EditPlace")]
     [HttpGet]
-    public async Task<IActionResult> EditPlace(EditPlaceQuery place , 
+    public async Task<IActionResult> EditPlace(EditPlaceQuery place,
                                                CancellationToken cancellationToken)
     {
-        var model = await Mediator.Send(place , cancellationToken);
+        var model = await Mediator.Send(place, cancellationToken);
         if (model == null) return NotFound();
 
         return View(model);
@@ -92,19 +104,19 @@ public class PlacesController : SiteBaseController
     {
         #region Edit Place 
 
-        if (ModelState.IsValid) 
+        if (ModelState.IsValid)
         {
             var res = await Mediator.Send(new EditPlaceCommand()
             {
-                PlaceId = place.PlaceId,    
+                PlaceId = place.PlaceId,
                 PlaceTitle = place.PlaceTitle
-            } , 
+            },
             cancellation);
 
             if (res)
             {
                 TempData[SuccessMessage] = "عملیات باموفقیت انجام شده است.";
-                return RedirectToAction(nameof(FilterPlaces), new { parentId = place.ParentId }) ;
+                return RedirectToAction(nameof(FilterPlaces), new { parentId = place.ParentId });
             }
         }
 
@@ -118,7 +130,7 @@ public class PlacesController : SiteBaseController
 
     #region Delete Place
 
-    public async Task<IActionResult> DeletePlace(DeletePlaceCommand command , 
+    public async Task<IActionResult> DeletePlace(DeletePlaceCommand command,
                                                  CancellationToken cancellationToken)
     {
         var res = await Mediator.Send(command, cancellationToken);

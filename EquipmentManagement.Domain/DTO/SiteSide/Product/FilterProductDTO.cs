@@ -34,7 +34,9 @@ public record FilterProductForExcelFilesDTO
 
     public string? CategoryTitle { get; init; }
 
-    public string RepostiroyCode { get; set; }
+    public string? RepostiroyCode { get; set; }
+
+    public string? Description { get; set; }
 
     public ulong? PlaceId { get; init; }
 

@@ -89,9 +89,9 @@
                                 @if (Model != null && Model.Any())
                                 {
                                     <div class="form-group col-md-12">
-                                        <button class="btn btn-labeled w-100 btn-primary mt-2" onclick="exportTableToExcel('users-table', 'Product_List')">
+                                        <p class="btn btn-labeled w-100 btn-primary mt-2" onclick="exportTableToExcel('users-table', 'Product_List')">
                                             خروجی اکسل
-                                        </button>
+                                        </p>
                                     </div>
                                 }
 
@@ -134,6 +134,12 @@
                                     بارکد
                                 </th>
                                 <th>
+                                    کد انبار 
+                                </th>
+                                <th>
+                                    توضیحات
+                                </th>
+                                <th>
                                     تاریخ ثبت
                                 </th>
 
@@ -159,6 +165,12 @@
                                     </td>
                                     <td>
                                         @product.BarCode
+                                    </td>
+                                    <td>
+                                        @product.RepostiroyCode
+                                    </td>
+                                    <td>
+                                        @(string.IsNullOrEmpty(product.Description) ? "-" : product.Description)
                                     </td>
                                     <td>
                                         @product.CreateDate.ToShamsi()

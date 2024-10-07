@@ -160,7 +160,9 @@ public class ProductQueryRepository :
             PlaceId = p.PlaceId,
             PlaceTitle = p.Place.PlaceTitle,
             Id = p.Id,
-            CreateDate = p.CreateDate
+            CreateDate = p.CreateDate,
+            Description = p.Description,
+            RepostiroyCode = p.RepostiroyCode
         })
         .ToListAsync();
     }
