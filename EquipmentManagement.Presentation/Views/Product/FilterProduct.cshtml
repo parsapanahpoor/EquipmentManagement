@@ -130,6 +130,9 @@
                                     تاریخ ثبت
                                 </th>
                                 <th>
+                                    توضیحات
+                                </th>
+                                <th>
                                     امکانات
                                 </th>
 
@@ -161,6 +164,9 @@
                                     </td>
                                     <td>
                                         @product.CreateDate.ToShamsi()
+                                    </td>
+                                    <td>
+                                        @(string.IsNullOrEmpty(product.Description) ? "-" : product.Description)
                                     </td>
                                     <td>
                                         <div class="d-flex justify-content-center ">

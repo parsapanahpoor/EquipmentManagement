@@ -20,11 +20,11 @@ public class PlacesQueryRepository : QueryGenericRepository<Domain.Entities.Plac
 
     #region Side Side
 
-    public async Task<FilterPlacesDTO> FilterPlaces(FilterPlacesDTO filter , CancellationToken cancellationToken)
+    public async Task<FilterPlacesDTO> FilterPlaces(FilterPlacesDTO filter, CancellationToken cancellationToken)
     {
         var query = _context.Places
                             .AsNoTracking()
-                            .Where(p => !p.IsDelete )
+                            .Where(p => !p.IsDelete)
                             .OrderByDescending(p => p.CreateDate)
                             .AsQueryable();
 
@@ -55,7 +55,7 @@ public class PlacesQueryRepository : QueryGenericRepository<Domain.Entities.Plac
         return filter;
     }
 
-    public async Task<List<Domain.Entities.Places.Place>> GetSubPlacesByPlaceParentId(ulong parentId , 
+    public async Task<List<Domain.Entities.Places.Place>> GetSubPlacesByPlaceParentId(ulong parentId,
                                                                                       CancellationToken cancellationToken)
     {
         return await _context.Places
@@ -65,7 +65,7 @@ public class PlacesQueryRepository : QueryGenericRepository<Domain.Entities.Plac
                              .ToListAsync();
     }
 
-    public async Task<bool> IsExistAny_Place_ById(ulong placeId , CancellationToken cancellationToken)
+    public async Task<bool> IsExistAny_Place_ById(ulong placeId, CancellationToken cancellationToken)
     {
         return await _context.Places
                              .AsNoTracking()
@@ -77,8 +77,9 @@ public class PlacesQueryRepository : QueryGenericRepository<Domain.Entities.Plac
     {
         return await _context.Places
                              .AsNoTracking()
-                             .Where(p=> !p.IsDelete)
-                             .Select(p=> new SelectListOfPlacesDTO()
+                             .Where(p => !p.IsDelete)
+                             .OrderByDescending(p => p.CreateDate)
+                             .Select(p => new SelectListOfPlacesDTO()
                              {
                                  ParentId = p.ParentId,
                                  PlaceId = p.Id,
