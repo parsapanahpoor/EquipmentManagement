@@ -16,7 +16,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-xl-3 col-lg-3">
+        <div class="col-12 col-xl-12 col-lg-12">
 
                 <a class="btn btn-sky w-100 margin-bottom-10"
                    asp-action="CreateProduct"
@@ -39,27 +39,32 @@
 
                                 <div class="form-row">
 
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-4">
                                         <label>نام کالا</label>
                                         <input type="text" asp-for="ProductTitle" class="form-control" placeholder="نام کالا">
                                     </div>
 
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-4">
+                                        <label>برند کالا</label>
+                                        <input type="text" asp-for="Brand" class="form-control" placeholder="برند کالا">
+                                    </div>
+
+                                    <div class="form-group col-md-4">
                                         <label>کد انبار کالا</label>
                                         <input type="text" asp-for="RepostiroyCode" class="form-control" placeholder="کد انبار کالا">
                                     </div>
 
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-4">
                                         <label>نام مکان </label>
                                         <input type="text" asp-for="PlaceTitle" class="form-control" placeholder="نام مکان">
                                     </div>
 
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-4">
                                         <label>نام دسته بندی کالا</label>
                                         <input type="text" asp-for="CategoryTitle" class="form-control" placeholder="نام دسته بندی کالا">
                                     </div>
 
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-4">
                                         <label>Rf-Id کالا</label>
                                         <input type="text" asp-for="BarCode" class="form-control" placeholder="بارکد کالا">
                                     </div>
@@ -92,7 +97,7 @@
             </div>
         </div>
 
-        <div class="col-xs-12 col-md-12 col-lg-9">
+        <div class="col-xs-12 col-md-12 col-lg-12">
             <div class="well with-header with-footer table-responsive">
                 <div class="header bordered-azure">
                     <div class="flex-style">
@@ -113,6 +118,9 @@
                            
                                 <th>
                                     عنوان کالا
+                                </th>
+                                <th>
+                                    برند کالا
                                 </th>
                                 <th>
                                     نام مکان
@@ -149,6 +157,9 @@
                                     </td>
                                     <td>
                                         @product.ProductTitle
+                                    </td>
+                                    <td>
+                                        @(string.IsNullOrEmpty(product.Brand) ? "-" : product.Brand)
                                     </td>
                                     <td>
                                         @product.Place.PlaceTitle

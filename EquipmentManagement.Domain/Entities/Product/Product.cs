@@ -22,6 +22,8 @@ public sealed class Product : BaseEntities<ulong>
 
     public string? Description { get; set; }
 
+    public string? Brand { get; set; }
+
     #endregion
 
     #region Relations

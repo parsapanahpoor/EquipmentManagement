@@ -8,6 +8,8 @@ public class FilterProductDTO : BasePaging<Domain.Entities.Product.Product>
 
     public string? ProductTitle { get; set; }
 
+    public string? Brand { get; set; }
+
     public string? PlaceTitle { get; set; }
 
     public string? CategoryTitle { get; set; }
@@ -28,7 +30,11 @@ public record FilterProductForExcelFilesDTO
     #region properties
 
     public ulong Id { get; set; }
+
     public string? ProductTitle { get; init; }
+
+    public string? Brand { get; set; }
+
 
     public string? PlaceTitle { get; init; }
 

@@ -10,6 +10,8 @@ public record EditProductDTO
 
     public string PlaceName { get; set; }
 
+    public string? BrandName { get; set; }
+
     public ulong  CategoryId { get; set; }
 
     public string CategoryName { get; set; }

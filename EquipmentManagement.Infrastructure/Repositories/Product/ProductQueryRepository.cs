@@ -61,6 +61,11 @@ public class ProductQueryRepository :
             query = query.Where(u => u.ProductTitle.Contains(filter.ProductTitle));
         }
 
+        if ((!string.IsNullOrEmpty(filter.Brand)))
+        {
+            query = query.Where(u => u.Brand.Contains(filter.Brand));
+        }
+
         if ((!string.IsNullOrEmpty(filter.RepostiroyCode)))
         {
             query = query.Where(u => u.RepostiroyCode.Contains(filter.RepostiroyCode));
@@ -162,7 +167,8 @@ public class ProductQueryRepository :
             Id = p.Id,
             CreateDate = p.CreateDate,
             Description = p.Description,
-            RepostiroyCode = p.RepostiroyCode
+            RepostiroyCode = p.RepostiroyCode,
+            Brand = p.Brand
         })
         .ToListAsync();
     }
