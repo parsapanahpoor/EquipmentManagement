@@ -61,6 +61,11 @@ public class ProductQueryRepository :
             query = query.Where(u => u.ProductTitle.Contains(filter.ProductTitle));
         }
 
+        if ((!string.IsNullOrEmpty(filter.RepostiroyCode)))
+        {
+            query = query.Where(u => u.RepostiroyCode.Contains(filter.RepostiroyCode));
+        }
+
         if (filter.PlaceId.HasValue)
         {
             query = query.Where(p=> p.Place.Id == filter.PlaceId.Value);
@@ -112,6 +117,11 @@ public class ProductQueryRepository :
         if ((!string.IsNullOrEmpty(filter.ProductTitle)))
         {
             query = query.Where(u => u.ProductTitle.Contains(filter.ProductTitle));
+        }
+
+        if ((!string.IsNullOrEmpty(filter.RepostiroyCode)))
+        {
+            query = query.Where(u => u.RepostiroyCode.Contains(filter.RepostiroyCode));
         }
 
         if (filter.PlaceId.HasValue)

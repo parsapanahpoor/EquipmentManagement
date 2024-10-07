@@ -148,9 +148,12 @@
                                                 <a title="نمایش محصولات زیرمجموعه" asp-controller="Product" asp-action="FilterProduct" asp-route-PlaceId="@place.Id" class="btn btn-success btn-circle btn-xs">
                                                     <i class="fa fa-gears"></i>
                                                 </a>
+                                                <a title="خروجی اکسل از تجهیزات این مکان" asp-controller="Product" asp-action="FilterProductForExcelFiles" asp-route-PlaceId="@place.Id" class="btn btn-primary btn-circle btn-xs">
+                                                    <i class="fa fa-print"></i>
+                                                </a>
                                             }
 
-                                            <a title="ویرایش اطلاعات" asp-controller="Places" asp-action="EditPlace" asp-route-placeId="@place.Id" class="btn btn-info btn-circle btn-xs">
+                                            <a title="ویرایش اطلاعات" asp-controller="Places" asp-action="EditPlace" asp-route-placeId="@place.Id" class="btn btn-warning btn-circle btn-xs">
                                                 <i class="glyphicon glyphicon-edit"></i>
                                             </a>
 

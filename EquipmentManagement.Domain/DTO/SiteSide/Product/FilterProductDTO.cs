@@ -12,6 +12,8 @@ public class FilterProductDTO : BasePaging<Domain.Entities.Product.Product>
 
     public string? CategoryTitle { get; set; }
 
+    public string RepostiroyCode { get; set; }
+
     public ulong?  PlaceId { get; set; }
 
     public ulong? CategoryId { get; set; }
@@ -31,6 +33,8 @@ public record FilterProductForExcelFilesDTO
     public string? PlaceTitle { get; init; }
 
     public string? CategoryTitle { get; init; }
+
+    public string RepostiroyCode { get; set; }
 
     public ulong? PlaceId { get; init; }
 

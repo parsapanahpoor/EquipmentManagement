@@ -45,6 +45,11 @@
                                     </div>
 
                                     <div class="form-group col-md-12">
+                                        <label>کد انبار کالا</label>
+                                        <input type="text" asp-for="RepostiroyCode" class="form-control" placeholder="کد انبار کالا">
+                                    </div>
+
+                                    <div class="form-group col-md-12">
                                         <label>نام مکان </label>
                                         <input type="text" asp-for="PlaceTitle" class="form-control" placeholder="نام مکان">
                                     </div>
@@ -105,6 +110,7 @@
                                 <th>
                                     #
                                 </th>
+                           
                                 <th>
                                     عنوان کالا
                                 </th>
@@ -116,6 +122,9 @@
                                 </th>
                                 <th>
                                     بارکد
+                                </th>
+                                <th>
+                                    کد انبار
                                 </th>
                                 <th>
                                     تاریخ ثبت
@@ -146,6 +155,9 @@
                                     </td>
                                     <td>
                                         @product.BarCode
+                                    </td>
+                                    <td>
+                                        @product.RepostiroyCode
                                     </td>
                                     <td>
                                         @product.CreateDate.ToShamsi()
