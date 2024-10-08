@@ -7,7 +7,7 @@ public class BasePaging<T>
         public BasePaging()
         {
             Page = 1;
-            TakeEntity = 12;
+            TakeEntity = 100;
             HowManyShowPageAfterAndBefore = 5;
             Entities = new List<T>();
         }

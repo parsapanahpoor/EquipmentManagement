@@ -51,7 +51,6 @@ public class ProductQueryRepository :
                             .Include(p => p.ProductCategory)
                                         .AsNoTracking()
                                         .Where(p => !p.IsDelete)
-                                        .OrderByDescending(p => p.CreateDate)
                                         .AsQueryable();
 
         #region filter
@@ -100,7 +99,10 @@ public class ProductQueryRepository :
 
         #region paging
 
-        await filter.Paging(query);
+        await filter.Paging(query
+            .OrderBy(p=> p.Place)
+            .OrderBy(p => p.ProductTitle)
+            .OrderByDescending(p=> p.RepostiroyCode));
 
         #endregion
 
