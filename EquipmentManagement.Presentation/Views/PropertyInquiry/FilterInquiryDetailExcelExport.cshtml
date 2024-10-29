@@ -1,0 +1,144 @@
+﻿@using EquipmentManagement.Application.Convertors
+@using EquipmentManagement.Domain.DTO.SiteSide.PropertyInquiry
+@model List<EquipmentManagement.Domain.DTO.SiteSide.PropertyInquiry.FilterInquiryDetail>;
+
+@{
+    ViewData["Title"] = "خروجی اکسل گردش اموال";
+
+    var filterMembers = ViewBag.FilterInquiryMembers as FilterInquiryDetailDTO;
+}
+
+@section Styles
+{
+}
+
+@section Scripts
+{
+    <partial name="_JqueryValidation" />
+
+    <script>
+        function exportTableToExcel(tableID, filename = '') {
+            // Select the table element
+            var table = document.getElementById(tableID);
+
+            // Create a new workbook and a worksheet from the table
+            var wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+
+            // Generate Excel file and trigger download
+            XLSX.writeFile(wb, filename ? filename + '.xlsx' : 'excel_data.xlsx');
+        }
+    </script>
+}
+
+@section Breadcrumbs
+{
+    <li>
+        <a href="javascript:void(0)"> @ViewData["Title"] </a>
+    </li>
+}
+
+<div class="row">
+    <div class="col-lg-12 col-sm-12">
+        <div class="well with-header with-footer table-responsive">
+            <div class="header bordered-azure">
+                <div class="flex-style">
+                    <span>تعداد کل : @Model.Count()</span>
+
+                    <p class="btn btn-labeled btn-primary" style="width: 30% !important;margin-right: 350px;" onclick="exportTableToExcel('users-table', 'Product_List')">
+                        خروجی اکسل
+                    </p>
+                </div>
+            </div>
+
+            @if (Model != null && Model.Any())
+            {
+                <table class="table table-hover table-bordered tc tableShowListInAdmin" id="users-table">
+                    <thead class="tc vm">
+                        <tr class="tc vm">
+                            <th class="tc vm">
+                                #
+                            </th>
+
+                            <th class="tc vm">
+                                نام
+                            </th>
+
+                            <th class="tc vm">
+                                Rf_ID
+                            </th>
+
+                            <th class="tc vm">
+                                محل استقرار
+                            </th>
+
+                            <th class="tc vm">
+                                وضعیت
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="tc vm">
+                        @foreach (var property in Model)
+                        {
+                            <tr class="tc vm" remove-ajax-item="@property.PropertyId">
+
+                                <td class="vm">
+                                    <div class="flex-style-center">
+                                        <p> @property.PropertyId</p>
+                                    </div>
+                                </td>
+
+                                <td class="vm">
+                                    <div class="flex-style-center">
+                                        <p> @property.PropertyTitle</p>
+                                    </div>
+                                </td>
+
+                                <td class="vm">
+                                    <div class="flex-style-center">
+                                        <p> @property.RfId</p>
+                                    </div>
+                                </td>
+
+                                <td class="vm">
+                                    <div class="flex-style-center">
+                                        <p> @property.PlaceTitle</p>
+                                    </div>
+                                </td>
+
+                                <td class="vm">
+
+                                    @if (property.IsExistInInquiey == IsExistInInquiey.FoundInInquiry)
+                                    {
+                                        <div class="flex-style-center">
+                                            <p class="badge badge-success"> یافت شده در استعلام</p>
+                                        </div>
+                                    }
+
+                                    @if (property.IsExistInInquiey == IsExistInInquiey.NotFoundInInquiry)
+                                    {
+                                        <div class="flex-style-center">
+                                            <p class="badge badge-warning"> دراستعلام یافت نشده </p>
+                                        </div>
+                                    }
+
+                                    @if (property.IsExistInInquiey == IsExistInInquiey.NewProductsFromAnotherPlaces)
+                                    {
+                                        <div class="flex-style-center">
+                                            <p class="badge badge-danger"> یافت شده اما به این مکان تعلق ندارد </p>
+                                        </div>
+                                    }
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <partial name="_NotFoundPartial" />
+            }
+        </div>
+    </div>
+</div>
+

@@ -95,81 +95,90 @@
 <div class="row">
     <div class="col-lg-12 col-sm-12">
 
-    <div id="horizontal-form">
+        <div id="horizontal-form">
 
-        @if (Model != null && Model.Any())
-        {
+            @if (Model != null && Model.Any())
+            {
 
-            <div class="widget-body no-padding">
-                <div id="searchable_wrapper" class="dataTables_wrapper form-inline">
+                <div class="widget-body no-padding">
+                    <div id="searchable_wrapper" class="dataTables_wrapper form-inline">
 
-                    <table class="table table-bordered table-hover table-striped dataTable" id="searchable" role="grid" aria-describedby="searchable_info">
-                        <thead class="bordered-darkorange">
-                            <tr role="row">
+                        <table class="table table-bordered table-hover table-striped dataTable" id="searchable" role="grid" aria-describedby="searchable_info">
+                            <thead class="bordered-darkorange">
+                                <tr role="row">
 
-                                <th  tabindex="0" aria-controls="searchable" rowspan="1" colspan="1" >کد گردش اموال </th>
-                                <th  tabindex="0" aria-controls="searchable" rowspan="1" colspan="1" >نام اتاق</th>
-                                <th  tabindex="0" aria-controls="searchable" rowspan="1" colspan="1" >نام کاربری اپراتور </th>
-                                <th  tabindex="0" aria-controls="searchable" rowspan="1" colspan="1" >تاریخ گردش اموال  </th>
-                                <th  tabindex="0" aria-controls="searchable" rowspan="1" colspan="1" >عملیات  </th>
+                                    <th tabindex="0" aria-controls="searchable" rowspan="1" colspan="1">کد گردش اموال </th>
+                                    <th tabindex="0" aria-controls="searchable" rowspan="1" colspan="1">نام اتاق</th>
+                                    <th tabindex="0" aria-controls="searchable" rowspan="1" colspan="1">نام کاربری اپراتور </th>
+                                    <th tabindex="0" aria-controls="searchable" rowspan="1" colspan="1">تاریخ گردش اموال  </th>
+                                    <th tabindex="0" aria-controls="searchable" rowspan="1" colspan="1">عملیات  </th>
 
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            @foreach (var inquiry in Model)
-                            {
-                                <tr class="tc vm" remove-ajax-item="@inquiry.InquiryId">
-
-                                    <td class="vm">
-                                        <div class="flex-style-center">
-                                            <p> @inquiry.InquiryId</p>
-                                        </div>
-                                    </td>
-
-                                    <td class="vm">
-                                        <div class="flex-style-center">
-                                            <p> @inquiry.PlaceTitle</p>
-                                        </div>
-                                    </td>
-
-                                    <td class="vm">
-                                        <div class="flex-style-center">
-                                            <p> @inquiry.Username</p>
-                                        </div>
-                                    </td>
-
-                                    <td class="vm">
-                                        <div class="flex-style-center">
-                                            <p> @inquiry.CreateDate.ToShamsi()</p>
-                                        </div>
-                                    </td>
-
-                                    <td class="tc vm">
-
-                                        <a asp-action="FilterInquiryDetail"
-                                           asp-controller="PropertyInquiry"
-                                           asp-route-PropertyInquiryId="@inquiry.InquiryId"
-                                           asp-route-PlaceId="@inquiry.PlaceId"
-                                           class="btn btn-azure btn-circle btn-xs"><i class="glyphicon glyphicon-eye-open"></i></a>
-
-                                    </td>
                                 </tr>
+                            </thead>
 
-                            }
+                            <tbody>
 
-                        </tbody>
-                    </table>
+                                @foreach (var inquiry in Model)
+                                {
+                                    <tr class="tc vm" remove-ajax-item="@inquiry.InquiryId">
+
+                                        <td class="vm">
+                                            <div class="flex-style-center">
+                                                <p> @inquiry.InquiryId</p>
+                                            </div>
+                                        </td>
+
+                                        <td class="vm">
+                                            <div class="flex-style-center">
+                                                <p> @inquiry.PlaceTitle</p>
+                                            </div>
+                                        </td>
+
+                                        <td class="vm">
+                                            <div class="flex-style-center">
+                                                <p> @inquiry.Username</p>
+                                            </div>
+                                        </td>
+
+                                        <td class="vm">
+                                            <div class="flex-style-center">
+                                                <p> @inquiry.CreateDate.ToShamsi()</p>
+                                            </div>
+                                        </td>
+
+                                        <td class="tc vm">
+
+                                            <a title="خروجی اکسل از تجهیزات این مکان"
+                                               asp-action="FilterInquiryDetailExcelExport"
+                                               asp-controller="PropertyInquiry"
+                                               asp-route-PropertyInquiryId="@inquiry.InquiryId"
+                                               asp-route-PlaceId="@inquiry.PlaceId"
+                                               class="btn btn-primary btn-circle btn-xs">
+                                                <i class="fa fa-print"></i>
+                                            </a>
+
+                                            <a asp-action="FilterInquiryDetail"
+                                               asp-controller="PropertyInquiry"
+                                               asp-route-PropertyInquiryId="@inquiry.InquiryId"
+                                               asp-route-PlaceId="@inquiry.PlaceId"
+                                               class="btn btn-warning btn-circle btn-xs"><i class="glyphicon glyphicon-eye-open"></i></a>
+
+                                        </td>
+                                    </tr>
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        }
-        else
-        {
+            }
+            else
+            {
                 <partial name="_NotFoundPartial" />
-        }
+            }
 
+        </div>
     </div>
-</div>
 </div>
 

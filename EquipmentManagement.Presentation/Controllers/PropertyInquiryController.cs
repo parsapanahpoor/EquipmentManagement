@@ -3,10 +3,8 @@ using EquipmentManagement.Application.CQRS.SiteSide.PropertyInquiry.Command;
 using EquipmentManagement.Application.CQRS.SiteSide.PropertyInquiry.Query;
 using EquipmentManagement.Application.Extensions;
 using EquipmentManagement.Domain.DTO.SiteSide.PropertyInquiry;
-using EquipmentManagement.Domain.Entities.Places;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading;
 namespace EquipmentManagement.Presentation.Controllers;
 
 [Authorize]
@@ -95,6 +93,21 @@ public class PropertyInquiryController : SiteBaseController
             InquiryId = model.PropertyInquiryId
         }) ;
 
+        return View(await Mediator.Send(new FilterPropertyInquiryDetailQuery()
+        {
+            FilterInquiryDetailDTO = model,
+        }));
+    }
+
+    #endregion
+
+    #region Filter Inquiry Detail Excel Export
+
+    public async Task<IActionResult> FilterInquiryDetailExcelExport(FilterInquiryDetailDTO model,
+                                                         CancellationToken cancellation = default)
+    {
+        ViewBag.FilterInquiryMembers = model;
+    
         return View(await Mediator.Send(new FilterPropertyInquiryDetailQuery()
         {
             FilterInquiryDetailDTO = model,
