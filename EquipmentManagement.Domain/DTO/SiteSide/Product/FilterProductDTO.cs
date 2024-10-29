@@ -1,11 +1,10 @@
 ﻿using EquipmentManagement.Domain.DTO.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace EquipmentManagement.Domain.DTO.SiteSide.Product;
 
-public class FilterProductDTO : BasePaging<Domain.Entities.Product.Product>
+public class FilterProductDTO : BasePaging<Entities.Product.Product>
 {
-    #region properties
-
     public string? ProductTitle { get; set; }
 
     public string? Brand { get; set; }
@@ -14,7 +13,7 @@ public class FilterProductDTO : BasePaging<Domain.Entities.Product.Product>
 
     public string? CategoryTitle { get; set; }
 
-    public string RepostiroyCode { get; set; }
+    public string? RepostiroyCode { get; set; }
 
     public ulong?  PlaceId { get; set; }
 
@@ -22,13 +21,18 @@ public class FilterProductDTO : BasePaging<Domain.Entities.Product.Product>
 
     public string? BarCode { get; set; }
 
-    #endregion
+    public PlaceSorting? PlaceSorting { get; set; }
+    public ProductTitleSorting? ProductTitleSorting { get; set; }
+    public BrandSorting? BrandSorting { get; set; }
+    public CategorySorting? CategorySorting { get; set; }
+    public RepostiroyCodeSorting? RepostiroyCodeSorting { get; set; }
+    public BarCodeSorting? BarCodeSorting { get; set; }
+    public ProductIdSorting? ProductIdSorting { get; set; }
+    public CreateDateSorting? CreateDateSorting { get; set; }
 }
 
 public record FilterProductForExcelFilesDTO
 {
-    #region properties
-
     public ulong Id { get; set; }
 
     public string? ProductTitle { get; init; }
@@ -51,6 +55,60 @@ public record FilterProductForExcelFilesDTO
     public string? BarCode { get; init; }
 
     public DateTime CreateDate { get; set; }
+}
 
-    #endregion
+public enum PlaceSorting
+{
+    [Display(Name = "همه")] All,
+    [Display(Name = "صعودی")] Ascending,
+    [Display(Name = "نزولی")] Descending,
+}
+
+public enum ProductTitleSorting
+{
+    [Display(Name = "همه")] All,
+    [Display(Name = "صعودی")] Ascending,
+    [Display(Name = "نزولی")] Descending,
+}
+
+public enum BrandSorting
+{
+    [Display(Name = "همه")] All,
+    [Display(Name = "صعودی")] Ascending,
+    [Display(Name = "نزولی")] Descending,
+}
+
+public enum CategorySorting
+{
+    [Display(Name = "همه")] All,
+    [Display(Name = "صعودی")] Ascending,
+    [Display(Name = "نزولی")] Descending,
+}
+
+public enum RepostiroyCodeSorting
+{
+    [Display(Name = "همه")] All,
+    [Display(Name = "صعودی")] Ascending,
+    [Display(Name = "نزولی")] Descending,
+}
+
+public enum BarCodeSorting
+{
+    [Display(Name = "همه")] All,
+    [Display(Name = "صعودی")] Ascending,
+    [Display(Name = "نزولی")] Descending,
+}
+
+public enum ProductIdSorting
+{
+    [Display(Name = "همه")] All,
+    [Display(Name = "صعودی")] Ascending,
+    [Display(Name = "نزولی")] Descending,
+}
+
+public enum CreateDateSorting
+{
+    [Display(Name = "همه")] All,
+    [Display(Name = "صعودی")] Ascending,
+    [Display(Name = "نزولی")] Descending,
 }

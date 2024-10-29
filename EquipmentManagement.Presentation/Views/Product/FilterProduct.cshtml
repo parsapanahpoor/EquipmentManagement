@@ -1,4 +1,5 @@
 ﻿@using EquipmentManagement.Application.Convertors;
+@using EquipmentManagement.Domain.DTO.SiteSide.Product
 @model EquipmentManagement.Domain.DTO.SiteSide.Product.FilterProductDTO
 
 @{
@@ -67,6 +68,46 @@
                                     <div class="form-group col-md-4">
                                         <label>Rf-Id کالا</label>
                                         <input type="text" asp-for="BarCode" class="form-control" placeholder="بارکد کالا">
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label asp-for="ProductTitleSorting"> مرتب سازی براساس نام کالا </label>
+                                        <select asp-for="ProductTitleSorting" class="form-control" asp-items="Html.GetEnumSelectList(typeof(ProductTitleSorting))"></select>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label asp-for="PlaceSorting"> مرتب سازی بر اساس مکان </label>
+                                        <select asp-for="PlaceSorting" class="form-control" asp-items="Html.GetEnumSelectList(typeof(PlaceSorting))"></select>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label asp-for="BrandSorting"> مزتب سازی براساس نام کالا </label>
+                                        <select asp-for="BrandSorting" class="form-control" asp-items="Html.GetEnumSelectList(typeof(BrandSorting))"></select>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label asp-for="CategorySorting"> مرتب سازی براساس دسته بندی </label>
+                                        <select asp-for="CategorySorting" class="form-control" asp-items="Html.GetEnumSelectList(typeof(CategorySorting))"></select>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label asp-for="RepostiroyCodeSorting"> مرتب سازی براساس کداموال </label>
+                                        <select asp-for="RepostiroyCodeSorting" class="form-control" asp-items="Html.GetEnumSelectList(typeof(RepostiroyCodeSorting))"></select>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label asp-for="BarCodeSorting"> مرتب سازی براساس Rf-Id </label>
+                                        <select asp-for="BarCodeSorting" class="form-control" asp-items="Html.GetEnumSelectList(typeof(BarCodeSorting))"></select>
+                                    </div>
+                                    
+                                    <div class="form-group col-md-4">
+                                        <label asp-for="ProductIdSorting"> مرتب سازی براساس شناسه ی محصول </label>
+                                        <select asp-for="ProductIdSorting" class="form-control" asp-items="Html.GetEnumSelectList(typeof(ProductIdSorting))"></select>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label asp-for="CreateDateSorting"> مرتب سازی تاریخ ثبت کالا </label>
+                                        <select asp-for="CreateDateSorting" class="form-control" asp-items="Html.GetEnumSelectList(typeof(CreateDateSorting))"></select>
                                     </div>
 
                                 </div>
