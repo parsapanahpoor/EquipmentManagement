@@ -98,6 +98,12 @@ public class ProductController : SiteBaseController
 
         #region View Bags
 
+        if (!createProduct.PlaceId.HasValue)
+            TempData[ErrorMessage] = "مکان کالا باید انتخاب شود.";
+
+        if (!createProduct.CategoryId.HasValue)
+            TempData[ErrorMessage] = "دسته بندی کالا باید انتخاب شود.";
+
         ViewBag.places = await Mediator.Send(new SelectListOfPlacesQuery()
         { }, cancellationToken);
 
@@ -150,6 +156,12 @@ public class ProductController : SiteBaseController
         #endregion
 
         #region View Bags
+
+        if (editProduct.PlaceId == 0)
+            TempData[ErrorMessage] = "مکان کالا باید انتخاب شود.";
+
+        if (editProduct.CategoryId == 0)
+            TempData[ErrorMessage] = "دسته بندی کالا باید انتخاب شود.";
 
         ViewBag.places = await Mediator.Send(new SelectListOfPlacesQuery()
         { }, cancellationToken);

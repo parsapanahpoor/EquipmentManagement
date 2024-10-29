@@ -36,19 +36,25 @@
                             <div class="form-group col-md-6 col-sm-12">
                                 <label asp-for="ProductTitle">عنوان</label>
                                 <input type="text" class="form-control" asp-for="ProductTitle">
-                                <span class="text-danger" asp-validation-for="ProductTitle"></span>
+                                <span class="text-danger" asp-validation-for="ProductTitle">
+                                    عنوان کالا باید وارد شود.
+                                </span>
                             </div>
 
                             <div class="form-group col-md-6 col-sm-12">
                                 <label asp-for="BarCode">Rf-Id</label>
                                 <input type="text" class="form-control" asp-for="BarCode">
-                                <span class="text-danger" asp-validation-for="BarCode"></span>
+                                <span class="text-danger" asp-validation-for="BarCode">
+                                    Rf-Id کالا باید وارد شود.
+                                </span>
                             </div>
 
                             <div class="form-group col-md-6 col-sm-12">
                                 <label asp-for="RepositoryCode">کداموال</label>
                                 <input type="text" class="form-control" asp-for="RepositoryCode">
-                                <span class="text-danger" asp-validation-for="RepositoryCode"></span>
+                                <span class="text-danger" asp-validation-for="RepositoryCode">
+                                    کداموال باید وارد شود.
+                                </span>
                             </div>
 
                             <div class="form-group col-md-6 col-sm-12">
