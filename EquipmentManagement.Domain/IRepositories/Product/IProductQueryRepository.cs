@@ -26,6 +26,8 @@ public interface IProductQueryRepository
 
     Task<bool> IsExist_Product_ByRfId(string rfId, CancellationToken cancellationToken);
 
+    Task<Domain.Entities.Product.Product?> GetProduct_Product_ByRfId(string rfId, CancellationToken cancellationToken);
+
     Task<EditProductDTO?> Fill_EditProductDTO(ulong productId,
                                               CancellationToken cancellationToken);
 

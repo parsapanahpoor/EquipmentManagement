@@ -7,6 +7,7 @@ using EquipmentManagement.Domain.Entities.OrganizationRequest;
 using EquipmentManagement.Domain.Entities.Places;
 using EquipmentManagement.Domain.Entities.Product;
 using EquipmentManagement.Domain.Entities.ProductCategory;
+using EquipmentManagement.Domain.Entities.ProductLog;
 using EquipmentManagement.Domain.Entities.PropertyInquiry;
 using EquipmentManagement.Domain.Entities.Role;
 using EquipmentManagement.Domain.Entities.Users;
@@ -20,10 +21,7 @@ public class EquipmentManagementDbContext : DbContext
     #region Ctor
 
     public EquipmentManagementDbContext(DbContextOptions<EquipmentManagementDbContext> options)
-           : base(options)
-    {
-
-    }
+           : base(options) { }
 
     #endregion
 
@@ -89,6 +87,12 @@ public class EquipmentManagementDbContext : DbContext
     public DbSet<RepairRequest> RepairRequests { get; set; }
     public DbSet<DecisionRepairRequestRespons> DecisionRepairRequestRespons { get; set; }
     public DbSet<ExpertVisitorOpinionEntity> ExpertVisitorOpinions { get; set; }
+
+    #endregion
+
+    #region Product Log
+
+    public DbSet<ProductLog> ProductLogs { get; set; }
 
     #endregion
 

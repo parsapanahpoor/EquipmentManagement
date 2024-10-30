@@ -266,6 +266,15 @@ public class ProductQueryRepository :
                              .AnyAsync();
     }
 
+    public async Task<Domain.Entities.Product.Product?> GetProduct_Product_ByRfId(string rfId, CancellationToken cancellationToken)
+    {
+        return await _context.Products
+                             .AsNoTracking()
+                             .Where(p => !p.IsDelete &&
+                                    p.BarCode.Equals(rfId))
+                             .FirstOrDefaultAsync();
+    }
+
     public async Task<bool> IsExistAny_Product_ByBarCode(string barCode , 
                                                          CancellationToken cancellationToken)
     {

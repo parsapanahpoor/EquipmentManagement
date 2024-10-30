@@ -5,6 +5,7 @@ using EquipmentManagement.Application.StaticTools;
 using EquipmentManagement.Domain.Entities.PropertyInquiry;
 using EquipmentManagement.Domain.IRepositories.Place;
 using EquipmentManagement.Domain.IRepositories.Product;
+using EquipmentManagement.Domain.IRepositories.ProductLog;
 using EquipmentManagement.Domain.IRepositories.PropertyInquiry;
 using Microsoft.AspNetCore.Http;
 using NPOI.HSSF.UserModel;
@@ -21,11 +22,13 @@ public record AddNewExcelFileForPropertyInquiryCommandHandler : IRequestHandler<
     private readonly IPropertyInquiryCommandRepository _propertyInquiryCommandRepository;
     private readonly IProductQueryRepository _productQueryRepository;
     private readonly IPlacesQueryRepository _placesQueryRepository;
+    private readonly IProductLogCommandRepository _productLogCommandRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public AddNewExcelFileForPropertyInquiryCommandHandler(IPropertyInquiryQueryRepository propertyInquiryQueryRepository,
                                                            IPropertyInquiryCommandRepository propertyInquiryCommandRepository,
                                                            IPlacesQueryRepository placesQueryRepository,
+                                                           IProductLogCommandRepository productLogCommandRepository,
                                                            IUnitOfWork unitOfWork,
                                                            IProductQueryRepository productQueryRepository)
     {
@@ -33,6 +36,7 @@ public record AddNewExcelFileForPropertyInquiryCommandHandler : IRequestHandler<
         _propertyInquiryQueryRepository = propertyInquiryQueryRepository;
         _placesQueryRepository = placesQueryRepository;
         _productQueryRepository = productQueryRepository;
+        _productLogCommandRepository = productLogCommandRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -110,6 +114,7 @@ public record AddNewExcelFileForPropertyInquiryCommandHandler : IRequestHandler<
                         NPOI.SS.UserModel.ICell cell = headerRow.GetCell(j);
                         if (cell == null || string.IsNullOrWhiteSpace(cell.ToString())) continue;
                     }
+
                     List<PropertyInquiryDetail> detail = new();
 
                     for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++) //Read Excel File 
@@ -120,13 +125,23 @@ public record AddNewExcelFileForPropertyInquiryCommandHandler : IRequestHandler<
 
                         if (!string.IsNullOrEmpty(row.Cells[2].ToString()))
                         {
-                            if (await _productQueryRepository.IsExist_Product_ByRfId(row.Cells[2].ToString(), cancellationToken))
+                            var product = await _productQueryRepository.GetProduct_Product_ByRfId(row.Cells[2].ToString(), cancellationToken);
+                            if (product is not null)
                             {
                                 detail.Add(new PropertyInquiryDetail()
                                 {
                                     RF_Id = row.Cells[2].ToString(),
                                     PropertyInquiryId = propertyInquiry.Id
                                 });
+
+                                //Add Product Log
+                                await _productLogCommandRepository.AddProductLog(new Domain.DTO.SiteSide.ProductLog.CreateProductLogDto
+                                    (
+                                        UserId : request.UserId , 
+                                        ProductId : product.Id , 
+                                        PlaceId : request.PlaceId , 
+                                        Description : "یافت شده در استعلام گردش اموال"
+                                    ),cancellationToken);
                             }
                         }
                     }

@@ -1,5 +1,6 @@
 ﻿using EquipmentManagement.Domain.Entities.OrganizationRequest;
 using EquipmentManagement.Domain.Entities.Places;
+using EquipmentManagement.Domain.Entities.ProductLog;
 using System.Runtime.CompilerServices;
 
 namespace EquipmentManagement.Domain.Entities.Product;
@@ -31,6 +32,7 @@ public sealed class Product : BaseEntities<ulong>
     public Place? Place { get; set; }
     public ProductCategory.ProductCategory? ProductCategory { get; set; }
     public ICollection<RepairRequest>? RepairRequests { get; set; }
+    public ICollection<ProductLog.ProductLog>? ProductLogs { get; set; }
 
     #endregion
 }

@@ -5,4 +5,6 @@ namespace EquipmentManagement.Application.CQRS.SiteSide.Product.Command.EditProd
 public record EditProductCommand : IRequest<bool>
 {
     public EditProductDTO EditProductDTO { get; set; }
+    public ulong? UserId { get; set; }
+
 }

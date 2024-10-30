@@ -18,5 +18,7 @@ public class CreateProductCommand : IRequest<bool>
 
     public string? Description { get; set; }
 
+    public ulong UserId { get; set; }
+
     #endregion
 }

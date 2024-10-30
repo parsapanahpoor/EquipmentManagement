@@ -1,10 +1,13 @@
 ﻿
 using EquipmentManagement.Application.Common.IUnitOfWork;
 using EquipmentManagement.Application.Utilities.Security;
+using EquipmentManagement.Domain.Entities.Places;
 using EquipmentManagement.Domain.Entities.Product;
+using EquipmentManagement.Domain.Entities.Users;
 using EquipmentManagement.Domain.IRepositories.Place;
 using EquipmentManagement.Domain.IRepositories.Product;
 using EquipmentManagement.Domain.IRepositories.ProductCategory;
+using EquipmentManagement.Domain.IRepositories.ProductLog;
 
 namespace EquipmentManagement.Application.CQRS.SiteSide.Product.Command;
 
@@ -16,6 +19,7 @@ public record CreateProductCommandHandler : IRequestHandler<CreateProductCommand
     private readonly IProductQueryRepository _queryRepository;
     private readonly IProductCategoryQueryRepository _categoryQueryRepository;
     private readonly IPlacesQueryRepository _placesQueryRepository;
+    private readonly IProductLogCommandRepository _productLogCommandRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public CreateProductCommandHandler(IProductCommandRepository commandRepository,
@@ -46,7 +50,7 @@ public record CreateProductCommandHandler : IRequestHandler<CreateProductCommand
 
         #region Check Category
 
-        if(!request.CategoryId.HasValue) return false;
+        if (!request.CategoryId.HasValue) return false;
 
         if (!await _categoryQueryRepository.IsExistAny_Category_ByCategoryId(request.CategoryId.Value, cancellationToken))
         {
@@ -60,9 +64,7 @@ public record CreateProductCommandHandler : IRequestHandler<CreateProductCommand
         if (!request.PlaceId.HasValue) return false;
 
         if (!await _placesQueryRepository.IsExistAny_Place_ById(request.PlaceId.Value, cancellationToken))
-        {
             return false;
-        }
 
         #endregion
 
@@ -83,8 +85,19 @@ public record CreateProductCommandHandler : IRequestHandler<CreateProductCommand
 
         #endregion
 
-        //Add Place To Data Base
-        await _commandRepository.AddAsync(product , cancellationToken);
+        //Add Product To Data Base
+        await _commandRepository.AddAsync(product, cancellationToken);
+        await _unitOfWork.SaveChangesAsync();
+
+        //Add Log for initialed product
+        await _productLogCommandRepository.AddProductLog(new Domain.DTO.SiteSide.ProductLog.CreateProductLogDto
+            (
+            UserId : request.UserId,
+            Description : "ثبت کالا برای اولین بار",
+            PlaceId: request.PlaceId.Value,
+            ProductId: product.Id
+            ), cancellationToken);
+
         await _unitOfWork.SaveChangesAsync();
 
         return true;

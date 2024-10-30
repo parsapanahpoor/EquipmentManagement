@@ -83,6 +83,7 @@ public class ProductController : SiteBaseController
                 ProductTitle = createProduct.ProductTitle,
                 PlaceId = createProduct.PlaceId,
                 RepositoryCode = createProduct.RepositoryCode,
+                UserId = User.GetUserId(),
             },
             cancellationToken
             );
@@ -145,6 +146,7 @@ public class ProductController : SiteBaseController
         var res = await Mediator.Send(new EditProductCommand()
         {
             EditProductDTO = editProduct,
+            UserId = User.GetUserId(),
         }, cancellationToken);
 
         if (res)
