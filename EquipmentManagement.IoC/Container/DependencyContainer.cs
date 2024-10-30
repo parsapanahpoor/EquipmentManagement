@@ -6,6 +6,7 @@ using EquipmentManagement.Domain.IRepositories.OrganizationChart;
 using EquipmentManagement.Domain.IRepositories.Place;
 using EquipmentManagement.Domain.IRepositories.Product;
 using EquipmentManagement.Domain.IRepositories.ProductCategory;
+using EquipmentManagement.Domain.IRepositories.ProductLog;
 using EquipmentManagement.Domain.IRepositories.PropertyInquiry;
 using EquipmentManagement.Domain.IRepositories.Role;
 using EquipmentManagement.Domain.IRepositories.User;
@@ -14,6 +15,7 @@ using EquipmentManagement.Infrastructure.Repositories.OrganizationRequest;
 using EquipmentManagement.Infrastructure.Repositories.Places;
 using EquipmentManagement.Infrastructure.Repositories.Product;
 using EquipmentManagement.Infrastructure.Repositories.ProductCategory;
+using EquipmentManagement.Infrastructure.Repositories.ProductLog;
 using EquipmentManagement.Infrastructure.Repositories.PropertyInquiry;
 using EquipmentManagement.Infrastructure.Repositories.Role;
 using EquipmentManagement.Infrastructure.Repositories.User;
@@ -61,6 +63,10 @@ public static class DependencyContainer
         //Organization Request
         services.AddScoped<IOrganziationRequestCommandRepository, OrganziationRequestCommandRepository>();
         services.AddScoped<IOrganziationRequestQueryRepository, OrganziationRequestQueryRepository>();
+
+        //Product Log
+        services.AddScoped<IProductLogCommandRepository, ProductLogCommandRepository>();
+        services.AddScoped<IProductLogQueryRepository, ProductLogQueryRepository>();
 
         #endregion
 

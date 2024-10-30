@@ -1,3 +1,8 @@
-﻿namespace EquipmentManagement.Domain.IRepositories.ProductLog;
+﻿using EquipmentManagement.Domain.DTO.SiteSide.ProductLog;
 
-public interface IProductLogQueryRepository;
+namespace EquipmentManagement.Domain.IRepositories.ProductLog;
+
+public interface IProductLogQueryRepository
+{
+    Task<FilterProductLogDTO> FilterProductLogs(FilterProductLogDTO filter , CancellationToken cancellationToken);
+}

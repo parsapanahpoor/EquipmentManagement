@@ -1,0 +1,191 @@
+﻿@using EquipmentManagement.Application.Convertors;
+@using EquipmentManagement.Domain.DTO.SiteSide.Product
+@model EquipmentManagement.Domain.DTO.SiteSide.ProductLog.FilterProductLogDTO
+
+@{
+    ViewData["Title"] = "مدیریت تاریخچه ی کالا";
+}
+
+@section Scripts
+{
+    <script>
+        function exportTableToExcel(tableID, filename = '') {
+            // Select the table element
+            var table = document.getElementById(tableID);
+
+            // Create a new workbook and a worksheet from the table
+            var wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+
+            // Generate Excel file and trigger download
+            XLSX.writeFile(wb, filename ? filename + '.xlsx' : 'excel_data.xlsx');
+        }
+    </script>
+}
+
+@section breadcrumbs
+{
+    <li class="active">@ViewData["Title"]</li>
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-xl-12 col-lg-12">
+
+            <p class="btn btn-sky w-100 margin-bottom-10" onclick="exportTableToExcel('users-table', 'Product_List')">خروجی فایل اکسل</p>
+
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-green">
+                    <span class="widget-caption"> فیلتر  </span>
+                </div>
+                <div class="widget-body">
+                    <div class="row">
+                        <div class="basic-form">
+                            <form asp-area="" asp-controller="ProductLog" asp-action="FilterProductLog" method="get" id="filter-search">
+                                <input type="hidden" asp-for="Page" />
+                                <input type="hidden" asp-for="PlaceId" />
+                                <input type="hidden" asp-for="ProductId" />
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-4">
+                                        <label>نام کالا</label>
+                                        <input type="text" asp-for="ProductTitle" class="form-control" placeholder="نام کالا">
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label>برند کالا</label>
+                                        <input type="text" asp-for="Brand" class="form-control" placeholder="برند کالا">
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label>کد اموال کالا</label>
+                                        <input type="text" asp-for="RepostiroyCode" class="form-control" placeholder="کد اموال کالا">
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label>نام مکان </label>
+                                        <input type="text" asp-for="PlaceTitle" class="form-control" placeholder="نام مکان">
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label>Rf-Id کالا</label>
+                                        <input type="text" asp-for="BarCode" class="form-control" placeholder="بارکد کالا">
+                                    </div>
+
+                                </div>
+
+                                <hr />
+
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-labeled w-100 btn-palegreen">
+                                        <i class="btn-label glyphicon glyphicon-filter"></i>فیلتر
+                                    </button>
+                                </div>
+
+                                @if (Context.Request.QueryString.HasValue)
+                                {
+                                    <div class="form-group col-md-12">
+                                        <a asp-area="" asp-controller="ProductLog" asp-action="FilterProductLog" class="btn btn-labeled w-100 btn-darkorange">
+                                            <i class="btn-label glyphicon glyphicon-remove"></i>حذف فیلتر
+                                        </a>
+                                    </div>
+                                }
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="well with-header with-footer table-responsive">
+                <div class="header bordered-azure">
+                    <div class="flex-style">
+                        <span>تاریخچه ی کالا </span>
+                        <span>تعداد کل : @Model.AllEntitiesCount</span>
+                    </div>
+                </div>
+
+                @if (Model != null)
+                {
+                    <table class="table table-hover table-bordered tc tableShowListInAdmin" id="users-table">
+
+                        <thead class="tc">
+                            <tr class="tc">
+                                <th>
+                                    #
+                                </th>
+
+                                <th>
+                                    عنوان کالا
+                                </th>
+                                <th>
+                                    برند کالا
+                                </th>
+                                <th>
+                                    نام مکان
+                                </th>
+                                <th>
+                                    بارکد
+                                </th>
+                                <th>
+                                    کداموال
+                                </th>
+                                <th>
+                                    تاریخ ثبت
+                                </th>
+                                <th>
+                                    توضیحات
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var product in Model.Entities)
+                            {
+                                <tr id="profile_@product.Id" remove-ajax-item="@product.Id">
+
+                                    <td>
+                                        @product.Id
+                                    </td>
+                                    <td>
+                                        @product.Product.ProductTitle
+                                    </td>
+                                    <td>
+                                        @(string.IsNullOrEmpty(product.Product.Brand) ? "-" : product.Product.Brand)
+                                    </td>
+                                    <td>
+                                        @product.Place.PlaceTitle
+                                    </td>
+                                    <td>
+                                        @product.Product.BarCode
+                                    </td>
+                                    <td>
+                                        @product.Product.RepostiroyCode
+                                    </td>
+                                    <td>
+                                        @product.CreateDate.ToShamsi()
+                                    </td>
+                                    <td>
+                                        @(string.IsNullOrEmpty(product.Description) ? "-" : product.Description)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <partial name="_Paging" model="@Model.GetCurrentPaging()" />
+                }
+                else
+                {
+                    <partial name="_NotFoundPartial" />
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
