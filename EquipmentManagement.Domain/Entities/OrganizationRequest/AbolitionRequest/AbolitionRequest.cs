@@ -13,14 +13,21 @@ public class AbolitionRequest : BaseEntities<ulong>
     public Product.Product? Product { get; set; }
     public ulong ProductId { get; set; }
 
-    public AbolitionRequestState ExpertVisitorAbolitionRequestState { get; set; }
+    public ExpertAbolitionRequestState ExpertVisitorAbolitionRequestState { get; set; }
     public string? Description { get; set; }
-    public bool IsFinally { get; set; }
+    public AbolitionRequestState RequestState { get; set; }
 }
 
-public enum AbolitionRequestState
+public enum ExpertAbolitionRequestState
 {
     [Display(Name = "درانتظار بررسی")] WaitingForRespons,
     [Display(Name = "تایید شده")] Accepted,
     [Display(Name = "رد شده")] Reject
+}
+public enum AbolitionRequestState
+{
+    [Display(Name = "درانتظار بررسی مدیر")] WaitingForManagerRespons,
+    [Display(Name = "درانتظار بررسی جمع دار اموال")] WaitingForProductsCollectorRespons,
+    [Display(Name = "رد شده")] Reject,
+    [Display(Name = "بسته شده")] Finally,
 }

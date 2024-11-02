@@ -158,6 +158,45 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
         })
         .ToListAsync();
 
+    public async Task<List<AbolitionRequestDto>> FillAbolitionRequestDto(ulong userId,
+      CancellationToken cancellationToken)
+      => await _context.ExpertVisitorOpinionForAbolitionRequestEntities
+          .AsNoTracking()
+          .Where(p => !p.IsDelete &&
+             p.ExpertUserId == userId &&
+             p.ResponsType == Domain.Entities.OrganizationRequest.AbolitionRequest.ExpertVisitorResponsType.WaitingForRespons)
+          .Select(p => new AbolitionRequestDto()
+          {
+              CreateDate = p.CreateDate,
+              ProductName = _context.AbolitionRequests
+              .Include(rq => rq.Product)
+              .Where(rq => !rq.IsDelete &&
+                    rq.Id == p.AbolitionRequestId)
+              .Select(rq => rq.Product!.ProductTitle)
+              .FirstOrDefault(),
+
+              AbolitionRequestId = p.AbolitionRequestId,
+              RequesterUsername = _context.AbolitionRequests
+             .Include(rq => rq.User)
+              .Where(rq => !rq.IsDelete &&
+                     rq.Id == p.AbolitionRequestId)
+              .Select(rq => rq.User.Username)
+              .FirstOrDefault(),
+
+              Description = _context.AbolitionRequests
+              .Where(rq => !rq.IsDelete &&
+                     rq.Id == p.AbolitionRequestId)
+              .Select(rq => rq.Description)
+              .FirstOrDefault(),
+
+              ExpertVisitorAbolitionRequestState = _context.AbolitionRequests
+              .Where(rq => !rq.IsDelete &&
+                     rq.Id == p.AbolitionRequestId)
+              .Select(rq => rq.ExpertVisitorAbolitionRequestState)
+              .FirstOrDefault(),
+          })
+          .ToListAsync();
+
     public async Task<List<RepairRequestDto>> GetLastestNewRequestAsDecisinorsForCurrentUser(ulong userId,
       CancellationToken cancellationToken)
       => await _context.DecisionRepairRequestRespons

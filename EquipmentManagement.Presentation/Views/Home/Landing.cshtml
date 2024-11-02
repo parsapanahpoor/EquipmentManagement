@@ -114,3 +114,46 @@
         </div>
     </div>
 }
+@if (Model.AbolitionRequest != null && Model.AbolitionRequest.Any())
+{
+    <div class="row">
+        <div class="col-lg-6 col-sm-12 col-xs-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-themeprimary">
+                    <i class="widget-icon fa fa-tasks themeprimary"></i>
+                    <span class="widget-caption themeprimary">درخواست های اسقاط ارجاع داده شده به شما</span>
+                </div>
+                <div class="widget-body no-padding">
+                    <div class="task-container">
+                        <ul class="tasks-list">
+
+                            @foreach (var request in Model.AbolitionRequest)
+                            {
+                                <li class="task-item">
+                                    <div class="task-state">
+                                        @request.RequesterUsername
+                                    </div>
+                                    <div class="task-time">@request.CreateDate.ToShamsi()</div>
+                                    <div class="task-body">@request.ProductName</div>
+                                    <div class="task-assignedto">
+
+                                        <a asp-action="ShowAbolitionRequestDetail"
+                                           asp-area=""
+                                           asp-controller="OrganizationRequest"
+                                           asp-route-abolitionRequestId="@request.AbolitionRequestId">
+                                            <span class="label label-warning">
+                                                بررسی درخواست
+                                            </span>
+                                        </a>
+
+                                    </div>
+                                </li>
+                            }
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

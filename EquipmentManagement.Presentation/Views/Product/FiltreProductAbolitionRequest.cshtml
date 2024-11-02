@@ -85,19 +85,19 @@
                                         @product.User.Username
                                     </td>
                                     <td>
-                                        @if (product.ExpertVisitorAbolitionRequestState == AbolitionRequestState.Accepted)
+                                        @if (product.ExpertVisitorAbolitionRequestState == ExpertAbolitionRequestState.Accepted)
                                         {
                                             <p class="label label-success">
                                                 تایید شده
                                             </p>
                                         }
-                                        @if (product.ExpertVisitorAbolitionRequestState == AbolitionRequestState.WaitingForRespons)
+                                        @if (product.ExpertVisitorAbolitionRequestState == ExpertAbolitionRequestState.WaitingForRespons)
                                         {
                                             <p class="label label-warning">
                                                 در انتظار بررسی
                                             </p>
                                         }
-                                        @if (product.ExpertVisitorAbolitionRequestState == AbolitionRequestState.Reject)
+                                        @if (product.ExpertVisitorAbolitionRequestState == ExpertAbolitionRequestState.Reject)
                                         {
                                             <p class="label label-danger">
                                                 رد شده

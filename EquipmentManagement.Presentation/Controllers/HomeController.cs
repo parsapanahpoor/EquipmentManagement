@@ -15,17 +15,15 @@ public class HomeController : SiteBaseController
 
     [AllowAnonymous]
     public IActionResult Index()
-    {
-        return View();
-    }
+        => View();
 
     #endregion
 
     #region Panel Landing
 
     public async Task<IActionResult> Landing(CancellationToken cancellation)
-    => View(await Mediator.Send(new DashboardInfoQuery(User.GetUserId()),
-        cancellation));
+        => View(await Mediator.Send(new DashboardInfoQuery(User.GetUserId()),
+            cancellation));
 
     #endregion
 }

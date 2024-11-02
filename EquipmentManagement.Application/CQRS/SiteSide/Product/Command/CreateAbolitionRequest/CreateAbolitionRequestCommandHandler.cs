@@ -32,8 +32,8 @@ public record CreateAbolitionRequestCommandHandler(
             Description = request.Description,
             EmployeeUserId = request.EmployeeId,
             ProductId = request.ProductId,
-            ExpertVisitorAbolitionRequestState = AbolitionRequestState.WaitingForRespons,
-            IsFinally = false
+            ExpertVisitorAbolitionRequestState = ExpertAbolitionRequestState.WaitingForRespons,
+            RequestState = AbolitionRequestState.WaitingForManagerRespons
         };
 
         await organziationRequestCommandRepository.Add_AbolitionRequest(AbolitionRequest , cancellationToken);

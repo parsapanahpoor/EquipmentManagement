@@ -36,6 +36,9 @@ public interface IOrganziationRequestQueryRepository
     Task<List<RepairRequestDto>> GetLastestNewRequestAsDecisinorsForCurrentUser(ulong userId,
       CancellationToken cancellationToken);
 
+    Task<List<AbolitionRequestDto>> FillAbolitionRequestDto(ulong userId,
+      CancellationToken cancellationToken);
+
     Task<RepairRequest?> GetRepairRequestById(ulong repairReuqestId,
         CancellationToken cancellationToken);
 
