@@ -98,6 +98,7 @@ public class EquipmentManagementDbContext : DbContext
 
     public DbSet<AbolitionRequest> AbolitionRequests { get; set; }
     public DbSet<ExpertVisitorOpinionForAbolitionRequestEntity> ExpertVisitorOpinionForAbolitionRequestEntities { get; set; }
+    public DbSet<DecisionAbolitionRequestRespons> DecisionAbolitionRequestRespons { get; set; }
 
     #endregion
 

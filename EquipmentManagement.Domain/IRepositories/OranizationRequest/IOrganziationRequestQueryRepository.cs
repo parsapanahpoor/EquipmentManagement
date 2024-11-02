@@ -1,6 +1,7 @@
 ﻿using EquipmentManagement.Domain.DTO.SiteSide.Dashboard;
 using EquipmentManagement.Domain.DTO.SiteSide.OrganizationRequest;
 using EquipmentManagement.Domain.Entities.OrganizationRequest;
+using EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest;
 
 namespace EquipmentManagement.Domain.IRepositories.OranizationRequest;
 
@@ -36,22 +37,39 @@ public interface IOrganziationRequestQueryRepository
     Task<List<RepairRequestDto>> GetLastestNewRequestAsDecisinorsForCurrentUser(ulong userId,
       CancellationToken cancellationToken);
 
+    Task<List<AbolitionRequestDto>> GetNotifForDecisinor(ulong userId,
+      CancellationToken cancellationToken);
+
     Task<List<AbolitionRequestDto>> FillAbolitionRequestDto(ulong userId,
       CancellationToken cancellationToken);
 
     Task<RepairRequest?> GetRepairRequestById(ulong repairReuqestId,
         CancellationToken cancellationToken);
 
+    Task<AbolitionRequest?> GetAbolitionRequestById(ulong abolitionReuqestId,
+        CancellationToken cancellationToken);
+
     Task<ExpertVisitorOpinionEntity?> Get_ExpertOpinion_ByRepairRequestId(ulong repairRequestId,
         CancellationToken cancellationToken);
+
+    Task<ExpertVisitorOpinionForAbolitionRequestEntity?> Get_ExpertOpinion_ByAbolitionRequestId(ulong abolitionRequestId,
+      CancellationToken cancellationToken);
 
     Task<List<DecisionRepairRequestRespons>?> Get_DecisionRepairRequestRespons_ByRequestIdAndUserId(
         ulong requestId,
         ulong userId ,
         CancellationToken cancellationToken);
 
+    Task<List<DecisionAbolitionRequestRespons>?> Get_DecisionAbolitionRequestRespons_ByRequestIdAndUserId(
+      ulong requestId,
+      ulong userId,
+      CancellationToken cancellationToken);
+
     Task<bool> IsRequestNotBeFinished(ulong repairRequestId,
         CancellationToken cancellationToken);
+
+    Task<bool> IsAbolitionRequestNotBeFinished(ulong abolitionRequestId,
+      CancellationToken cancellationToken);
 
     Task<bool> IsExistAnyConfiguration_ForRepairRequest(CancellationToken cancellationToken);
     Task<OrganziationRequestEntity?> GetFirstConfiguration_ForRepairRequest(CancellationToken cancellationToken);

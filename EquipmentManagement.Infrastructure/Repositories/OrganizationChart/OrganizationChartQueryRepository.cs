@@ -195,4 +195,44 @@ public class OrganizationChartQueryRepository :
 
         return userSelectedOrganizationCharts;
     }
+
+    public async Task<List<UserSelectedOrganizationChartEntity>> Get_AbolitionRequestDesiciners(CancellationToken cancellationToken)
+    {
+        var userSelectedOrganizationCharts = new List<UserSelectedOrganizationChartEntity>();
+
+        var abilitionRequesttId = await _context.OrganziationRequests
+            .AsNoTracking()
+            .Where(p => !p.IsDelete &&
+               p.RequestType == RequestType.Abolition)
+            .Select(p => p.Id)
+            .FirstOrDefaultAsync();
+
+        var organizationCharts = await _context.RequestDecisionMakers
+            .AsNoTracking()
+            .Where(p => !p.IsDelete &&
+               p.OrganziationRequestId == abilitionRequesttId)
+            .Select(p => p.OrganizationChartId)
+            .ToListAsync();
+
+        foreach (var organizationChartId in organizationCharts)
+        {
+            var userSelectedOrganizationChart = await _context.UserSelectedOrganizationCharts
+                .AsNoTracking()
+                .Where(p => !p.IsDelete &&
+                     p.OrganizationChartAggregateId == organizationChartId)
+                .ToListAsync();
+
+            if (userSelectedOrganizationChart is not null &&
+                userSelectedOrganizationChart.Any())
+            {
+                foreach (var item in userSelectedOrganizationChart)
+                {
+                    if (!userSelectedOrganizationCharts.Contains(item))
+                        userSelectedOrganizationCharts.Add(item);
+                }
+            }
+        }
+
+        return userSelectedOrganizationCharts;
+    }
 }

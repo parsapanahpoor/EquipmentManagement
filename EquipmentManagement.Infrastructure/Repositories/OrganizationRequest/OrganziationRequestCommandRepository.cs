@@ -27,6 +27,10 @@ public class OrganziationRequestCommandRepository :
         CancellationToken cancellationToken)
         => await _context.DecisionRepairRequestRespons.AddAsync(data, cancellationToken);
 
+    public async Task Add_DecisionAbolitionRequestRespons(DecisionAbolitionRequestRespons data,
+      CancellationToken cancellationToken)
+      => await _context.DecisionAbolitionRequestRespons.AddAsync(data, cancellationToken);
+
     public async Task Add_ExpertVisitorRequest(ExpertVisitorOpinionEntity data,
         CancellationToken cancellationToken)
         => await _context.ExpertVisitorOpinions.AddAsync(data, cancellationToken);
@@ -46,10 +50,19 @@ public class OrganziationRequestCommandRepository :
     public void Update_ExpertVisitorResponse(ExpertVisitorOpinionEntity data)
         => _context.ExpertVisitorOpinions.Update(data);
 
+    public void Update_ExpertVisitorResponse(ExpertVisitorOpinionForAbolitionRequestEntity data)
+        => _context.ExpertVisitorOpinionForAbolitionRequestEntities.Update(data);
+
     public void Update_DecisionRepairRequestRespons(DecisionRepairRequestRespons data)
             => _context.DecisionRepairRequestRespons.Update(data);
 
+    public void Update_DecisionAbolitionRequestRespons(DecisionAbolitionRequestRespons data)
+        => _context.DecisionAbolitionRequestRespons.Update(data);
+
     public void Update_RepairRequest(RepairRequest data)
          => _context.RepairRequests.Update(data);
+
+    public void Update_AbolitionRequest(AbolitionRequest data)
+        => _context.AbolitionRequests.Update(data);
 }
 

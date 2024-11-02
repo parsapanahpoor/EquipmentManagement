@@ -18,6 +18,7 @@ public record DashboardInfoQueryHandler(
 
         var abolitionRequests = new List<AbolitionRequestDto>();
         abolitionRequests.AddRange(await organziationRequestQueryRepository.FillAbolitionRequestDto(request.UserId, cancellationToken));
+        abolitionRequests.AddRange(await organziationRequestQueryRepository.GetNotifForDecisinor(request.UserId, cancellationToken));
 
         return new DashboardDto()
         {

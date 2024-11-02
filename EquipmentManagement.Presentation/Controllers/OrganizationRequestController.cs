@@ -13,6 +13,9 @@ using EquipmentManagement.Application.CQRS.SiteSide.OrganizationRequest.Query.Re
 using EquipmentManagement.Application.Extensions;
 using EquipmentManagement.Domain.Entities.OrganizationRequest;
 using EquipmentManagement.Application.CQRS.SiteSide.RepairRequest.Command.NewFolder;
+using EquipmentManagement.Application.CQRS.SiteSide.OrganizationRequest.Query.AbolitionRequestDetail;
+using EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest;
+using EquipmentManagement.Application.CQRS.SiteSide.OrganizationRequest.Command.AbolitionRequestStateChanger;
 
 namespace EquipmentManagement.Presentation.Controllers;
 
@@ -185,7 +188,7 @@ public class OrganizationRequestController : SiteBaseController
             TempData[ErrorMessage] = "شما مجوز دیدن این بخش را ندارید.";
             return RedirectToAction("Landing", "Home");
         }
-        if (model.ExpertVisitorOpinion.ResponsType == ExpertVisitorResponsType.Reject)
+        if (model.ExpertVisitorOpinion.ResponsType == Domain.Entities.OrganizationRequest.ExpertVisitorResponsType.Reject)
         {
             TempData[ErrorMessage] = "امکان مشاهده ی درخواست های رد شده وجود ندارد .";
             return RedirectToAction("Landing", "Home");
@@ -242,7 +245,72 @@ public class OrganizationRequestController : SiteBaseController
 
     #region Abolition Request
 
+    #region Show Abolition Request Detail
 
+    [HttpGet]
+    public async Task<IActionResult> ShowAbolitionRequestDetail(ulong abolitionRequestId,
+        CancellationToken cancellationToken)
+    {
+        var model = await Mediator.Send(new AbolitionRequestDetailQuery(
+            User.GetUserId(),
+            abolitionRequestId
+            ), cancellationToken);
+
+        if (model == null)
+        {
+            TempData[ErrorMessage] = "شما مجوز دیدن این بخش را ندارید.";
+            return RedirectToAction("Landing", "Home");
+        }
+        if (model.ExpertVisitorOpinion.ResponsType == Domain.Entities.OrganizationRequest.AbolitionRequest.ExpertVisitorResponsType.Reject)
+        {
+            TempData[ErrorMessage] = "امکان مشاهده ی درخواست های رد شده وجود ندارد .";
+            return RedirectToAction("Landing", "Home");
+        }
+
+        return View(model);
+    }
+
+    #endregion
+
+    #region Change Abolition Request State 
+
+    [HttpPost]
+    public async Task<IActionResult> ChangeAbolitionRequestState(ulong abolitionRequestId,
+        AbolitionRequestState requestState,
+        string description)
+    {
+        if (string.IsNullOrEmpty(description))
+        {
+            TempData[ErrorMessage] = "توضیحات اجباری است";
+            return RedirectToAction(nameof(ShowAbolitionRequestDetail),
+                new { abolitionRequestId = abolitionRequestId });
+        }
+
+        if (!ModelState.IsValid)
+        {
+            TempData[ErrorMessage] = "شما مجوز دیدن این بخش را ندارید.";
+            return RedirectToAction(nameof(ShowAbolitionRequestDetail),
+                new { abolitionRequestId = abolitionRequestId });
+        }
+
+        var result = await Mediator.Send(new AbolitionRequestStateChangerCommand(
+            User.GetUserId(),
+            abolitionRequestId,
+            requestState,
+            description));
+
+        if (result)
+        {
+            TempData[SuccessMessage] = "عملیات باموفقیت انجام شده است.";
+            return RedirectToAction("Landing", "Home");
+        }
+
+        TempData[ErrorMessage] = "شما مجوز دیدن این بخش را ندارید.";
+        return RedirectToAction(nameof(ShowAbolitionRequestDetail),
+            new { abolitionRequestId = abolitionRequestId });
+    }
+
+    #endregion
 
     #endregion
 }

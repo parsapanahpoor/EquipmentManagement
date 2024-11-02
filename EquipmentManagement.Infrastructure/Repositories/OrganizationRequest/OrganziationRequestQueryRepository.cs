@@ -3,6 +3,7 @@ using EquipmentManagement.Domain.DTO.SiteSide.OrganizationChart;
 using EquipmentManagement.Domain.DTO.SiteSide.OrganizationRequest;
 using EquipmentManagement.Domain.Entities.OrganizationChart;
 using EquipmentManagement.Domain.Entities.OrganizationRequest;
+using EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest;
 using EquipmentManagement.Domain.IRepositories.OranizationRequest;
 using Microsoft.EntityFrameworkCore;
 
@@ -118,7 +119,7 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
     => await _context.ExpertVisitorOpinions
         .AsNoTracking()
         .Where(p => !p.IsDelete &&
-        p.ResponsType == ExpertVisitorResponsType.WaitingForRespons)
+        p.ResponsType == Domain.Entities.OrganizationRequest.ExpertVisitorResponsType.WaitingForRespons)
         .Select(p => new RepairRequestDto()
         {
             CreateDate = p.CreateDate,
@@ -243,12 +244,60 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
           })
           .ToListAsync();
 
+    public async Task<List<AbolitionRequestDto>> GetNotifForDecisinor(ulong userId,
+      CancellationToken cancellationToken)
+      => await _context.DecisionAbolitionRequestRespons
+          .AsNoTracking()
+          .Where(p => !p.IsDelete &&
+          p.Response == DecisionAbolitionRespons.WaitingForRespons)
+          .Select(p => new AbolitionRequestDto()
+          {
+              CreateDate = p.CreateDate,
+
+              ProductName = _context.AbolitionRequests
+              .Include(rq => rq.Product)
+              .Where(rq => !rq.IsDelete &&
+                     rq.Id == p.AbolitionRequestId)
+              .Select(rq => rq.Product!.ProductTitle)
+              .FirstOrDefault(),
+
+              AbolitionRequestId = p.AbolitionRequestId,
+
+              RequesterUsername = _context.AbolitionRequests
+              .Include(rq => rq.User)
+              .Where(rq => !rq.IsDelete &&
+                     rq.Id == p.AbolitionRequestId)
+              .Select(rq => rq.User.Username)
+              .FirstOrDefault(),
+
+              Description = _context.AbolitionRequests
+              .Where(rq => !rq.IsDelete &&
+                     rq.Id == p.AbolitionRequestId)
+              .Select(rq => rq.Description)
+              .FirstOrDefault(),
+
+              ExpertVisitorAbolitionRequestState = _context.AbolitionRequests
+                .Where(rq => !rq.IsDelete &&
+                       rq.Id == p.AbolitionRequestId)
+                .Select(rq => rq.ExpertVisitorAbolitionRequestState)
+                .FirstOrDefault(),
+          })
+          .ToListAsync();
+
     public async Task<RepairRequest?> GetRepairRequestById(ulong repairReuqestId,
         CancellationToken cancellationToken)
         => await _context.RepairRequests
         .AsNoTracking()
         .Where(p => !p.IsDelete &&
         p.Id == repairReuqestId)
+        .FirstOrDefaultAsync();
+
+    public async Task<AbolitionRequest?> GetAbolitionRequestById(ulong abolitionReuqestId,
+        CancellationToken cancellationToken)
+        => await _context.AbolitionRequests
+        .AsNoTracking()
+        .Where(p => !p.IsDelete &&
+            p.Id == abolitionReuqestId)
         .FirstOrDefaultAsync();
 
     public async Task<ExpertVisitorOpinionEntity?> Get_ExpertOpinion_ByRepairRequestId(ulong repairRequestId,
@@ -258,6 +307,14 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
         .Where(p => !p.IsDelete &&
         p.RepairRequestId == repairRequestId)
         .FirstOrDefaultAsync();
+
+    public async Task<ExpertVisitorOpinionForAbolitionRequestEntity?> Get_ExpertOpinion_ByAbolitionRequestId(ulong abolitionRequestId,
+      CancellationToken cancellationToken)
+      => await _context.ExpertVisitorOpinionForAbolitionRequestEntities
+      .AsNoTracking()
+      .Where(p => !p.IsDelete &&
+        p.AbolitionRequestId == abolitionRequestId)
+      .FirstOrDefaultAsync();
 
     public async Task<List<DecisionRepairRequestRespons>?> Get_DecisionRepairRequestRespons_ByRequestIdAndUserId(
         ulong requestId,
@@ -270,12 +327,30 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
         p.EmployeeUserId == userId)
         .ToListAsync();
 
+    public async Task<List<DecisionAbolitionRequestRespons>?> Get_DecisionAbolitionRequestRespons_ByRequestIdAndUserId(
+      ulong requestId,
+      ulong userId,
+      CancellationToken cancellationToken)
+      => await _context.DecisionAbolitionRequestRespons
+      .AsNoTracking()
+      .Where(p => !p.IsDelete &&
+      p.AbolitionRequestId == requestId &&
+      p.EmployeeUserId == userId)
+      .ToListAsync();
+
     public async Task<bool> IsRequestNotBeFinished(ulong repairRequestId,
         CancellationToken cancellationToken)
         => await _context.DecisionRepairRequestRespons.AnyAsync(p => !p.IsDelete &&
         p.RepariRequestId == repairRequestId && (
         p.Response == DecisionRepairRespons.Reject ||
         p.Response == DecisionRepairRespons.WaitingForRespons));
+
+    public async Task<bool> IsAbolitionRequestNotBeFinished(ulong abolitionRequestId,
+      CancellationToken cancellationToken)
+      => await _context.DecisionAbolitionRequestRespons.AnyAsync(p => !p.IsDelete &&
+          p.AbolitionRequestId == abolitionRequestId && (
+          p.Response == DecisionAbolitionRespons.Reject ||
+          p.Response == DecisionAbolitionRespons.WaitingForRespons));
 
 }
 

@@ -30,4 +30,5 @@ public interface IOrganizationChartQueryRepository
 
     Task<List<UserSelectedOrganizationChartEntity>> Get_RepairRequestDesiciners(CancellationToken cancellationToken);
     Task<List<OrganizationChartSelectedForUserDto>?> FillOrganizationChartSelectedForUserDto(CancellationToken cancellation);
+    Task<List<UserSelectedOrganizationChartEntity>> Get_AbolitionRequestDesiciners(CancellationToken cancellationToken);
 }
