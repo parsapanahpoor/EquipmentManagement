@@ -247,6 +247,14 @@
                                                 <i class="fa fa-recycle"></i>
                                             </a>
 
+                                            <a title="درخواست اسقاط"
+                                               asp-controller="Product"
+                                               asp-action="FiltreProductAbolitionRequest"
+                                               asp-route-ProductId="@product.Id"
+                                               class="btn btn-warning btn-circle btn-xs">
+                                                <i class="fa fa-ban"></i>
+                                            </a>
+
                                             <button onclick="DeleteAjax(@product.Id, '@Url.Action("DeleteProduct", "Product", new {area = "", ProductId = product.Id})')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
 
                                         </div>

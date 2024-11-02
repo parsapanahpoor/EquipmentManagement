@@ -4,6 +4,7 @@ using EquipmentManagement.Domain.Entities.Account;
 using EquipmentManagement.Domain.Entities.OperatorLogger;
 using EquipmentManagement.Domain.Entities.OrganizationChart;
 using EquipmentManagement.Domain.Entities.OrganizationRequest;
+using EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest;
 using EquipmentManagement.Domain.Entities.Places;
 using EquipmentManagement.Domain.Entities.Product;
 using EquipmentManagement.Domain.Entities.ProductCategory;
@@ -84,9 +85,21 @@ public class EquipmentManagementDbContext : DbContext
 
     public DbSet<OrganizationChartAggregate> OrganizationCharts { get; set; }
     public DbSet<UserSelectedOrganizationChartEntity> UserSelectedOrganizationCharts { get; set; }
+
+    #region Repair Request
+
     public DbSet<RepairRequest> RepairRequests { get; set; }
     public DbSet<DecisionRepairRequestRespons> DecisionRepairRequestRespons { get; set; }
     public DbSet<ExpertVisitorOpinionEntity> ExpertVisitorOpinions { get; set; }
+
+    #endregion
+
+    #region Abolition Request 
+
+    public DbSet<AbolitionRequest> AbolitionRequests { get; set; }
+    public DbSet<ExpertVisitorOpinionForAbolitionRequestEntity> ExpertVisitorOpinionForAbolitionRequestEntities { get; set; }
+
+    #endregion
 
     #endregion
 

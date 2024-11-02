@@ -102,6 +102,11 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
        .FirstOrDefaultAsync(p => !p.IsDelete &&
        p.RequestType == RequestType.Repair);
 
+    public async Task<OrganziationRequestEntity?> GetFirstConfiguration_ForAbolitionRequest(CancellationToken cancellationToken)
+       => await _context.OrganziationRequests
+       .FirstOrDefaultAsync(p => !p.IsDelete &&
+       p.RequestType == RequestType.Abolition);
+
     public async Task<bool> IExistAny_DesicionMaker_ForRequest(ulong organziationRequestId,
         CancellationToken cancellationToken)
         => await _context.RequestDecisionMakers

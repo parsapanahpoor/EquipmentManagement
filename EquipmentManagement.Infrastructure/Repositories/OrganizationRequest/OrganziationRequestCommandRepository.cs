@@ -1,4 +1,5 @@
 ﻿using EquipmentManagement.Domain.Entities.OrganizationRequest;
+using EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest;
 using EquipmentManagement.Domain.IRepositories.OranizationRequest;
 
 namespace EquipmentManagement.Infrastructure.Repositories.OrganizationRequest;
@@ -30,9 +31,17 @@ public class OrganziationRequestCommandRepository :
         CancellationToken cancellationToken)
         => await _context.ExpertVisitorOpinions.AddAsync(data, cancellationToken);
 
+    public async Task Add_ExpertVisitorRequest(ExpertVisitorOpinionForAbolitionRequestEntity data,
+    CancellationToken cancellationToken)
+        => await _context.ExpertVisitorOpinionForAbolitionRequestEntities.AddAsync(data, cancellationToken);
+
     public async Task Add_RepairRequest(RepairRequest data,
         CancellationToken cancellationToken)
         => await _context.RepairRequests.AddAsync(data, cancellationToken);
+
+    public async Task Add_AbolitionRequest(AbolitionRequest data,
+       CancellationToken cancellationToken)
+       => await _context.AbolitionRequests.AddAsync(data, cancellationToken);
 
     public void Update_ExpertVisitorResponse(ExpertVisitorOpinionEntity data)
         => _context.ExpertVisitorOpinions.Update(data);

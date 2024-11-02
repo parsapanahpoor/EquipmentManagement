@@ -18,6 +18,8 @@ namespace EquipmentManagement.Presentation.Controllers;
 
 public class OrganizationRequestController : SiteBaseController
 {
+    #region Organization Request
+
     #region Filter OrganziationRequest 
 
     public async Task<IActionResult> FilterOrganziationRequest(FilterOrganizationRequestsDto filter,
@@ -109,6 +111,10 @@ public class OrganizationRequestController : SiteBaseController
 
     #endregion
 
+    #endregion
+
+    #region Repair Request
+
     #region Filter Request Desicion Marks
 
     [HttpGet]
@@ -179,7 +185,7 @@ public class OrganizationRequestController : SiteBaseController
             TempData[ErrorMessage] = "شما مجوز دیدن این بخش را ندارید.";
             return RedirectToAction("Landing", "Home");
         }
-        if (model.ExpertVisitorOpinion.ResponsType == ExpertVisitorResponsType.Reject ) 
+        if (model.ExpertVisitorOpinion.ResponsType == ExpertVisitorResponsType.Reject)
         {
             TempData[ErrorMessage] = "امکان مشاهده ی درخواست های رد شده وجود ندارد .";
             return RedirectToAction("Landing", "Home");
@@ -208,15 +214,15 @@ public class OrganizationRequestController : SiteBaseController
         if (!ModelState.IsValid)
         {
             TempData[ErrorMessage] = "شما مجوز دیدن این بخش را ندارید.";
-            return RedirectToAction(nameof(ShowRepairRequestDetail) , 
+            return RedirectToAction(nameof(ShowRepairRequestDetail),
                 new { repairRequestId = repairRequestId });
         }
 
         var result = await Mediator.Send(new ChangeRepairRequestStateCommand(
-            User.GetUserId() , 
-            repairRequestId , 
-            requestState , 
-            outSource , 
+            User.GetUserId(),
+            repairRequestId,
+            requestState,
+            outSource,
             description));
 
         if (result)
@@ -229,6 +235,14 @@ public class OrganizationRequestController : SiteBaseController
         return RedirectToAction(nameof(ShowRepairRequestDetail),
             new { repairRequestId = repairRequestId });
     }
+
+    #endregion
+
+    #endregion
+
+    #region Abolition Request
+
+
 
     #endregion
 }

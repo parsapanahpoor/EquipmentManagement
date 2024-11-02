@@ -4,6 +4,7 @@ using EquipmentManagement.Infrastructure.ApplicationDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EquipmentManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(EquipmentManagementDbContext))]
-    partial class EquipmentManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241102083001_Add-AbolitionRequest-Table")]
+    partial class AddAbolitionRequestTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,7 +192,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
                     b.Property<decimal>("EmployeeUserId")
                         .HasColumnType("decimal(20,0)");
 
-                    b.Property<int>("ExpertVisitorAbolitionRequestState")
+                    b.Property<int>("ExpertVisitorRepairRequestState")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDelete")

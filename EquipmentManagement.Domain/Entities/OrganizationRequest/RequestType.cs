@@ -4,5 +4,6 @@ namespace EquipmentManagement.Domain.Entities.OrganizationRequest;
 
 public enum RequestType
 {
-    [Display(Name ="درخواست تعمیرات")]Repair
+    [Display(Name ="درخواست تعمیرات")]Repair,
+    [Display(Name ="درخواست اسقاط")]Abolition
 }

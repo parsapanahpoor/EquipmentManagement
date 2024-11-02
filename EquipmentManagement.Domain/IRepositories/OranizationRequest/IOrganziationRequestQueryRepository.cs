@@ -52,4 +52,5 @@ public interface IOrganziationRequestQueryRepository
 
     Task<bool> IsExistAnyConfiguration_ForRepairRequest(CancellationToken cancellationToken);
     Task<OrganziationRequestEntity?> GetFirstConfiguration_ForRepairRequest(CancellationToken cancellationToken);
+    Task<OrganziationRequestEntity?> GetFirstConfiguration_ForAbolitionRequest(CancellationToken cancellationToken);
 }

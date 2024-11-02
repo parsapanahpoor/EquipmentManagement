@@ -1,9 +1,12 @@
 ﻿using EquipmentManagement.Application.CQRS.SiteSide.Product.Command;
+using EquipmentManagement.Application.CQRS.SiteSide.Product.Command.CreateAbolitionRequest;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Command.CreateRepairRequest;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Command.EditProduct;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query;
+using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.CreateAbolitionRequestFormInfo;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.CreateRepairRequestFormInfo;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.EditProduct;
+using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.FiltreProductAbolitionRequest;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.FiltreProductRepairRequest;
 using EquipmentManagement.Application.Extensions;
 using EquipmentManagement.Application.Security;
@@ -16,6 +19,8 @@ namespace EquipmentManagement.Presentation.Controllers;
 [PermissionChecker("ManageAccount")]
 public class ProductController : SiteBaseController
 {
+    #region Product
+
     #region List Of Products
 
     public async Task<IActionResult> FilterProduct(FilterProductDTO filter,
@@ -203,6 +208,10 @@ public class ProductController : SiteBaseController
 
     #endregion
 
+    #endregion
+
+    #region Organization Request
+
     #region Create Repair Request
 
     [HttpGet]
@@ -264,6 +273,72 @@ public class ProductController : SiteBaseController
         => View(await Mediator.Send(
             new FiltreProductRepairRequestQuery(filter),
             cancellationToken));
+
+    #endregion
+
+    #region Filter Abolition Request
+
+    [HttpGet]
+    public async Task<IActionResult> FiltreProductAbolitionRequest(FiltreProductAbolitionRequestDto filter,
+        CancellationToken cancellationToken)
+        => View(await Mediator.Send(
+            new FiltreProductAbolitionRequestQuery(filter),
+            cancellationToken));
+
+    #endregion
+
+    #region Create Abolition Request
+
+    [HttpGet]
+    public async Task<IActionResult> CreateAbolitionRequest(ulong productId,
+        CancellationToken cancellationToken)
+        => View(await Mediator.Send(new CreateAbolitionRequestFormInfoQuery(
+            productId,
+            User.GetUserId()),
+            cancellationToken));
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateAbolitionRequest(ulong productId,
+        ulong expertUserId,
+        string? description,
+        CancellationToken cancellationToken)
+    {
+        if (ModelState.IsValid)
+        {
+            var result = await Mediator.Send(new CreateAbolitionRequestCommand(
+                productId,
+                expertUserId,
+                User.GetUserId(),
+                description)
+             , cancellationToken);
+
+            switch (result)
+            {
+                case CreateAbolitionRequestCommandRespons.Success:
+                    TempData[SuccessMessage] = "درخواست باموفقیت انجام شده است .";
+                    return RedirectToAction("Landing", "Home");
+
+                case CreateAbolitionRequestCommandRespons.Failure:
+                    TempData[ErrorMessage] = "عملیات باشکست مواجه شده است.";
+                    break;
+
+                case CreateAbolitionRequestCommandRespons.DosentConfig:
+                    TempData[ErrorMessage] = "درحال حاضر ایجاد درخواست در دسترس نمی باشد .";
+                    return RedirectToAction(nameof(FilterProduct));
+
+                default:
+                    break;
+            }
+        }
+
+        TempData[ErrorMessage] = "عملیات باشکست مواجه شده است.";
+        return View(await Mediator.Send(new CreateAbolitionRequestFormInfoQuery(
+            productId,
+            User.GetUserId()),
+            cancellationToken));
+    }
+
+    #endregion
 
     #endregion
 }

@@ -10,6 +10,10 @@ public interface IProductQueryRepository
         FiltreProductRepairRequestDto filter,
         CancellationToken cancellationToken);
 
+    Task<FiltreProductAbolitionRequestDto> FiltreProductAbolitionRequest(
+        FiltreProductAbolitionRequestDto filter,
+        CancellationToken cancellationToken);
+
     Task<FilterProductDTO> FilterProducts(FilterProductDTO filter);
 
     Task<List<FilterProductForExcelFilesDTO>> FilterProductsForExcelFiles(FilterProductForExcelFilesDTO filter);
