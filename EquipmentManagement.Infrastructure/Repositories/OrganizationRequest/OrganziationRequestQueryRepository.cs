@@ -84,6 +84,23 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
         })
            .ToListAsync();
 
+    public async Task<List<DecisionAbolitionRequestDto>> Get_DecisionAbolitionRequestDto_ByRequestId(ulong requestId,
+       CancellationToken cancellationToken)
+       => await _context.DecisionAbolitionRequestRespons
+           .Where(p => !p.IsDelete &&
+           p.AbolitionRequestId == requestId)
+        .Select(p => new DecisionAbolitionRequestDto()
+        {
+            RejectDescription = p.RejectDescription,
+            Response = p.Response,
+            User = _context.Users
+            .AsNoTracking()
+            .Where(c => !c.IsDelete &&
+            c.Id == p.EmployeeUserId)
+            .FirstOrDefault(),
+        })
+           .ToListAsync();
+
     public async Task<List<ulong>?> Get_OrganizationChartsIds_ByRequestId(ulong requestId,
        CancellationToken cancellation)
     => await _context.RequestDecisionMakers

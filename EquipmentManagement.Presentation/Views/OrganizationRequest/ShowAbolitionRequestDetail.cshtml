@@ -84,7 +84,7 @@
                         </div>
 
                         @if (Model.ExpertVisitorOpinion != null &&
-                        Model.ExpertVisitorOpinion.ResponsType !=  EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest.ExpertVisitorResponsType.WaitingForRespons)
+                        Model.ExpertVisitorOpinion.ResponsType != EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest.ExpertVisitorResponsType.WaitingForRespons)
                         {
                             <hr class="margin-bottom-10 margin-top-10" />
 
@@ -94,17 +94,17 @@
                                 {
                                     <div class="form-group col-md-4 col-sm-12">
                                         <label> نام مدیر </label>
-                                        <input type="text" class="form-control" readonly value="@Model.Employee!.Username">
+                                        <input type="text" class="form-control" readonly value="@Model.ExpertVisitor!.Username">
                                     </div>
 
                                     <div class="form-group col-md-4 col-sm-12">
                                         <label> موبایل مدیر </label>
-                                        <input type="text" class="form-control" readonly value="@Model.Employee.Mobile">
+                                        <input type="text" class="form-control" readonly value="@Model.ExpertVisitor.Mobile">
                                     </div>
 
                                     <div class="form-group col-md-4 col-sm-12">
                                         <label> کدملی مدیر  </label>
-                                        <input type="text" class="form-control" readonly value="@Model.Employee.NationalId">
+                                        <input type="text" class="form-control" readonly value="@Model.ExpertVisitor.NationalId">
                                     </div>
                                 }
 
@@ -171,6 +171,45 @@
                                     </button>
                                 </div>
                             </div>
+                        }
+
+                        @if (Model.DecisionsRespons != null && Model.DecisionsRespons.Any())
+                        {
+                            if (Model.DecisionsRespons.Any(p => p.User.Id == User.GetUserId() &&
+                            p.Response == DecisionAbolitionRespons.WaitingForRespons))
+                            {
+                                <hr class="margin-bottom-10 margin-top-10" />
+
+                                <div class="row " style=" background-color: #f7ccec; margin-left: 0px;margin-right: 0px; padding-top: 10px;">
+
+                                    <div class="form-group col-md-12 col-sm-12">
+                                        <label>
+                                            لطفا وضعیت را مشخص کنید :
+                                            <span style="color:red;">*</span>
+                                        </label>
+                                        <select name="requestState"
+                                                class="form-control"
+                                                asp-items="Html.GetEnumSelectList(typeof(DecisionAbolitionRespons))"></select>
+                                    </div>
+
+                                    <div class="form-group col-md-12 col-sm-12">
+                                        <label>
+                                            نظریه شما :
+                                            <span style="color:red;">*</span>
+                                        </label>
+                                        <textarea type="text" class="form-control" name="description" placeholder="لطفا نظر خود را وارد نمایید"></textarea>
+                                    </div>
+
+                                </div>
+
+                                <div class="row mt-5">
+                                    <div class="col-md-12 flex-style">
+                                        <button type="submit" class="btn btn-labeled btn-palegreen">
+                                            <i class="btn-label glyphicon glyphicon-ok"></i>ثبت
+                                        </button>
+                                    </div>
+                                </div>
+                            }
                         }
 
                     </div>

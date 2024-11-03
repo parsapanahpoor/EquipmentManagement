@@ -117,7 +117,7 @@ public record AbolitionRequestStateChangerCommandHandler(
                 }
             }
 
-            if (request.requestState == AbolitionRequestState.WaitingForManagerRespons)
+            if (request.requestState == AbolitionRequestState.WaitingForProductsCollectorRespons)
             {
                 if (!await OrganziationRequestQueryRepository.IsAbolitionRequestNotBeFinished(request.abolitionRequestId,
                     cancellationToken))

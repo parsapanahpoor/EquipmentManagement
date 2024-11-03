@@ -25,6 +25,9 @@ public interface IOrganziationRequestQueryRepository
     Task<List<DecisionRepairRequestDto>> Get_DecisionRepairRequestDto_ByRequestId(ulong requestId,
        CancellationToken cancellationToken);
 
+    Task<List<DecisionAbolitionRequestDto>> Get_DecisionAbolitionRequestDto_ByRequestId(ulong requestId,
+       CancellationToken cancellationToken);
+
     Task<List<ulong>?> Get_OrganizationChartsIds_ByRequestId(ulong requestId,
        CancellationToken cancellation);
 
