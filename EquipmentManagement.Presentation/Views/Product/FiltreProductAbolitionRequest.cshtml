@@ -61,7 +61,7 @@
                                     نام درخواست دهنده
                                 </th>
                                 <th>
-                                    نظر بررسی مدیر
+                                    وضعیت درخواست
                                 </th>
                                 <th>
                                     تاریخ درج درخواست
@@ -85,19 +85,25 @@
                                         @product.User.Username
                                     </td>
                                     <td>
-                                        @if (product.ExpertVisitorAbolitionRequestState == ExpertAbolitionRequestState.Accepted)
+                                        @if (product.RequestState == AbolitionRequestState.Finally)
                                         {
                                             <p class="label label-success">
-                                                تایید شده
+                                                نهایی شذه
                                             </p>
                                         }
-                                        @if (product.ExpertVisitorAbolitionRequestState == ExpertAbolitionRequestState.WaitingForRespons)
+                                        @if (product.RequestState == AbolitionRequestState.WaitingForProductsCollectorRespons)
                                         {
                                             <p class="label label-warning">
-                                                در انتظار بررسی
+                                                در انتظار بررسی جمع دار اموال
                                             </p>
                                         }
-                                        @if (product.ExpertVisitorAbolitionRequestState == ExpertAbolitionRequestState.Reject)
+                                        @if (product.RequestState == AbolitionRequestState.WaitingForManagerRespons)
+                                        {
+                                            <p class="label label-warning">
+                                                در انتظار بررسی مدیر
+                                            </p>
+                                        }
+                                        @if (product.RequestState == AbolitionRequestState.Reject)
                                         {
                                             <p class="label label-danger">
                                                 رد شده

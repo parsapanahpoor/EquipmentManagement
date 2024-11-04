@@ -159,7 +159,7 @@
                                         @(string.IsNullOrEmpty(product.Product.Brand) ? "-" : product.Product.Brand)
                                     </td>
                                     <td>
-                                        @product.Place.PlaceTitle
+                                        @((product.Place is not null) ? product.Place.PlaceTitle : "ثبت نشده است" )
                                     </td>
                                     <td>
                                         @product.Product.BarCode

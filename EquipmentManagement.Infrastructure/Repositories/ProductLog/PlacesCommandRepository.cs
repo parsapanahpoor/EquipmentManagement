@@ -17,38 +17,8 @@ public class ProductLogCommandRepository : CommandGenericRepository<Domain.Entit
 
     #endregion
 
-    public async Task AddProductLog(CreateProductLogDto model , CancellationToken cancellationToken)
+    public async Task AddProductLog(Domain.Entities.ProductLog.ProductLog model , CancellationToken cancellationToken)
     {
-        var record = new Domain.Entities.ProductLog.ProductLog()
-        {
-            CreateDate = DateTime.Now,
-            Description = model.Description,
-            PlaceId = model.PlaceId,
-            ProductId = model.ProductId,
-            UserId = model.UserId
-        };
-
-        await AddAsync(record , cancellationToken);
-    }
-
-    public async Task AddProductLog(List<CreateProductLogDto> model, CancellationToken cancellationToken)
-    {
-        var records = new List<Domain.Entities.ProductLog.ProductLog>();
-
-        foreach (var item in model)
-        {
-            var record = new Domain.Entities.ProductLog.ProductLog()
-            {
-                CreateDate = DateTime.Now,
-                Description = item.Description,
-                PlaceId = item.PlaceId,
-                ProductId = item.ProductId,
-                UserId = item.UserId
-            };
-
-            records.Add(record);
-        }
-
-        await AddRangeAsync(records, cancellationToken);
+        await AddAsync(model , cancellationToken);
     }
 }

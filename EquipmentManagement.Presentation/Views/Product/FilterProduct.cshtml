@@ -191,7 +191,7 @@
 
                             @foreach (var product in Model.Entities)
                             {
-                                <tr id="profile_@product.Id" remove-ajax-item="@product.Id">
+                                <tr id="profile_@product.Id" remove-ajax-item="@product.Id" class="@(product.IsAbolition ? "red" : "" )">
 
                                     <td>
                                         @product.Id
@@ -223,39 +223,46 @@
                                     <td>
                                         <div class="d-flex justify-content-center ">
 
-                                            <a title="نمایش اطلاعات" 
-                                            asp-controller="Product" 
-                                            asp-action="ProductDetail" 
-                                            asp-route-ProductId="@product.Id" 
-                                            class="btn btn-info btn-circle btn-xs">
+                                            <a title="نمایش اطلاعات"
+                                               asp-controller="Product"
+                                               asp-action="ProductDetail"
+                                               asp-route-ProductId="@product.Id"
+                                               class="btn btn-info btn-circle btn-xs">
                                                 <i class="glyphicon glyphicon-eye-open"></i>
                                             </a>
 
-                                            <a title="ویرایش اطلاعات" 
-                                            asp-controller="Product" 
-                                            asp-action="EditProduct" 
-                                            asp-route-ProductId="@product.Id" 
-                                            class="btn btn-warning btn-circle btn-xs">
-                                                <i class="glyphicon glyphicon-edit"></i>
-                                            </a>
-                                          
-                                            <a title="درخواست تعمیر" 
-                                            asp-controller="Product"
-                                               asp-action="FiltreProductRepairRequest"
-                                               asp-route-ProductId="@product.Id"
-                                               class="btn btn-primary btn-circle btn-xs">
-                                                <i class="fa fa-recycle"></i>
-                                            </a>
+                                            @if (product.IsAbolition)
+                                            {
+                                                <p class="badge badge-danger">اسقاط شده است.</p>
+                                            }
+                                            else
+                                            {
+                                                <a title="ویرایش اطلاعات"
+                                                   asp-controller="Product"
+                                                   asp-action="EditProduct"
+                                                   asp-route-ProductId="@product.Id"
+                                                   class="btn btn-warning btn-circle btn-xs">
+                                                    <i class="glyphicon glyphicon-edit"></i>
+                                                </a>
 
-                                            <a title="درخواست اسقاط"
-                                               asp-controller="Product"
-                                               asp-action="FiltreProductAbolitionRequest"
-                                               asp-route-ProductId="@product.Id"
-                                               class="btn btn-warning btn-circle btn-xs">
-                                                <i class="fa fa-ban"></i>
-                                            </a>
+                                                <a title="درخواست تعمیر"
+                                                   asp-controller="Product"
+                                                   asp-action="FiltreProductRepairRequest"
+                                                   asp-route-ProductId="@product.Id"
+                                                   class="btn btn-primary btn-circle btn-xs">
+                                                    <i class="fa fa-recycle"></i>
+                                                </a>
 
-                                            <button onclick="DeleteAjax(@product.Id, '@Url.Action("DeleteProduct", "Product", new {area = "", ProductId = product.Id})')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+                                                <a title="درخواست اسقاط"
+                                                   asp-controller="Product"
+                                                   asp-action="FiltreProductAbolitionRequest"
+                                                   asp-route-ProductId="@product.Id"
+                                                   class="btn btn-warning btn-circle btn-xs">
+                                                    <i class="fa fa-ban"></i>
+                                                </a>
+
+                                                <button onclick="DeleteAjax(@product.Id, '@Url.Action("DeleteProduct", "Product", new {area = "", ProductId = product.Id})')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+                                            }
 
                                         </div>
                                     </td>

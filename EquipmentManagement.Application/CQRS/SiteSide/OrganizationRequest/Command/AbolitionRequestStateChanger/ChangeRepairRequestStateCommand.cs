@@ -4,6 +4,8 @@ using EquipmentManagement.Domain.Entities.OrganizationRequest;
 using EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest;
 using EquipmentManagement.Domain.IRepositories.OranizationRequest;
 using EquipmentManagement.Domain.IRepositories.OrganizationChart;
+using EquipmentManagement.Domain.IRepositories.Product;
+using EquipmentManagement.Domain.IRepositories.ProductLog;
 using EquipmentManagement.Domain.IRepositories.User;
 
 namespace EquipmentManagement.Application.CQRS.SiteSide.OrganizationRequest.Command.AbolitionRequestStateChanger;
@@ -20,6 +22,9 @@ public record AbolitionRequestStateChangerCommandHandler(
     IOrganziationRequestQueryRepository OrganziationRequestQueryRepository,
     IOrganziationRequestCommandRepository OrganziationRequestCommandRepository,
     IOrganizationChartQueryRepository OrganziationChartQueryRepository,
+    IProductLogCommandRepository ProductLogCommandRepository,
+    IProductCommandRepository ProductCommandRepository,
+    IProductQueryRepository ProductQueryRepository,
     IUnitOfWork UnitOfWork) :
     IRequestHandler<AbolitionRequestStateChangerCommand, bool>
 {
@@ -31,6 +36,10 @@ public record AbolitionRequestStateChangerCommandHandler(
             cancellationToken);
 
         if (AbolitionRequest == null)
+            return false;
+
+        var realProduct = await ProductQueryRepository.GetByIdAsync(cancellationToken, AbolitionRequest.ProductId);
+        if (realProduct == null)
             return false;
 
         //Check That is current user in visit expert of this request 
@@ -59,11 +68,31 @@ public record AbolitionRequestStateChangerCommandHandler(
             {
                 AbolitionRequest.ExpertVisitorAbolitionRequestState = ExpertAbolitionRequestState.Accepted;
                 OrganziationRequestCommandRepository.Update_AbolitionRequest(AbolitionRequest);
+
+                //Add Product Log
+                var productLog = new Domain.Entities.ProductLog.ProductLog()
+                {
+                    UserId = request.userId,
+                    Description = "تایید اسقاط کالا توسط مدیر",
+                    PlaceId = null,
+                    ProductId = AbolitionRequest.ProductId
+                };
+                await ProductCommandRepository.AddProductLog(productLog, cancellationToken);
             }
             if (expertOpinion.ResponsType == Domain.Entities.OrganizationRequest.AbolitionRequest.ExpertVisitorResponsType.Reject)
             {
                 AbolitionRequest.ExpertVisitorAbolitionRequestState = ExpertAbolitionRequestState.Reject;
                 OrganziationRequestCommandRepository.Update_AbolitionRequest(AbolitionRequest);
+
+                //Add Product Log
+                var productLog = new Domain.Entities.ProductLog.ProductLog()
+                {
+                    UserId = request.userId,
+                    Description = "رد اسقاط کالا توسط مدیر",
+                    PlaceId = null,
+                    ProductId = AbolitionRequest.ProductId
+                };
+                await ProductCommandRepository.AddProductLog(productLog, cancellationToken);
             }
 
             //Add Record for Abolition Request Decisioners
@@ -104,11 +133,11 @@ public record AbolitionRequestStateChangerCommandHandler(
             //Update Decision Reponse
             if (decisionsResponses.Any(p => p.EmployeeUserId == request.userId && p.Response == DecisionAbolitionRespons.WaitingForRespons))
             {
-                foreach (var decisionsRespons in decisionsResponses.Where(p => p.EmployeeUserId == request.userId && p.Response == DecisionAbolitionRespons.WaitingForRespons))
+                foreach (var decisionsRespons in decisionsResponses.Where(p => p.Response == DecisionAbolitionRespons.WaitingForRespons))
                 {
                     decisionsRespons.UpdateDate = DateTime.Now;
                     decisionsRespons.RejectDescription = request.description;
-                    decisionsRespons.Response = request.requestState == 
+                    decisionsRespons.Response = request.requestState ==
                         AbolitionRequestState.WaitingForManagerRespons ?
                         DecisionAbolitionRespons.Accepted :
                         DecisionAbolitionRespons.Reject;
@@ -119,17 +148,37 @@ public record AbolitionRequestStateChangerCommandHandler(
 
             if (request.requestState == AbolitionRequestState.WaitingForProductsCollectorRespons)
             {
-                if (!await OrganziationRequestQueryRepository.IsAbolitionRequestNotBeFinished(request.abolitionRequestId,
-                    cancellationToken))
+                AbolitionRequest.RequestState = AbolitionRequestState.Finally;
+                OrganziationRequestCommandRepository.Update_AbolitionRequest(AbolitionRequest);
+
+                //Add Product Log
+                var productLog = new Domain.Entities.ProductLog.ProductLog()
                 {
-                    AbolitionRequest. RequestState = AbolitionRequestState.Finally;
-                    OrganziationRequestCommandRepository.Update_AbolitionRequest(AbolitionRequest);
-                }
+                    UserId = request.userId,
+                    Description = "تایید اسقاط کالا توسط جمع دار اموال",
+                    PlaceId = null,
+                    ProductId = AbolitionRequest.ProductId
+                };
+                await ProductCommandRepository.AddProductLog(productLog, cancellationToken);
+
+                //Chnage Product Abolition State
+                realProduct.IsAbolition = true;
+                ProductCommandRepository.Update(realProduct);
             }
             if (request.requestState == AbolitionRequestState.Reject)
             {
                 AbolitionRequest.RequestState = AbolitionRequestState.Reject;
                 OrganziationRequestCommandRepository.Update_AbolitionRequest(AbolitionRequest);
+
+                //Add Product Log
+                var productLog = new Domain.Entities.ProductLog.ProductLog()
+                {
+                    UserId = request.userId,
+                    Description = "رد اسقاط کالا توسط جمع دار اموال",
+                    PlaceId = null,
+                    ProductId = AbolitionRequest.ProductId
+                };
+                await ProductCommandRepository.AddProductLog(productLog, cancellationToken);
             }
 
             await UnitOfWork.SaveChangesAsync(cancellationToken);

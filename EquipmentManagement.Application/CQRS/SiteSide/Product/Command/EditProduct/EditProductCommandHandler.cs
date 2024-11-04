@@ -38,11 +38,11 @@ public record EditProductCommandHandler : IRequestHandler<EditProductCommand, bo
     public async Task<bool> Handle(EditProductCommand request, CancellationToken cancellationToken)
     {
         //Get Old product by id 
-        var product = await _queryRepository.GetByIdAsync(cancellationToken , request.EditProductDTO.ProductId);
+        var product = await _queryRepository.GetByIdAsync(cancellationToken, request.EditProductDTO.ProductId);
         if (product == null) return false;
 
         //Check Valid BarCod  
-        if (await _queryRepository.IsExistAny_Product_ByBarCode(request.EditProductDTO.BarCode , product.Id, cancellationToken))
+        if (await _queryRepository.IsExistAny_Product_ByBarCode(request.EditProductDTO.BarCode, product.Id, cancellationToken))
             return false;
 
         //Check Category
@@ -63,13 +63,15 @@ public record EditProductCommandHandler : IRequestHandler<EditProductCommand, bo
         product.RepostiroyCode = request.EditProductDTO.RepositoryCode;
 
         //Add Product Log
-        await _productLogCommandRepository.AddProductLog(new Domain.DTO.SiteSide.ProductLog.CreateProductLogDto
-            (
-            UserId : request.UserId!.Value,
-            ProductId : request.EditProductDTO.ProductId , 
-            PlaceId : request.EditProductDTO.PlaceId , 
-            Description : "ویرایش کالا"
-            ) , 
+        var productLog = new Domain.Entities.ProductLog.ProductLog()
+        {
+            UserId = request.UserId!.Value,
+            ProductId = request.EditProductDTO.ProductId,
+            PlaceId = request.EditProductDTO.PlaceId,
+            Description = "ویرایش کالا"
+        };
+
+        await _commandRepository.AddProductLog(productLog,
             cancellationToken);
 
         //Update Product

@@ -220,7 +220,8 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
       => await _context.DecisionRepairRequestRespons
           .AsNoTracking()
           .Where(p => !p.IsDelete &&
-          p.Response == DecisionRepairRespons.WaitingForRespons)
+          p.Response == DecisionRepairRespons.WaitingForRespons && 
+          p.EmployeeUserId == userId)
           .Select(p => new RepairRequestDto()
           {
               CreateDate = p.CreateDate,
@@ -266,7 +267,8 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
       => await _context.DecisionAbolitionRequestRespons
           .AsNoTracking()
           .Where(p => !p.IsDelete &&
-          p.Response == DecisionAbolitionRespons.WaitingForRespons)
+          p.Response == DecisionAbolitionRespons.WaitingForRespons && 
+          p.EmployeeUserId == userId)
           .Select(p => new AbolitionRequestDto()
           {
               CreateDate = p.CreateDate,

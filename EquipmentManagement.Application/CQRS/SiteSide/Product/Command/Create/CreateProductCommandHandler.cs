@@ -1,13 +1,11 @@
 ﻿
 using EquipmentManagement.Application.Common.IUnitOfWork;
 using EquipmentManagement.Application.Utilities.Security;
-using EquipmentManagement.Domain.Entities.Places;
-using EquipmentManagement.Domain.Entities.Product;
-using EquipmentManagement.Domain.Entities.Users;
 using EquipmentManagement.Domain.IRepositories.Place;
 using EquipmentManagement.Domain.IRepositories.Product;
 using EquipmentManagement.Domain.IRepositories.ProductCategory;
 using EquipmentManagement.Domain.IRepositories.ProductLog;
+using Org.BouncyCastle.Bcpg;
 
 namespace EquipmentManagement.Application.CQRS.SiteSide.Product.Command;
 
@@ -90,13 +88,15 @@ public record CreateProductCommandHandler : IRequestHandler<CreateProductCommand
         await _unitOfWork.SaveChangesAsync();
 
         //Add Log for initialed product
-        await _productLogCommandRepository.AddProductLog(new Domain.DTO.SiteSide.ProductLog.CreateProductLogDto
-            (
-            UserId : request.UserId,
-            Description : "ثبت کالا برای اولین بار",
-            PlaceId: request.PlaceId.Value,
-            ProductId: product.Id
-            ), cancellationToken);
+        var productLog = new Domain.Entities.ProductLog.ProductLog()
+        { 
+            UserId = request.UserId,
+            Description = "ثبت کالا برای اولین بار",
+            PlaceId = request.PlaceId.Value,
+            ProductId= product.Id,
+            CreateDate= DateTime.Now,
+        };
+        await _commandRepository.AddProductLog(productLog, cancellationToken);
 
         await _unitOfWork.SaveChangesAsync();
 

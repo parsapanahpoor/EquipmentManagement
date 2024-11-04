@@ -3,6 +3,7 @@ using EquipmentManagement.Application.Extensions;
 using EquipmentManagement.Application.Generators;
 using EquipmentManagement.Application.StaticTools;
 using EquipmentManagement.Domain.Entities.PropertyInquiry;
+using EquipmentManagement.Domain.Entities.Users;
 using EquipmentManagement.Domain.IRepositories.Place;
 using EquipmentManagement.Domain.IRepositories.Product;
 using EquipmentManagement.Domain.IRepositories.ProductLog;
@@ -22,13 +23,13 @@ public record AddNewExcelFileForPropertyInquiryCommandHandler : IRequestHandler<
     private readonly IPropertyInquiryCommandRepository _propertyInquiryCommandRepository;
     private readonly IProductQueryRepository _productQueryRepository;
     private readonly IPlacesQueryRepository _placesQueryRepository;
-    private readonly IProductLogCommandRepository _productLogCommandRepository;
+    private readonly IProductCommandRepository _productCommandRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public AddNewExcelFileForPropertyInquiryCommandHandler(IPropertyInquiryQueryRepository propertyInquiryQueryRepository,
                                                            IPropertyInquiryCommandRepository propertyInquiryCommandRepository,
                                                            IPlacesQueryRepository placesQueryRepository,
-                                                           IProductLogCommandRepository productLogCommandRepository,
+                                                           IProductCommandRepository productCommandRepository,
                                                            IUnitOfWork unitOfWork,
                                                            IProductQueryRepository productQueryRepository)
     {
@@ -36,7 +37,7 @@ public record AddNewExcelFileForPropertyInquiryCommandHandler : IRequestHandler<
         _propertyInquiryQueryRepository = propertyInquiryQueryRepository;
         _placesQueryRepository = placesQueryRepository;
         _productQueryRepository = productQueryRepository;
-        _productLogCommandRepository = productLogCommandRepository;
+        _productCommandRepository = productCommandRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -135,13 +136,14 @@ public record AddNewExcelFileForPropertyInquiryCommandHandler : IRequestHandler<
                                 });
 
                                 //Add Product Log
-                                await _productLogCommandRepository.AddProductLog(new Domain.DTO.SiteSide.ProductLog.CreateProductLogDto
-                                    (
-                                        UserId : request.UserId , 
-                                        ProductId : product.Id , 
-                                        PlaceId : request.PlaceId , 
-                                        Description : "یافت شده در استعلام گردش اموال"
-                                    ),cancellationToken);
+                                var productLog = new Domain.Entities.ProductLog.ProductLog()
+                                {
+                                    UserId = request.UserId,
+                                    ProductId = product.Id,
+                                    PlaceId = request.PlaceId,
+                                    Description = "یافت شده در استعلام گردش اموال"
+                                };
+                                await _productCommandRepository.AddProductLog(productLog, cancellationToken);
                             }
                         }
                     }

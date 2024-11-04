@@ -136,7 +136,8 @@
                         }
 
                         @if (Model.ExpertVisitorOpinion != null &&
-                        Model.ExpertVisitorOpinion.ResponsType == EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest.ExpertVisitorResponsType.WaitingForRespons)
+                        Model.ExpertVisitorOpinion.ResponsType == EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest.ExpertVisitorResponsType.WaitingForRespons && 
+                        Model.ExpertVisitor.Id == User.GetUserId())
                         {
                             <hr class="margin-bottom-10 margin-top-10 " />
 
@@ -176,7 +177,8 @@
                         @if (Model.DecisionsRespons != null && Model.DecisionsRespons.Any())
                         {
                             if (Model.DecisionsRespons.Any(p => p.User.Id == User.GetUserId() &&
-                            p.Response == DecisionAbolitionRespons.WaitingForRespons))
+                            p.Response == DecisionAbolitionRespons.WaitingForRespons) && 
+                            Model.ExpertVisitor.Id != User.GetUserId())
                             {
                                 <hr class="margin-bottom-10 margin-top-10" />
 
@@ -188,8 +190,10 @@
                                             <span style="color:red;">*</span>
                                         </label>
                                         <select name="requestState"
-                                                class="form-control"
-                                                asp-items="Html.GetEnumSelectList(typeof(DecisionAbolitionRespons))"></select>
+                                                class="form-control">
+                                                <option value="1">تایید</option>
+                                                <option value="2">رد</option>
+                                        </select>
                                     </div>
 
                                     <div class="form-group col-md-12 col-sm-12">

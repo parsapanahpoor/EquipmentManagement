@@ -25,6 +25,8 @@ public sealed class Product : BaseEntities<ulong>
 
     public string? Brand { get; set; }
 
+    public bool IsAbolition { get; set; }
+
     #endregion
 
     #region Relations
