@@ -123,7 +123,7 @@
                                     عنوان کالا
                                 </th>
                                 <th>
-                                    برند کالا
+                                    کارمند
                                 </th>
                                 <th>
                                     نام مکان
@@ -156,7 +156,7 @@
                                         @product.Product.ProductTitle
                                     </td>
                                     <td>
-                                        @(string.IsNullOrEmpty(product.Product.Brand) ? "-" : product.Product.Brand)
+                                        @((product.User is not null) ? product.User.Username : "ثبت نشده است" )
                                     </td>
                                     <td>
                                         @((product.Place is not null) ? product.Place.PlaceTitle : "ثبت نشده است" )

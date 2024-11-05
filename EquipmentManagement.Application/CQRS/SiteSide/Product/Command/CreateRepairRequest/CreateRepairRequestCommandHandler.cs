@@ -1,4 +1,5 @@
 ﻿using EquipmentManagement.Application.Common.IUnitOfWork;
+using EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest;
 using EquipmentManagement.Domain.IRepositories.OranizationRequest;
 using EquipmentManagement.Domain.IRepositories.Product;
 using EquipmentManagement.Domain.IRepositories.User;
@@ -9,7 +10,8 @@ public record CreateRepairRequestCommandHandler(
     IUserQueryRepository userQueryRepository,
     IProductQueryRepository productQueryRepository,
     IOrganziationRequestQueryRepository organziationRequestQueryRepository , 
-    IOrganziationRequestCommandRepository organziationRequestCommandRepository , 
+    IOrganziationRequestCommandRepository organziationRequestCommandRepository ,
+    IProductCommandRepository ProductCommandRepository,
     IUnitOfWork unitOfWork
     ) :
     IRequestHandler<CreateRepairRequestCommand, CreateRepairRequestCommandRespons>
@@ -46,6 +48,17 @@ public record CreateRepairRequestCommandHandler(
             RepairRequestId = repairRequest.Id , 
             ResponsType = Domain.Entities.OrganizationRequest.ExpertVisitorResponsType.WaitingForRespons , 
         } , cancellationToken);
+
+        //Add Product Log
+        var productLog = new Domain.Entities.ProductLog.ProductLog()
+        {
+            UserId = request.EmployeeId,
+            Description = "ایجاد درخواست تعمیر کالا",
+            PlaceId = null,
+            ProductId = request.ProductId
+        };
+        await ProductCommandRepository.AddProductLog(productLog, cancellationToken);
+
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         //Can Send SMS To The Expert

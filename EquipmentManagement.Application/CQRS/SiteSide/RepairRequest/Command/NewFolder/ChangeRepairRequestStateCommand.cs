@@ -3,6 +3,7 @@ using EquipmentManagement.Application.Utilities.Security;
 using EquipmentManagement.Domain.Entities.OrganizationRequest;
 using EquipmentManagement.Domain.IRepositories.OranizationRequest;
 using EquipmentManagement.Domain.IRepositories.OrganizationChart;
+using EquipmentManagement.Domain.IRepositories.Product;
 using EquipmentManagement.Domain.IRepositories.User;
 
 namespace EquipmentManagement.Application.CQRS.SiteSide.RepairRequest.Command.NewFolder;
@@ -20,6 +21,7 @@ public record ChangeRepairRequestStateCommandHandler(
     IOrganziationRequestQueryRepository OrganziationRequestQueryRepository,
     IOrganziationRequestCommandRepository OrganziationRequestCommandRepository,
     IOrganizationChartQueryRepository OrganziationChartQueryRepository,
+    IProductCommandRepository ProductCommandRepository ,
     IUnitOfWork UnitOfWork) :
     IRequestHandler<ChangeRepairRequestStateCommand, bool>
 {
@@ -60,12 +62,32 @@ public record ChangeRepairRequestStateCommandHandler(
                 repairRequest.ExpertVisitorRepairRequestState = RepairRequestState.Accepted;
                 repairRequest.IsNeedToOutSource = request.outSource;
                 OrganziationRequestCommandRepository.Update_RepairRequest(repairRequest);
+
+                //Add Product Log
+                var productLog = new Domain.Entities.ProductLog.ProductLog()
+                {
+                    UserId = request.userId,
+                    Description = "تایید درخواست تعمیر کالا توسط کارشناس",
+                    PlaceId = null,
+                    ProductId = repairRequest.ProductId
+                };
+                await ProductCommandRepository.AddProductLog(productLog, cancellationToken);
             }
             if (expertOpinion.ResponsType == ExpertVisitorResponsType.Reject)
             {
                 repairRequest.ExpertVisitorRepairRequestState = RepairRequestState.Reject;
                 repairRequest.IsNeedToOutSource = request.outSource;
                 OrganziationRequestCommandRepository.Update_RepairRequest(repairRequest);
+
+                //Add Product Log
+                var productLog = new Domain.Entities.ProductLog.ProductLog()
+                {
+                    UserId = request.userId,
+                    Description = "رد درخواست تعمیر کالا توسط کارشناس",
+                    PlaceId = null,
+                    ProductId = repairRequest.ProductId
+                };
+                await ProductCommandRepository.AddProductLog(productLog, cancellationToken);
             }
 
             //Add Record for Repair Request Decisioners
@@ -122,16 +144,37 @@ public record ChangeRepairRequestStateCommandHandler(
             if (request.requestState == RepairRequestState.Accepted)
             {
                 if (!await OrganziationRequestQueryRepository.IsRequestNotBeFinished(request.repairRequestId,
+                    request.userId,
                     cancellationToken))
                 {
                     repairRequest.DesicionMakersRepairRequestState = RepairRequestState.Accepted;
                     OrganziationRequestCommandRepository.Update_RepairRequest(repairRequest);
                 }
+
+                //Add Product Log
+                var productLog = new Domain.Entities.ProductLog.ProductLog()
+                {
+                    UserId = request.userId,
+                    Description = "تایید درخواست تعمیر کالا  ",
+                    PlaceId = null,
+                    ProductId = repairRequest.ProductId
+                };
+                await ProductCommandRepository.AddProductLog(productLog, cancellationToken);
             }
             if (request.requestState == RepairRequestState.Reject)
             {
                 repairRequest.DesicionMakersRepairRequestState = RepairRequestState.Reject;
                 OrganziationRequestCommandRepository.Update_RepairRequest(repairRequest);
+
+                //Add Product Log
+                var productLog = new Domain.Entities.ProductLog.ProductLog()
+                {
+                    UserId = request.userId,
+                    Description = "تایید درخواست تعمیر کالا  ",
+                    PlaceId = null,
+                    ProductId = repairRequest.ProductId
+                };
+                await ProductCommandRepository.AddProductLog(productLog, cancellationToken);
             }
 
             await UnitOfWork.SaveChangesAsync(cancellationToken);

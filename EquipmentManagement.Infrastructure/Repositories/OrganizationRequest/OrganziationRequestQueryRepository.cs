@@ -358,9 +358,11 @@ public class OrganziationRequestQueryRepository : QueryGenericRepository<Organzi
       .ToListAsync();
 
     public async Task<bool> IsRequestNotBeFinished(ulong repairRequestId,
+        ulong userId,
         CancellationToken cancellationToken)
         => await _context.DecisionRepairRequestRespons.AnyAsync(p => !p.IsDelete &&
-        p.RepariRequestId == repairRequestId && (
+        p.RepariRequestId == repairRequestId && 
+        p.EmployeeUserId != userId &&(
         p.Response == DecisionRepairRespons.Reject ||
         p.Response == DecisionRepairRespons.WaitingForRespons));
 

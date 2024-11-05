@@ -70,10 +70,10 @@
     </div>
 </div>
 
+<div class="row">
 @if (Model.RepairRequest != null && Model.RepairRequest.Any())
 {
-    <div class="row">
-        <div class="col-lg-6 col-sm-12 col-xs-12">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="widget">
                 <div class="widget-header bordered-bottom bordered-themeprimary">
                     <i class="widget-icon fa fa-tasks themeprimary"></i>
@@ -112,12 +112,10 @@
                 </div>
             </div>
         </div>
-    </div>
 }
 @if (Model.AbolitionRequest != null && Model.AbolitionRequest.Any())
 {
-    <div class="row">
-        <div class="col-lg-6 col-sm-12 col-xs-12">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="widget">
                 <div class="widget-header bordered-bottom bordered-themeprimary">
                     <i class="widget-icon fa fa-tasks themeprimary"></i>
@@ -155,5 +153,5 @@
                 </div>
             </div>
         </div>
-    </div>
 }
+</div>

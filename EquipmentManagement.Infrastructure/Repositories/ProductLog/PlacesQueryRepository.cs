@@ -22,6 +22,7 @@ public class ProductLogQueryRepository : QueryGenericRepository<Domain.Entities.
     {
         var query = _context.ProductLogs
                             .Include(p => p.Place)
+                            .Include(p => p.User)
                             .Include(p => p.Product)
                             .AsNoTracking()
                             .Where(p => !p.IsDelete)

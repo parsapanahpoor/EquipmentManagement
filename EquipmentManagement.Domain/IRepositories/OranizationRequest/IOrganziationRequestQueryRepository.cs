@@ -69,6 +69,7 @@ public interface IOrganziationRequestQueryRepository
       CancellationToken cancellationToken);
 
     Task<bool> IsRequestNotBeFinished(ulong repairRequestId,
+        ulong userId ,
         CancellationToken cancellationToken);
 
     Task<bool> IsAbolitionRequestNotBeFinished(ulong abolitionRequestId,

@@ -10,7 +10,8 @@ public record CreateAbolitionRequestCommandHandler(
     IUserQueryRepository userQueryRepository,
     IProductQueryRepository productQueryRepository,
     IOrganziationRequestQueryRepository organziationRequestQueryRepository , 
-    IOrganziationRequestCommandRepository organziationRequestCommandRepository , 
+    IOrganziationRequestCommandRepository organziationRequestCommandRepository ,
+    IProductCommandRepository ProductCommandRepository ,
     IUnitOfWork unitOfWork
     ) :
     IRequestHandler<CreateAbolitionRequestCommand, CreateAbolitionRequestCommandRespons>
@@ -46,6 +47,17 @@ public record CreateAbolitionRequestCommandHandler(
             AbolitionRequestId = AbolitionRequest.Id , 
             ResponsType = ExpertVisitorResponsType.WaitingForRespons , 
         } , cancellationToken);
+
+        //Add Product Log
+        var productLog = new Domain.Entities.ProductLog.ProductLog()
+        {
+            UserId = request.EmployeeId,
+            Description = "ایجاد درخواست اسقاط کالا",
+            PlaceId = null,
+            ProductId = AbolitionRequest.ProductId
+        };
+        await ProductCommandRepository.AddProductLog(productLog, cancellationToken);
+
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         //Can Send SMS To The Expert
