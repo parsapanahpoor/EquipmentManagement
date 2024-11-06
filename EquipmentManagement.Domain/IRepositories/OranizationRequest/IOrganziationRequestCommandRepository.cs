@@ -29,6 +29,9 @@ public interface IOrganziationRequestCommandRepository
     Task Add_AbolitionRequest(AbolitionRequest data,
        CancellationToken cancellationToken);
 
+    Task Add_OrganizationRequestDocument(OrganizationRequestDocumentEntity data,
+       CancellationToken cancellationToken);
+
     void Update(OrganziationRequestEntity entity);
     void Delete_RequestDecisionMaker(RequestDecisionMaker model);
     void Update_ExpertVisitorResponse(ExpertVisitorOpinionEntity data);

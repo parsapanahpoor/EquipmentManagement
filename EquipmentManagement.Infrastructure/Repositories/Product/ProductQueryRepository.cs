@@ -64,6 +64,28 @@ public class ProductQueryRepository :
         return filter;
     }
 
+    public async Task<FiltreOrganizationRequestDocumentDto> FiltreOrganizationRequestDocument(
+      FiltreOrganizationRequestDocumentDto filter,
+      CancellationToken cancellationToken)
+    {
+        var query = _context.OrganizationRequestDocuments
+                                        .Include(p => p.User)
+                                        .AsNoTracking()
+                                        .Where(p => !p.IsDelete &&
+                                               p.OrganizationRequestType == filter.RequestType && 
+                                               p.RequestId == filter.OrganizationRequestId)
+                                        .OrderByDescending(p => p.CreateDate)
+                                        .AsQueryable();
+
+        #region paging
+
+        await filter.Paging(query);
+
+        #endregion
+
+        return filter;
+    }
+
     public async Task<FilterProductDTO> FilterProducts(FilterProductDTO filter)
     {
         var query = _context.Products

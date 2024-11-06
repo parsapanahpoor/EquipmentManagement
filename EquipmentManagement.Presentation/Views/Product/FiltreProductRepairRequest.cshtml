@@ -139,6 +139,15 @@
                                                 class="btn btn-info btn-circle btn-xs">
                                                 <i class="glyphicon glyphicon-eye-open"></i>
                                             </a>
+                                            <a asp-action="FilterOrganizationRequestDocument"
+                                               asp-area=""
+                                               asp-controller="OrganizationRequest"
+                                               asp-route-productId="@product.ProductId"
+                                               asp-route-requestType="0"
+                                               asp-route-OrganizationRequestId="@product.Id"
+                                               class="badge badge-warning ">
+                                                لیست پرونده های درخواست
+                                            </a>
 
                                         </div>
                                     </td>

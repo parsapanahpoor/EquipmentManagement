@@ -1,0 +1,85 @@
+﻿@using EquipmentManagement.Application.StaticTools
+@using EquipmentManagement.Domain.DTO.SiteSide.OrganizationRequest
+@model AddDocumentForOrganizationRequestDto
+
+@{
+    ViewData["Title"] = "افزودن پرونده برای درخواست";
+}
+
+@section breadcrumbs
+{
+    <li class="active">
+        <a href="javascript:void(0)">@ViewData["Title"]</a>
+    </li>
+
+}
+
+@section Scripts
+{
+    <partial name="_JqueryValidation" />
+}
+
+<form asp-action="AddDocumentForOrganizationRequest" enctype="multipart/form-data" method="post">
+    <input asp-for="RequestId" type="hidden" />
+    <input asp-for="OrganizationRequestType" type="hidden" />
+    <input asp-for="ProductId" type="hidden" />
+    <div class="row">
+        <div class="col-lg-9 col-sm-12">
+            <div class="row">
+
+                <div class="widget-header bordered-bottom bordered-sky">
+                    <span class="widget-caption">  افزودن پرونده برای درخواست</span>
+                </div>
+                <div class="widget-body">
+                    <div class="row">
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label asp-for="Description">توضیحات</label>
+                                <textarea asp-for="Description" class="form-control" placeholder="توضیحات">درصورت لزوم توضیحات را در این قسمت وارد کنید.</textarea>
+                              </div>
+                        </div>
+
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-success"> ثبت</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-sm-12">
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="widget">
+                        <div class="widget-header bordered-bottom bordered-green">
+                            <span class="widget-caption"> تصویر فایل </span>
+                        </div>
+                        <div class="widget-body">
+                            <div class="row">
+
+                                <input type="file" class="display-none" name="ImageFile" id="UserAvatar" ImageInput="1" accept=".jpg,.jpeg,.png" />
+
+                                <div class="col-md-12">
+                                    <label for="UserAvatar" class="file-input-style">
+                                        <i class="glyphicon glyphicon-upload"></i>
+                                        <span class="mr-8px"> لطفا تصویر فایل را انتخاب کنید .</span>
+                                    </label>
+                                </div>
+
+                                <div class="col-md-12 tc mt-10px">
+                                    <img src="@FilePaths.OrganizationRequestDocumentAvatar" class="image-style" ImageFile="1" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+

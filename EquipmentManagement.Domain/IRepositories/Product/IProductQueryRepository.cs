@@ -14,6 +14,10 @@ public interface IProductQueryRepository
         FiltreProductAbolitionRequestDto filter,
         CancellationToken cancellationToken);
 
+    Task<FiltreOrganizationRequestDocumentDto> FiltreOrganizationRequestDocument(
+      FiltreOrganizationRequestDocumentDto filter,
+      CancellationToken cancellationToken);
+
     Task<FilterProductDTO> FilterProducts(FilterProductDTO filter);
 
     Task<List<FilterProductForExcelFilesDTO>> FilterProductsForExcelFiles(FilterProductForExcelFilesDTO filter);

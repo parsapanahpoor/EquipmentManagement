@@ -85,6 +85,7 @@ public class EquipmentManagementDbContext : DbContext
 
     public DbSet<OrganizationChartAggregate> OrganizationCharts { get; set; }
     public DbSet<UserSelectedOrganizationChartEntity> UserSelectedOrganizationCharts { get; set; }
+    public DbSet<OrganizationRequestDocumentEntity> OrganizationRequestDocuments { get; set; }
 
     #region Repair Request
 

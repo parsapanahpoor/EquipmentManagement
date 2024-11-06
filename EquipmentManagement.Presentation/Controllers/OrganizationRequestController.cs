@@ -16,6 +16,9 @@ using EquipmentManagement.Application.CQRS.SiteSide.RepairRequest.Command.NewFol
 using EquipmentManagement.Application.CQRS.SiteSide.OrganizationRequest.Query.AbolitionRequestDetail;
 using EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest;
 using EquipmentManagement.Application.CQRS.SiteSide.OrganizationRequest.Command.AbolitionRequestStateChanger;
+using EquipmentManagement.Application.CQRS.SiteSide.OrganizationRequest.Command.AddDocumentForOrganizationRequest;
+using EquipmentManagement.Domain.DTO.SiteSide.Product;
+using EquipmentManagement.Application.CQRS.SiteSide.OrganizationRequest.Query.FiltreOrganizationRequestDocument;
 
 namespace EquipmentManagement.Presentation.Controllers;
 
@@ -311,6 +314,64 @@ public class OrganizationRequestController : SiteBaseController
     }
 
     #endregion
+
+    #endregion
+
+    #region Add Document For Organization Request
+
+    [HttpGet]
+    public IActionResult AddDocumentForOrganizationRequest(ulong requestId ,
+        RequestType requestType , 
+        ulong productId)
+        => View(new AddDocumentForOrganizationRequestDto()
+        {
+            ProductId = productId,
+            OrganizationRequestType = requestType,
+            RequestId = requestId,
+        });
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> AddDocumentForOrganizationRequest(
+        AddDocumentForOrganizationRequestDto model,
+        CancellationToken cancellationToken)
+    {
+        if (ModelState.IsValid)
+        {
+            var res = await Mediator.Send(new AddDocumentForOrganizationRequestCommand
+                (
+                    RequestId: model.RequestId,
+                    OrganizationRequestType: model.OrganizationRequestType,
+                    ImageFile: model.ImageFile,
+                    Description: model.Description,
+                    UserId: User.GetUserId()
+                ), cancellationToken);
+            if (res)
+            {
+                TempData[SuccessMessage] = "عملیات باموفقیت انجام شده است.";
+                if (model.OrganizationRequestType == RequestType.Repair)               
+                    return RedirectToAction("FiltreProductRepairRequest", "Product" , new { ProductId = model.ProductId });
+                
+                if (model.OrganizationRequestType == RequestType.Abolition)
+                    return RedirectToAction("FiltreProductAbolitionRequest", "Product", new { ProductId = model.ProductId });
+            }
+        }
+
+        TempData[ErrorMessage] = "اطلاعات معتبر نمی باشد.";
+        if (model.OrganizationRequestType == RequestType.Repair)
+            return RedirectToAction("FiltreProductRepairRequest", "Product", new { ProductId = model.ProductId });
+        if (model.OrganizationRequestType == RequestType.Abolition)
+            return RedirectToAction("FiltreProductAbolitionRequest", "Product", new { ProductId = model.ProductId });
+
+        return RedirectToAction("Landing" , "Home");
+    }
+
+    #endregion
+
+    #region Filter Organization Request Document
+
+    [HttpGet]
+    public async Task<IActionResult> FilterOrganizationRequestDocument(FiltreOrganizationRequestDocumentDto filter)
+        => View(await Mediator.Send(new FiltreOrganizationRequestDocumentQuery(filter : filter)));
 
     #endregion
 }

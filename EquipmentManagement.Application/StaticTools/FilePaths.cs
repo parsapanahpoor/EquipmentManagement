@@ -22,6 +22,18 @@ public static class FilePaths
 
     #endregion
 
+    #region Organization Request Document File 
+
+    public static readonly string OrganizationRequestDocumentPath = "/content/images/OrganizationRequestDocument/main/";
+    public static readonly string OrganizationRequestDocumentPathServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/content/images/OrganizationRequestDocument/main/");
+
+    public static readonly string OrganizationRequestDocumentPathThumb = "/content/images/OrganizationRequestDocument/thumb/";
+    public static readonly string OrganizationRequestDocumentPathThumbServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/content/images/OrganizationRequestDocument/thumb/");
+
+    public static readonly string OrganizationRequestDocumentAvatar = "/content/images/NoImage.jpg";
+
+    #endregion
+
     #region Property Inquiry
 
     public static readonly string PropertyInquiryExcelFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/content/PropertyInquiryExcelFile/");

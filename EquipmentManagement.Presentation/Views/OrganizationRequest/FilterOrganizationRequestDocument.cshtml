@@ -1,0 +1,128 @@
+﻿@using EquipmentManagement.Application.Convertors
+@using EquipmentManagement.Application.StaticTools
+@using EquipmentManagement.Domain.DTO.SiteSide.Product
+@model FiltreOrganizationRequestDocumentDto
+
+@{
+    ViewData["Title"] = "لیست پرونده های آپلود شده";
+}
+
+@section Scripts
+{
+}
+
+@section breadcrumbs
+{
+    <li class="active">@ViewData["Title"]</li>
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <form asp-area=""
+              asp-controller="OrganizationRequest"
+              asp-action="FilterOrganizationRequestDocument"
+              method="get"
+              id="filter-search">
+
+            <input type="hidden" asp-for="Page" />
+            <input type="hidden" asp-for="ProductId" />
+            <input type="hidden" asp-for="OrganizationRequestId" />
+            <input type="hidden" asp-for="RequestType" />
+
+        </form>
+
+        <div class="col-12 col-xl-12 col-lg-12">
+
+            <a class="btn btn-sky w-100 margin-bottom-10"
+               asp-action="AddDocumentForOrganizationRequest"
+               asp-controller="OrganizationRequest"
+               asp-route-productId="@Model.ProductId"
+               asp-route-requestType="@Model.RequestType"
+               asp-route-requestId="@Model.OrganizationRequestId"
+               asp-area="">افزودن پرونده ی جدید </a>
+
+        </div>
+
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="well with-header with-footer table-responsive">
+                <div class="header bordered-azure">
+                    <div class="flex-style">
+                        <span>پرونده ها </span>
+                        <span>تعداد کل : @Model.AllEntitiesCount</span>
+                    </div>
+                </div>
+
+                @if (Model != null)
+                {
+                    <table class="table table-hover table-bordered tc tableShowListInAdmin">
+
+                        <thead class="tc">
+                            <tr class="tc">
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    تصویر
+                                </th>
+                                <th>
+                                    نام شخص
+                                </th>
+                                <th>
+                                    توضیحات
+                                </th>
+                                <th>
+                                    تاریخ
+                                </th>
+                                <th>
+                                    امکانات
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var product in Model.Entities)
+                            {
+                                <tr id="profile_@product.Id" remove-ajax-item="@product.Id">
+
+                                    <td>
+                                        @product.Id
+                                    </td>
+                                    <td>
+                                        <img style="with: 50px !important;height: 100px;" src="@FilePaths.OrganizationRequestDocumentPathThumb/@product.Image" />
+                                    </td>
+                                    <td>
+                                        @((product.User != null) ? product.User.Username : "ثبت نشده")
+                                    </td>
+                                    <td>
+                                      @product.Description
+                                    </td>
+                                    <td>
+                                        @product.CreateDate.ToShamsi()
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-center ">
+
+                                            <a href="@FilePaths.OrganizationRequestDocumentPathThumb/@product.Image"
+                                               class="btn btn-info btn-circle btn-xs">
+                                                <i class="glyphicon glyphicon-eye-open"></i>
+                                            </a>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <partial name="_Paging" model="@Model.GetCurrentPaging()" />
+                }
+                else
+                {
+                    <partial name="_NotFoundPartial" />
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

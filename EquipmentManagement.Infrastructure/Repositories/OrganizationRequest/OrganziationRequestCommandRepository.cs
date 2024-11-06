@@ -47,6 +47,10 @@ public class OrganziationRequestCommandRepository :
        CancellationToken cancellationToken)
        => await _context.AbolitionRequests.AddAsync(data, cancellationToken);
 
+    public async Task Add_OrganizationRequestDocument(OrganizationRequestDocumentEntity data,
+       CancellationToken cancellationToken)
+       => await _context.OrganizationRequestDocuments.AddAsync(data, cancellationToken);
+
     public void Update_ExpertVisitorResponse(ExpertVisitorOpinionEntity data)
         => _context.ExpertVisitorOpinions.Update(data);
 
