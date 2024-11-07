@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace EquipmentManagement.Application.CQRS.SiteSide.PropertyInquiry.Command;
 
-public class AddNewExcelFileForPropertyInquiryCommand : IRequest<AddNewExcelFileForPropertyInquiryResult>
+public class AddNewExcelFileForPropertyInquiryCommand : 
+    IRequest<AddNewExcelFileForPropertyInquiryResult>
 {
     public ulong UserId { get; set; }
 

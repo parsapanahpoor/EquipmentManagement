@@ -92,23 +92,23 @@
                                 @if (Model.ExpertVisitor != null)
                                 {
                                     <div class="form-group col-md-4 col-sm-12">
-                                        <label> نام کارشناس </label>
+                                        <label> نام مدیر </label>
                                         <input type="text" class="form-control" readonly value="@Model.Employee!.Username">
                                     </div>
 
                                     <div class="form-group col-md-4 col-sm-12">
-                                        <label> موبایل کارشناس </label>
+                                        <label> موبایل مدیر </label>
                                         <input type="text" class="form-control" readonly value="@Model.Employee.Mobile">
                                     </div>
 
                                     <div class="form-group col-md-4 col-sm-12">
-                                        <label> کدملی کارشناس  </label>
+                                        <label> کدملی مدیر  </label>
                                         <input type="text" class="form-control" readonly value="@Model.Employee.NationalId">
                                     </div>
                                 }
 
                                 <div class="form-group col-md-6 col-sm-12">
-                                    <label> نظر کارشناس  </label>
+                                    <label> نظر مدیر  </label>
                                     @if (Model.ExpertVisitorOpinion.ResponsType == ExpertVisitorResponsType.Accepted)
                                     {
                                         <input type="text"
@@ -135,7 +135,7 @@
                                 </div>
 
                                 <div class="form-group col-md-12 col-sm-12">
-                                    <label> نظر کارشناس  </label>
+                                    <label> نظر مدیر  </label>
                                     <textarea type="text" class="form-control" readonly>@Model.ExpertVisitorOpinion.Description</textarea>
                                 </div>
 
@@ -151,7 +151,7 @@
 
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>
-                                        نظر کارشناس
+                                        نظر مدیر
                                         <span style="color:red;">*</span>
                                     </label>
                                     <select name="requestState"
@@ -172,10 +172,10 @@
 
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>
-                                        نظریه ی کارشناس بازدید کننده :
+                                        نظریه ی مدیر بازدید کننده :
                                         <span style="color:red;">*</span>
                                     </label>
-                                    <textarea type="text" class="form-control" name="description" placeholder="نظریه ی کارشناس."></textarea>
+                                    <textarea type="text" class="form-control" name="description" placeholder="نظریه ی مدیر."></textarea>
                                 </div>
 
                             </div>
@@ -208,7 +208,7 @@
                                     }
 
                                     <div class="form-group col-md-12 col-sm-12">
-                                        <label> نظر کارشناس  </label>
+                                        <label> نظر جمع دار اموال  </label>
                                         @if (decisionRespons.Response == DecisionRepairRespons.Accepted)
                                         {
                                             <input type="text"

@@ -1,12 +1,9 @@
 ﻿using EquipmentManagement.Application.Common.IUnitOfWork;
-using EquipmentManagement.Application.Extensions;
 using EquipmentManagement.Application.Generators;
 using EquipmentManagement.Application.StaticTools;
 using EquipmentManagement.Domain.Entities.PropertyInquiry;
-using EquipmentManagement.Domain.Entities.Users;
 using EquipmentManagement.Domain.IRepositories.Place;
 using EquipmentManagement.Domain.IRepositories.Product;
-using EquipmentManagement.Domain.IRepositories.ProductLog;
 using EquipmentManagement.Domain.IRepositories.PropertyInquiry;
 using Microsoft.AspNetCore.Http;
 using NPOI.HSSF.UserModel;
@@ -48,13 +45,11 @@ public record AddNewExcelFileForPropertyInquiryCommandHandler : IRequestHandler<
         #region Check Place
 
         if (!await _placesQueryRepository.IsExistAny_Place_ById(request.PlaceId, cancellationToken))
-        {
             return new AddNewExcelFileForPropertyInquiryResult()
             {
                 PropertyInquiryId = null,
                 ResState = AddNewExcelFileForPropertyInquiryResultState.Faild
             };
-        }
 
         #endregion
 
