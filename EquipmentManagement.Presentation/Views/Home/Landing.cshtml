@@ -1,6 +1,7 @@
 ﻿@using EquipmentManagement.Application.Convertors
 @using EquipmentManagement.Application.Utilities.Extentions
 @using EquipmentManagement.Domain.Entities.OrganizationRequest
+@using EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest
 @model EquipmentManagement.Domain.DTO.SiteSide.Dashboard.DashboardDto;
 
 @{
@@ -71,87 +72,262 @@
 </div>
 
 <div class="row">
-@if (Model.RepairRequest != null && Model.RepairRequest.Any())
-{
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-            <div class="widget">
-                <div class="widget-header bordered-bottom bordered-themeprimary">
-                    <i class="widget-icon fa fa-tasks themeprimary"></i>
-                    <span class="widget-caption themeprimary">درخواست های تعمیر کالا ارجاع داده شده به شما</span>
-                </div>
-                <div class="widget-body no-padding">
-                    <div class="task-container">
-                        <ul class="tasks-list">
 
-                            @foreach (var request in Model.RepairRequest.Where(p=> p.ExpertVisitorRepairRequestState != RepairRequestState.Reject && 
-                            p.DesicionMakersRepairRequestState != RepairRequestState.Reject))
-                            {
-                                <li class="task-item">
-                                    <div class="task-state">
-                                        @request.RequesterUsername
-                                    </div>
-                                    <div class="task-time">@request.CreateDate.ToShamsi()</div>
-                                    <div class="task-body">@request.ProductName</div>
-                                    <div class="task-assignedto">
-
-                                        <a asp-action="ShowRepairRequestDetail"
-                                           asp-area=""
-                                           asp-controller="OrganizationRequest"
-                                           asp-route-repairRequestId="@request.RepairRequestId">
-                                            <span class="label label-warning">
-                                                بررسی درخواست
-                                            </span>
-                                        </a>
-
-                                    </div>
-                                </li>
-                            }
-
-                        </ul>
-                    </div>
-                </div>
+    <div class="col-xs-12 col-md-6">
+        <div class="well with-header with-footer">
+            <div class="header bg-warning">
+                درخواست های تعمیر کالا ارجاع داده شده به شما
             </div>
+            @if (Model.RepairRequest != null && Model.RepairRequest.Any())
+            {
+                <table class="table table-hover table-striped table-bordered">
+                    <thead class="bordered-blueberry">
+                        <tr>
+                            <th>
+                                کارشناس درخواست دهنده
+                            </th>
+                            <th>
+                                نام کالا
+                            </th>
+                            <th>
+                                وضعیت تایید مدیر
+                            </th>
+                            <th>
+                                وضعیت تایید جمع داراموال
+                            </th>
+                            <th>
+                                تاریخ ثبت
+                            </th>
+                            <th>
+                                امکانات
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+                        @foreach (var request in Model.RepairRequest.Where(p => p.ExpertVisitorRepairRequestState != RepairRequestState.Reject &&
+                       p.DesicionMakersRepairRequestState != RepairRequestState.Reject))
+                        {
+                            <tr>
+                                <td>
+                                    @request.RequesterUsername
+                                </td>
+                                <td>
+                                    @request.ProductName
+                                </td>
+                                <td>
+                                    @if (request.ExpertVisitorRepairRequestState == RepairRequestState.Accepted)
+                                    {
+                                        <p class="badge badge-success">تایید شده</p>
+                                    }
+                                    @if (request.ExpertVisitorRepairRequestState == RepairRequestState.WaitingForRespons)
+                                    {
+                                        <p class="badge badge-warning">در انتظار بررسی</p>
+                                    }
+                                    @if (request.ExpertVisitorRepairRequestState == RepairRequestState.Reject)
+                                    {
+                                        <p class="badge badge-warning">رد شده</p>
+                                    }
+                                </td>
+                                <td>
+                                    @if (request.DesicionMakersRepairRequestState == RepairRequestState.Accepted)
+                                    {
+                                        <p class="badge badge-success">تایید شده</p>
+                                    }
+                                    @if (request.DesicionMakersRepairRequestState == RepairRequestState.WaitingForRespons)
+                                    {
+                                        <p class="badge badge-warning">در انتظار بررسی</p>
+                                    }
+                                    @if (request.DesicionMakersRepairRequestState == RepairRequestState.Reject)
+                                    {
+                                        <p class="badge badge-warning">رد شده</p>
+                                    }
+                                </td>
+                                <td>
+                                    @request.CreateDate.ToShamsi()
+                                </td>
+
+                                <td>
+                                    <a asp-action="ShowRepairRequestDetail"
+                                       asp-area=""
+                                       asp-controller="OrganizationRequest"
+                                       asp-route-repairRequestId="@request.RepairRequestId">
+                                        <span class="label label-warning">
+                                            بررسی درخواست
+                                        </span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <partial name="_NotFoundPartial" />
+            }
         </div>
-}
-@if (Model.AbolitionRequest != null && Model.AbolitionRequest.Any())
-{
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-            <div class="widget">
-                <div class="widget-header bordered-bottom bordered-themeprimary">
-                    <i class="widget-icon fa fa-tasks themeprimary"></i>
-                    <span class="widget-caption themeprimary">درخواست های اسقاط ارجاع داده شده به شما</span>
-                </div>
-                <div class="widget-body no-padding">
-                    <div class="task-container">
-                        <ul class="tasks-list">
+    </div>
 
-                            @foreach (var request in Model.AbolitionRequest)
-                            {
-                                <li class="task-item">
-                                    <div class="task-state">
-                                        @request.RequesterUsername
-                                    </div>
-                                    <div class="task-time">@request.CreateDate.ToShamsi()</div>
-                                    <div class="task-body">@request.ProductName</div>
-                                    <div class="task-assignedto">
-
-                                        <a asp-action="ShowAbolitionRequestDetail"
-                                           asp-area=""
-                                           asp-controller="OrganizationRequest"
-                                           asp-route-abolitionRequestId="@request.AbolitionRequestId">
-                                            <span class="label label-warning">
-                                                بررسی درخواست
-                                            </span>
-                                        </a>
-
-                                    </div>
-                                </li>
-                            }
-
-                        </ul>
-                    </div>
-                </div>
+    <div class="col-xs-12 col-md-6">
+        <div class="well with-header with-footer">
+            <div class="header bg-warning">
+                درخواست های اسقاط ارجاع داده شده به شما
             </div>
+            @if (Model.AbolitionRequest != null && Model.AbolitionRequest.Any())
+            {
+                <table class="table table-hover table-striped table-bordered">
+                    <thead class="bordered-blueberry">
+                        <tr>
+                            <th>
+                                کارشناس درخواست دهنده
+                            </th>
+                            <th>
+                                نام کالا
+                            </th>
+                            <th>
+                                وضعیت تایید مدیر
+                            </th>
+                            <th>
+                                تاریخ ثبت
+                            </th>
+                            <th>
+                                امکانات
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+                        @foreach (var request in Model.AbolitionRequest)
+                        {
+                            <tr>
+                                <td>
+                                    @request.RequesterUsername
+                                </td>
+                                <td>
+                                    @request.ProductName
+                                </td>
+                                <td>
+                                    @if (request.ExpertVisitorAbolitionRequestState == ExpertAbolitionRequestState.Accepted)
+                                    {
+                                        <p class="badge badge-success">تایید شده</p>
+                                    }
+                                    @if (request.ExpertVisitorAbolitionRequestState == ExpertAbolitionRequestState.WaitingForRespons)
+                                    {
+                                        <p class="badge badge-warning">در انتظار بررسی</p>
+                                    }
+                                    @if (request.ExpertVisitorAbolitionRequestState == ExpertAbolitionRequestState.Reject)
+                                    {
+                                        <p class="badge badge-warning">رد شده</p>
+                                    }
+                                </td>
+                                <td>
+                                    @request.CreateDate.ToShamsi()
+                                </td>
+
+                                <td>
+                                    <a asp-action="ShowAbolitionRequestDetail"
+                                       asp-area=""
+                                       asp-controller="OrganizationRequest"
+                                       asp-route-abolitionRequestId="@request.AbolitionRequestId">
+                                        <span class="label label-warning">
+                                            بررسی درخواست
+                                        </span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <partial name="_NotFoundPartial" />
+            }
         </div>
-}
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-xs-12 col-md-12">
+        <div class="well with-header with-footer">
+            <div class="header bg-primary">
+                جدیدترین تاریخچه ی تجهیزات
+            </div>
+            @if (Model.ProductLogs != null && Model.ProductLogs.Any())
+            {
+                <table class="table table-hover table-striped table-bordered">
+                    <thead class="bordered-blueberry">
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                عنوان کالا
+                            </th>
+                            <th>
+                                RF-ID
+                            </th>
+                            <th>
+                                توضیحات
+                            </th>
+                            <th>
+                                نام کاربر
+                            </th>
+                            <th>
+                                مکان موردنظر
+                            </th>
+                            <th>
+                                تاریخ ثبت 
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+                        @foreach (var productLog in Model.ProductLogs)
+                        {
+                            <tr>
+                                <td>
+                                    @(productLog.Product != null ? productLog.Product.Id : "ثبت نشده")
+                                </td>
+                                <td>
+                                    @(productLog.Product != null ? productLog.Product.ProductTitle : "ثبت نشده")
+                                </td>
+                                <td>
+                                    @(productLog.Product != null ? productLog.Product.BarCode : "ثبت نشده")
+                                </td>
+                                <td>
+                                    @(productLog.Description != null ? productLog.Description : "ثبت نشده")
+                                </td>
+                                <td>
+                                    @(productLog.User != null ? productLog.User.Username : "ثبت نشده")
+                                </td>
+                                <td>
+                                    @(productLog.Place != null ? productLog.Place.PlaceTitle : "ثبت نشده")
+                                </td>
+                                <td>
+                                    @(productLog.CreateDate.ToShamsi() != null ? productLog.CreateDate.ToShamsi() : "ثبت نشده")
+                                </td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <partial name="_NotFoundPartial" />
+            }
+        </div>
+    </div>
 </div>

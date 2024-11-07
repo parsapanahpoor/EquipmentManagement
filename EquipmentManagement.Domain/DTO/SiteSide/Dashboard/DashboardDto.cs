@@ -1,5 +1,6 @@
 ﻿using EquipmentManagement.Domain.Entities.OrganizationRequest;
 using EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest;
+using EquipmentManagement.Domain.Entities.ProductLog;
 using System.ComponentModel.DataAnnotations;
 
 namespace EquipmentManagement.Domain.DTO.SiteSide.Dashboard;
@@ -8,6 +9,7 @@ public record  DashboardDto
 {
     public List<RepairRequestDto>? RepairRequest { get; set; }
     public List<AbolitionRequestDto>? AbolitionRequest { get; set; }
+    public List<Entities.ProductLog.ProductLog>? ProductLogs { get; set; }
 }
 
 public record RepairRequestDto

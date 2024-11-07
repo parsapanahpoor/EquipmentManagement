@@ -62,4 +62,15 @@ public class ProductLogQueryRepository : QueryGenericRepository<Domain.Entities.
 
         return filter;
     }
+
+    public async Task<List<Domain.Entities.ProductLog.ProductLog>> GetLastestProductLogs(CancellationToken cancellationToken)
+        => await _context.ProductLogs
+                         .Include(p => p.User)
+                         .Include(p => p.Product)
+                         .Include(p => p.Place)
+                         .AsNoTracking()
+                         .Where(p => !p.IsDelete)
+                         .OrderByDescending(p => p.CreateDate)
+                         .Take(15)
+                         .ToListAsync();
 }
