@@ -396,6 +396,7 @@ public class ProductQueryRepository :
                                                                s.Id == p.PlaceId)
                                                         .Select(s => s.PlaceTitle)
                                                         .FirstOrDefault(),
+                                 BrandName = p.Brand,
                              })
                              .FirstOrDefaultAsync();
     }

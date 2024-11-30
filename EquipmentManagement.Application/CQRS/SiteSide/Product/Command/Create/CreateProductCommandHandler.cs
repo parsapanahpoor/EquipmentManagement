@@ -79,6 +79,7 @@ public record CreateProductCommandHandler : IRequestHandler<CreateProductCommand
             IsDelete = false,
             ProductTitle = request.ProductTitle.SanitizeText(),
             RepostiroyCode = request.RepositoryCode.SanitizeText(),
+            Brand = request.BrandName.SanitizeText(),
         };
 
         #endregion

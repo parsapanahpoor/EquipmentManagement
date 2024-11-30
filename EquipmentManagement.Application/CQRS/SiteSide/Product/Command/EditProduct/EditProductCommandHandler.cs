@@ -61,6 +61,7 @@ public record EditProductCommandHandler : IRequestHandler<EditProductCommand, bo
         product.Description = request.EditProductDTO.Description;
         product.ProductTitle = request.EditProductDTO.ProductTitle;
         product.RepostiroyCode = request.EditProductDTO.RepositoryCode;
+        product.Brand = request.EditProductDTO.BrandName;
 
         //Add Product Log
         var productLog = new Domain.Entities.ProductLog.ProductLog()

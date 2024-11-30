@@ -89,6 +89,7 @@ public class ProductController : SiteBaseController
                 PlaceId = createProduct.PlaceId,
                 RepositoryCode = createProduct.RepositoryCode,
                 UserId = User.GetUserId(),
+                BrandName = createProduct.BrandName,
             },
             cancellationToken
             );
