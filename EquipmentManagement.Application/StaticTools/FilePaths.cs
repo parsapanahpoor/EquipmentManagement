@@ -39,4 +39,14 @@ public static class FilePaths
     public static readonly string PropertyInquiryExcelFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/content/PropertyInquiryExcelFile/");
 
     #endregion
+
+    #region InvoiceImage
+
+    public static readonly string InvoiceImagePath = "/content/images/InvoiceImage/main/";
+    public static readonly string InvoiceImagePathServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/content/images/InvoiceImage/main/");
+
+    public static readonly string InvoiceImagePathThumb = "/content/images/InvoiceImage/thumb/";
+    public static readonly string InvoiceImagePathThumbServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/content/images/InvoiceImage/thumb/");
+
+    #endregion
 }

@@ -179,7 +179,7 @@
                                     تاریخ ثبت
                                 </th>
                                 <th>
-                                    توضیحات
+                                    شماره ی شاخص رسید انبار
                                 </th>
                                 <th>
                                     امکانات
@@ -218,7 +218,7 @@
                                         @product.CreateDate.ToShamsi()
                                     </td>
                                     <td>
-                                        @(string.IsNullOrEmpty(product.Description) ? "-" : product.Description)
+                                        @(string.IsNullOrEmpty(product.InvoiceUniqueNumber) ? "-" : product.InvoiceUniqueNumber)
                                     </td>
                                     <td>
                                         <div class="d-flex justify-content-center ">

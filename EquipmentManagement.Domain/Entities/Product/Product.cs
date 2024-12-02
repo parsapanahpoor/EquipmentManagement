@@ -1,7 +1,5 @@
 ﻿using EquipmentManagement.Domain.Entities.OrganizationRequest;
 using EquipmentManagement.Domain.Entities.Places;
-using EquipmentManagement.Domain.Entities.ProductLog;
-using System.Runtime.CompilerServices;
 
 namespace EquipmentManagement.Domain.Entities.Product;
 
@@ -13,11 +11,11 @@ public sealed class Product : BaseEntities<ulong>
 
     public ulong ProductCategoryId { get; set; }
 
-    public string ProductTitle { get; set; }
+    public string? ProductTitle { get; set; }
 
-    public string RepostiroyCode { get; set; }
+    public string? RepostiroyCode { get; set; }
 
-    public string BarCode { get; set; }
+    public string? BarCode { get; set; }
 
     public int EntityCount { get; set; }
 
@@ -26,6 +24,14 @@ public sealed class Product : BaseEntities<ulong>
     public string? Brand { get; set; }
 
     public bool IsAbolition { get; set; }
+
+    public string? InvoiceImage { get; set; }
+
+    public DateTime? InvoiceDateTime { get; set; }
+
+    public ulong? InvoiceNumber { get; set; }
+
+    public string? InvoiceUniqueNumber { get; set; } 
 
     #endregion
 

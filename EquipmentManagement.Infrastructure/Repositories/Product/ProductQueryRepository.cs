@@ -1,8 +1,10 @@
-﻿using EquipmentManagement.Domain.DTO.SiteSide.Product;
+﻿using EquipmentManagement.Application.Convertors;
+using EquipmentManagement.Domain.DTO.SiteSide.Product;
 using EquipmentManagement.Domain.IRepositories.Product;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EquipmentManagement.Infrastructure.Repositories.Product;
 
@@ -397,6 +399,9 @@ public class ProductQueryRepository :
                                                         .Select(s => s.PlaceTitle)
                                                         .FirstOrDefault(),
                                  BrandName = p.Brand,
+                                 InvoiceDateTime = p.InvoiceDateTime.HasValue ? p.InvoiceDateTime.Value.ToShamsi() : null,
+                                 OriginalInvoiceImage = p.InvoiceImage , 
+                                 InvoiceNumber = p.InvoiceNumber 
                              })
                              .FirstOrDefaultAsync();
     }

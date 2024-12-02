@@ -1,4 +1,6 @@
-﻿namespace EquipmentManagement.Domain.DTO.SiteSide.Product;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace EquipmentManagement.Domain.DTO.SiteSide.Product;
 
 public record EditProductDTO
 {
@@ -23,6 +25,14 @@ public record EditProductDTO
     public string BarCode { get; set; }
 
     public string? Description { get; set; }
+
+    public IFormFile? InvoiceImage { get; set; }
+
+    public string? OriginalInvoiceImage { get; set; }
+
+    public string? InvoiceDateTime { get; set; }
+
+    public ulong? InvoiceNumber { get; set; }
 
     #endregion
 }

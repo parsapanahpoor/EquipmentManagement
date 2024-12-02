@@ -90,9 +90,10 @@ public class ProductController : SiteBaseController
                 RepositoryCode = createProduct.RepositoryCode,
                 UserId = User.GetUserId(),
                 BrandName = createProduct.BrandName,
-            },
-            cancellationToken
-            );
+                InvoiceDateTime = createProduct.InvoiceDateTime,
+                InvoiceImage = createProduct.InvoiceImage,
+                InvoiceNumber = createProduct.InvoiceNumber
+            },cancellationToken);
 
             if (res)
             {

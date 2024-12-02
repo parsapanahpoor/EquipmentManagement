@@ -1,4 +1,5 @@
-﻿@model EquipmentManagement.Domain.DTO.SiteSide.Product.EditProductDTO
+﻿@using EquipmentManagement.Application.StaticTools
+@model EquipmentManagement.Domain.DTO.SiteSide.Product.EditProductDTO
 
 @{
     ViewData["Title"] = "ویرایش کالا";
@@ -19,6 +20,34 @@
         <a href="javascript:void(0)"> @ViewData["Title"] </a>
     </li>
 }
+
+<div class="col-lg-12 col-sm-12 col-xs-12">
+    <div class="widget">
+        <div class="widget-header bg-warning">
+            <i class="widget-icon fa fa-arrow-down"></i>
+            <span class="widget-caption">توضیح</span>
+            <div class="widget-buttons">
+                <a href="#" data-toggle="config">
+                    <i class="fa fa-cog"></i>
+                </a>
+                <a href="#" data-toggle="maximize">
+                    <i class="fa fa-expand"></i>
+                </a>
+                <a href="#" data-toggle="collapse">
+                    <i class="fa fa-minus"></i>
+                </a>
+                <a href="#" data-toggle="dispose">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div><!--Widget Buttons-->
+        </div><!--Widget Header-->
+        <div class="widget-body">
+
+            برای درج اطلاعات رسید انبار بصورت کامل می بایست پارامترهای تاریخ رسید و شماره رسید  بطور کامل ثبت گردند.
+
+        </div><!--Widget Body-->
+    </div><!--Widget-->
+</div>
 
 <form method="post" asp-action="EditProduct" asp-controller="Product" asp-area="" enctype="multipart/form-data">
     <input asp-for="ProductId" type="hidden" />
@@ -59,6 +88,22 @@
                                 <span class="text-danger" asp-validation-for="BrandName"></span>
                             </div>
 
+                            <hr />
+
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label asp-for="InvoiceDateTime">تاریخ رسید انبار</label>
+                                <input type="text" class="form-control" AdminDatePicker="1" style="z-index:9999!important;" asp-for="InvoiceDateTime">
+                                <span class="text-danger" asp-validation-for="InvoiceDateTime"></span>
+                            </div>
+
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label asp-for="InvoiceNumber">شماره ی رسید انبار</label>
+                                <input type="text" class="form-control" asp-for="InvoiceNumber">
+                                <span class="text-danger" asp-validation-for="InvoiceNumber"></span>
+                            </div>
+
+                            <hr />
+
                             <div class="form-group col-md-12 col-sm-12">
                                 <label asp-for="Description">توضیحات (اختیاری)</label>
                                 <input type="text" class="form-control" asp-for="Description">
@@ -84,6 +129,41 @@
 
         <div class="col-lg-3 col-sm-12">
             <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="widget">
+                        <div class="widget-header bordered-bottom bordered-green">
+                            <span class="widget-caption"> تصویر رسید انبار </span>
+                        </div>
+                        <div class="widget-body">
+                            <div class="row">
+
+                                <input type="file" class="display-none" name="InvoiceImage" id="UserAvatar" ImageInput="1" accept=".jpg,.jpeg,.png" />
+
+                                <div class="col-md-12">
+                                    <label for="UserAvatar" class="file-input-style">
+                                        <i class="glyphicon glyphicon-upload"></i>
+                                        <span class="mr-8px"> لطفا تصویر رسید انبار را انتخاب کنید .</span>
+                                    </label>
+                                </div>
+
+                                @{
+                                    var avatarUrl = FilePaths.DefaultUserAvatar;
+
+                                    if (Model != null && !string.IsNullOrEmpty(Model.OriginalInvoiceImage))
+                                    {
+                                        avatarUrl = $"{FilePaths.InvoiceImagePathThumb}{Model.OriginalInvoiceImage}";
+                                    }
+                                }
+
+                                <div class="col-md-12 tc mt-10px">
+                                    <img src="@avatarUrl" class="image-style" ImageFile="1" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-lg-12">
 

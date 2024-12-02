@@ -1,5 +1,10 @@
 ﻿
 using EquipmentManagement.Application.Common.IUnitOfWork;
+using EquipmentManagement.Application.Convertors;
+using EquipmentManagement.Application.Extensions;
+using EquipmentManagement.Application.Generators;
+using EquipmentManagement.Application.Security;
+using EquipmentManagement.Application.StaticTools;
 using EquipmentManagement.Domain.IRepositories.Place;
 using EquipmentManagement.Domain.IRepositories.Product;
 using EquipmentManagement.Domain.IRepositories.ProductCategory;
@@ -62,6 +67,33 @@ public record EditProductCommandHandler : IRequestHandler<EditProductCommand, bo
         product.ProductTitle = request.EditProductDTO.ProductTitle;
         product.RepostiroyCode = request.EditProductDTO.RepositoryCode;
         product.Brand = request.EditProductDTO.BrandName;
+        product.InvoiceNumber = request.EditProductDTO.InvoiceNumber;
+        product.InvoiceDateTime = !string.IsNullOrEmpty(request.EditProductDTO.InvoiceDateTime) ?
+                                   request.EditProductDTO.InvoiceDateTime.ToMiladiDateTime() : 
+                                   null;
+
+        product.InvoiceUniqueNumber = (product.InvoiceNumber.HasValue && product.InvoiceDateTime.HasValue) ?
+                                       $"{request.EditProductDTO.InvoiceNumber}" +
+                                       $"{product.InvoiceDateTime.Value.Year}" +
+                                       $"{product.InvoiceDateTime.Value.Month}" +
+                                       $"{product.InvoiceDateTime.Value.Day}" :
+                                       null;
+
+        #region Invoice Image
+
+        if (request.EditProductDTO.InvoiceImage != null && request.EditProductDTO.InvoiceImage.IsImage())
+        {
+            if (!string.IsNullOrEmpty(product.InvoiceImage))
+            {
+                product.InvoiceImage.DeleteImage(FilePaths.InvoiceImagePathServer, FilePaths.InvoiceImagePathThumbServer);
+            }
+
+            var imageName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(request.EditProductDTO.InvoiceImage.FileName);
+            request.EditProductDTO.InvoiceImage.AddImageToServer(imageName, FilePaths.InvoiceImagePathServer, 270, 270, FilePaths.InvoiceImagePathThumbServer);
+            product.InvoiceImage = imageName;
+        }
+
+        #endregion
 
         //Add Product Log
         var productLog = new Domain.Entities.ProductLog.ProductLog()
