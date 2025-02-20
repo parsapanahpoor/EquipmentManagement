@@ -6,6 +6,7 @@ using EquipmentManagement.Application.CQRS.SiteSide.Product.Query;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.CreateAbolitionRequestFormInfo;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.CreateRepairRequestFormInfo;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.EditProduct;
+using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.FilterAbolitionProducts;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.FiltreProductAbolitionRequest;
 using EquipmentManagement.Application.CQRS.SiteSide.Product.Query.FiltreProductRepairRequest;
 using EquipmentManagement.Application.Extensions;
@@ -27,6 +28,19 @@ public class ProductController : SiteBaseController
                                                    CancellationToken cancellation = default)
     {
         return View(await Mediator.Send(new FilterProductQuery()
+        {
+            filter = filter
+        }));
+    }
+
+    #endregion
+
+    #region List Of Abolition Products
+
+    public async Task<IActionResult> FilterAbolitionProduct(FilterProductDTO filter,
+                                                   CancellationToken cancellation = default)
+    {
+        return View(await Mediator.Send(new FilterAbolitionProductsQuery()
         {
             filter = filter
         }));
