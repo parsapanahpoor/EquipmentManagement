@@ -1,0 +1,154 @@
+﻿@using EquipmentManagement.Domain.Entities.Account
+@using EquipmentManagement.Domain.Entities.Employee
+@using EquipmentManagement.Domain.Entities.PlaceOfService
+@model EquipmentManagement.Domain.DTO.SiteSide.Employee.EditEmployeeDto
+
+@{
+    ViewData["Title"] = "افزودن کارمند جدید";
+    var placeOfServices = ViewData["PlaceOfServices"] != null ? ViewData["PlaceOfServices"] as List<PlaceOfService> : null;
+}
+
+@section Scripts
+{
+    <partial name="_JqueryValidation" />
+    <script src="/admin/js/access.js"></script>
+}
+
+@section Breadcrumbs
+{
+    <li>
+        <a href="javascript:void(0)"> @ViewData["Title"] </a>
+    </li>
+}
+
+<form method="post" asp-action="EditEmployee" asp-controller="Employees" asp-area="Admin">
+    <div class="row">
+        <div class="col-lg-9 col-sm-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-info">
+                    <span class="widget-caption"> @ViewData["Title"] </span>
+                </div>
+                <div class="widget-body">
+                    <div>
+                        <input type="hidden" asp-for="Id" />
+                        <div class="row">
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label asp-for="FirstName">نام</label>
+                                <input type="text" class="form-control" asp-for="FirstName">
+                                <span class="text-danger" asp-validation-for="FirstName"></span>
+                            </div>
+
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label asp-for="LastName">نام خانوادگی</label>
+                                <input type="text" class="form-control" asp-for="LastName">
+                                <span class="text-danger" asp-validation-for="LastName"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label asp-for="Mobile">موبایل</label>
+                                <input type="text" class="form-control" asp-for="Mobile">
+                                <span class="text-danger" asp-validation-for="Mobile"></span>
+                            </div>
+
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label asp-for="PersonnelCode">کدپرسنلی</label>
+                                <input type="text" class="form-control" asp-for="PersonnelCode">
+                                <span class="text-danger" asp-validation-for="PersonnelCode"></span>
+                            </div>
+                        </div>
+
+                        <hr class="margin-bottom-10 margin-top-10" />
+
+                        <div class="row">
+                            <div class="col-md-12 flex-style">
+                                <button type="submit" class="btn btn-labeled btn-info">
+                                    <i class="btn-label glyphicon glyphicon-ok"></i>ویرایش
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-sm-12">
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="widget">
+                        <div class="widget-header bordered-bottom bordered-info flex-style">
+                            <span class="widget-caption"> انتخاب مکان خدمت </span>
+                        </div>
+                        <div class="widget-body @((placeOfServices != null && placeOfServices.Any()) ? "no-padding" : "")">
+
+                            @if (placeOfServices != null && placeOfServices.Any())
+                            {
+                                <div class="panel-group accordion">
+                                    @foreach (var placeOfService in placeOfServices.Where(s => s.ParentId == null))
+                                    {
+                                        var isplaceOfServiceSelected = Model != null && Model.PlaceOfServiceId != null && Model.PlaceOfServiceId.Any(s => s == placeOfService.Id);
+
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a class="accordion-toggle" data-toggle="collapse" href="#permission-@placeOfService.Id" aria-expanded="true">
+                                                        @placeOfService.Title
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="permission-@placeOfService.Id" class="panel-collapse collapse in" aria-expanded="true" style="height: auto">
+                                                <div class="panel-body" style="padding: 5px 15px 0 15px !important">
+
+                                                    <span class="label-style">اصلی</span>
+
+                                                    <div class="form-group">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input type="checkbox" value="@placeOfService.Id" name="PlaceOfServiceId" data-id="@placeOfService.Id" @((isplaceOfServiceSelected) ? "checked" : "")>
+                                                                <span class="text"> @placeOfService.Title </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                    @if (placeOfServices.Any(s => s.ParentId.HasValue && s.ParentId.Value == placeOfService.Id))
+                                                    {
+                                                        <hr style="margin-top: 10px !important; margin-bottom: 10px !important" />
+
+                                                        <span class="label-style">زیر مجموعه</span>
+
+                                                        @foreach (var subPlaceOfService in placeOfServices.Where(s => s.ParentId.HasValue && s.ParentId.Value == placeOfService.Id))
+                                                        {
+                                                            var isSubPlaceOfServiceSelected = Model != null && Model.PlaceOfServiceId != null && Model.PlaceOfServiceId.Any(s => s == subPlaceOfService.Id);
+
+                                                            <div class="form-group">
+                                                                <div class="checkbox">
+                                                                    <label>
+                                                                        <input type="checkbox" value="@subPlaceOfService.Id" name="PlaceOfServiceId" data-id="@subPlaceOfService.Id" data-parentId="@placeOfService.Id" @((isSubPlaceOfServiceSelected) ? "checked" : "")>
+                                                                        <span class="text"> @subPlaceOfService.Title </span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <partial name="_NotFoundPartial" />
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
