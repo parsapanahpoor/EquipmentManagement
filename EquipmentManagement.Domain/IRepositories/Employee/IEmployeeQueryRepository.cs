@@ -18,4 +18,8 @@ public interface IEmployeeQueryRepository
     Task<bool> IsExistAnyEmployeeByPersonnalCode(
         string personnalCode,
         CancellationToken cancellationToken);
-    }
+
+    Task<Entities.Employee.Employee?> GetEmployeeByMobile(
+        string mobile,
+        CancellationToken cancellationToken);
+}

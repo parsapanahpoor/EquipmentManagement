@@ -116,6 +116,7 @@ public class EquipmentManagementDbContext : DbContext
     #region Employee
 
     public DbSet<Employee> Employees { get; set; }
+    public DbSet<EmployeeReceiveFoodDeliveryReceiptLog> EmployeeReceiveFoodDeliveryReceiptLogs { get; set; }
 
     #endregion
 

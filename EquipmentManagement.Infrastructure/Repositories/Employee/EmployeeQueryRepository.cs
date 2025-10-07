@@ -53,6 +53,15 @@ public class EmployeeQueryRepository :
         return filter;
     }
 
+    public Task<Domain.Entities.Employee.Employee?> GetEmployeeByMobile(
+        string mobile, 
+        CancellationToken cancellationToken)
+        => _context.Employees
+                   .AsNoTracking()
+                   .FirstOrDefaultAsync(p => !p.IsDelete &&
+                                        p.Mobile == mobile, 
+                                        cancellationToken);
+
     public async Task<bool> IsExistAnyEmployeeByEmployeeMobile(
         string mobile, 
         CancellationToken cancellationToken)

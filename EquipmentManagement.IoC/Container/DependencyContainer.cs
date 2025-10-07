@@ -79,6 +79,8 @@ public static class DependencyContainer
         //Employee 
         services.AddScoped<IEmployeeCommandRepository, EmployeeCommandRepository>();
         services.AddScoped<IEmployeeQueryRepository, EmployeeQueryRepository>();
+        services.AddScoped<IEmployeeReceiveFoodDeliveryReceiptLogCommandRepository, EmployeeReceiveFoodDeliveryReceiptLogCommandRepository>();
+        services.AddScoped<IEmployeeReceiveFoodDeliveryReceiptLogQueryRepository , EmployeeReceiveFoodDeliveryReceiptLogQueryRepository>();
 
         #endregion
 

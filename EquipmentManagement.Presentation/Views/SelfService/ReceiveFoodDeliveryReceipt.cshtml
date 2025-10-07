@@ -1,0 +1,129 @@
+﻿@model EquipmentManagement.Application.CQRS.SiteSide.SelfService.Command.ReceiveFoodDeliveryReceipt.ReceiveFoodDeliveryReceiptDto
+
+@{
+    ViewData["Title"] = "دریافت فیش غذا";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>بیمارستان شفا ساری</title>
+
+    <!-- Bootstrap -->
+    <link href="~/content/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- tobii css -->
+    <link href="~/content/css/tobii.min.css" rel="stylesheet" type="text/css" />
+    <!-- Icons -->
+    <link href="~/content/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="unicons.iconscout.com/release/v3.0.6/css/line.css">
+    <!-- Slider -->
+    <link rel="stylesheet" href="~/content/css/tiny-slider.css" />
+    <!-- Main Css -->
+    <link href="~/content/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+    <link href="~/content/css/colors/default.css" rel="stylesheet" id="color-opt">
+</head>
+
+<body>
+
+    <header id="topnav" class="defaultscroll sticky " style="background-color:white !important">
+        <div class="container">
+            <!-- Logo container-->
+            <div class="text-center ">
+                <a class="logo" href="/Home">
+                    <img src="/content/img/logo/logoShafa.png" class="l-dark" height="70" alt="">
+                    <img src="/content/img/logo/logoShafa.png" class="l-light" height="70" alt="">
+                </a>
+            </div>
+            <div class="buy-button">
+                <a class="btn btn-primary  " asp-action="Index" asp-area="" asp-controller="Home">خانه </a>
+            </div><!--end login button-->
+            <!-- End Logo container-->
+            <div class="menu-extras ">
+                <div class="menu-item text-center justify-content-center">
+                    <!-- Mobile menu toggle-->
+                    <a class="navbar-toggle" id="isToggle" onclick="toggleMenu()">
+                        <div class="lines">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </a>
+                    <!-- End mobile menu toggle-->
+                </div>
+            </div>
+
+            <div id="navigation">
+
+                <ul class="navigation-menu nav-light">
+                    @*  <li><a href="/Home" class="sub-menu-item">صفحه اصلی </a></li>   *@
+                </ul>
+
+            </div>
+        </div>
+    </header>
+
+
+
+    <section class="bg-home bg-circle-gradiant d-flex align-items-center">
+        <div class="bg-overlay bg-overlay-white"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-8">
+                    <div class="card login-page bg-white shadow rounded border-0">
+                        <div class="card-body">
+                            <h4 class="card-title text-center">دریافت فیش تحویل غذا </h4>
+                            <form 
+                                asp-action="ReceiveFoodDeliveryReceipt" 
+                                asp-area="" 
+                                asp-controller="SelfService" 
+                                method="post" 
+                                class="login-form mt-4">
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">موبایل <span class="text-danger">*</span></label>
+                                            <div class="form-icon position-relative">
+                                                <i data-feather="book" class="fea icon-sm icons"></i>
+                                                <input type="text" asp-for="Mobile" class="form-control ps-5" placeholder="موبایل" />
+                                                <span style="color:red;" asp-validation-for="Mobile"></span>
+                                                @* <input type="email" class="form-control ps-5" placeholder="ایمیل" name="email" required=""> *@
+                                            </div>
+                                        </div>
+                                    </div><!--end col-->
+
+                                    <div class="col-lg-12 mb-0">
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-primary">ثبت  </button>
+                                        </div>
+                                    </div><!--end col-->
+                                </div><!--end row-->
+                            </form>
+                        </div>
+                    </div><!---->
+                </div><!--end col-->
+            </div><!--end row-->
+        </div> <!--end container-->
+    </section><!--end section-->
+    <!-- javascript -->
+    <script src="~/content/js/bootstrap.bundle.min.js"></script>
+    <!-- SLIDER -->
+    <script src="~/content/js/tiny-slider.js"></script>
+    <!-- tobii js -->
+    <script src="~/content/js/tobii.min.js"></script>
+    <!-- Icons -->
+    <script src="~/content/js/feather.min.js"></script>
+    <!-- Switcher -->
+    <script src="~/content/js/switcher.js"></script>
+    <!-- Main Js -->
+    <script src="~/content/js/plugins.init.js"></script><!--Note: All init js like tiny slider, counter, countdown, maintenance, lightbox, gallery, swiper slider, aos animation etc.-->
+    <script src="~/content/js/app.js"></script><!--Note: All important javascript like page loader, menu, sticky menu, menu-toggler, one page menu etc. -->
+
+    <partial name="_Notification" />
+
+</body>
+<!--Body Ends-->
+</html>

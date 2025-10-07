@@ -131,9 +131,13 @@
 				<div class="row row-respansiv over-hidden justify-content-center">
 				<ul class="grid cs-style-4">
 					<li class="col-md-6 col-sm-6 col-500 col-520" style="float:none;">
+							<a asp-action="ReceiveFoodDeliveryReceipt"
+							   asp-area=""
+							   asp-controller="SelfService">
 							<figure>
 								<div>
-									<img src="/content/Landing/images/1.jpg" alt="image 1"></div>
+										<img src="/content/Landing/images/resturant.jpg" alt="image 1">
+									</div>
 								<!--<figcaption>
 									<h1>استعلام رایگان</h1>
 									<small>توی چند ثانیه هر درب و پنجره ای بخای استعلام میگیری</small>
@@ -141,12 +145,13 @@
 								  </figcaption>
 								</figure>-->
 								</figure>
+							</a>
 						</li>
 
 						<li class="col-md-3 col-sm-6 col-501 col-521" style="float:none;">
 							<a asp-action="EquipmentLanding" asp-area="" asp-controller="Home">
 							<figure>
-									<div><img src="/content/Landing/images/resturant.jpg" alt="image 2"></div>
+									<div><img src="/content/Landing/images/1.jpg" alt="image 2"></div>
 								<!--<figcaption>
 								  <h1 class="res_h1">تضمین در خرید</h1>
 								  <small class="res_small">انتخاب کن، تضمین با ما</small>
@@ -206,6 +211,9 @@
 
 
 		});
+
+			<partial name="_Notification" />
+
 	</script>
 </body>
 </html>

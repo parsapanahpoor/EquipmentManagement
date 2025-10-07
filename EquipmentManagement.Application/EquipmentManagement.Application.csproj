@@ -34,6 +34,7 @@
 	<ItemGroup>
 	  <Folder Include="CQRS\SiteSide\ProductLog\Command\" />
 	  <Folder Include="CQRS\SiteSide\RepairRequest\Query\" />
+	  <Folder Include="CQRS\SiteSide\SelfService\Query\" />
 	</ItemGroup>
 
 </Project>

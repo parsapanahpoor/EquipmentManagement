@@ -1,11 +1,30 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EquipmentManagement.Application.CQRS.SiteSide.SelfService.Command.ReceiveFoodDeliveryReceipt;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EquipmentManagement.Presentation.Controllers;
 
-public class SelfServiceController : Controller
+public class SelfServiceController : SiteBaseController
 {
-    public IActionResult Index()
+    [HttpGet]
+    public IActionResult ReceiveFoodDeliveryReceipt()
+        => View();
+
+    [HttpPost , ValidateAntiForgeryToken]
+    public async Task<IActionResult> ReceiveFoodDeliveryReceipt(
+        ReceiveFoodDeliveryReceiptDto model, 
+        CancellationToken cancellationToken)
     {
-        return View();
+        try
+        {
+            var result = await Mediator.Send(
+                new ReceiveFoodDeliveryReceiptCommand(model),
+                cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            TempData[ErrorMessage] = ex.Message ;
+        }
+
+        return View(model);
     }
 }
