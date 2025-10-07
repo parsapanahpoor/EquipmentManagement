@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="ActionFilterAttributes\" />
+    <Folder Include="wwwroot\content\Landing\App_Data\" />
   </ItemGroup>
 
 

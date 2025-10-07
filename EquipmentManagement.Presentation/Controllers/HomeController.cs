@@ -19,6 +19,14 @@ public class HomeController : SiteBaseController
 
     #endregion
 
+    #region Index
+
+    [AllowAnonymous]
+    public IActionResult EquipmentLanding()
+        => View();
+
+    #endregion
+
     #region Panel Landing
 
     public async Task<IActionResult> Landing(CancellationToken cancellation)
