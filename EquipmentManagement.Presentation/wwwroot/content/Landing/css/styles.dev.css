@@ -892,7 +892,7 @@ body.color-scheme-grass {
   color: #626d7e;
 }
 body.color-scheme-sky {
-  background-color: #45cce4;
+    background-color: #007cff80;
 }
 .color-scheme-sky hr {
   border-color: rgba(255, 255, 255, 0.3);

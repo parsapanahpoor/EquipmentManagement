@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>سامانه ی یکپارچه ی مدیریتی بیمارستان شفا</title>
 	<!-- Modernizr -->
-	<!-- <script src="/content/Landing/js/modernizr.js"></script> -->
+	<!-- <script src="js/modernizr.js"></script> -->
 	<!-- Open Sans from Google Webfonts -->
 	<!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'> -->
 	<!-- Main styles file -->
@@ -27,6 +27,7 @@
 		}
 
 		}
+
 		@@media(max - width:500px) {
 			h1
 
@@ -35,6 +36,7 @@
 		}
 
 		}
+
 		@@media(max - width:500px) {
 			.col-500
 
@@ -80,6 +82,7 @@
 		}
 
 		}
+
 		@@media (min-width:501px) and (max-width:520px) {
 			h1
 
@@ -101,7 +104,12 @@
 			height: 110px !important;
 		}
 
+			.elRow {
+				margin-left : 50px;
+			}
+
 		}
+
 		@@media (min-width:992px) and (max-width:1036px) {
 			.row-respansiv
 
@@ -116,7 +124,7 @@
 
 		}</style>
 </head>
-<body class="color-scheme-sky">
+<body class="color-scheme-sky" style="background-color: #ff780091 !important;">
 	<!-- Animated background -->
 	<canvas id="bg-canvas"></canvas>
 	<!--  -->
@@ -125,41 +133,40 @@
 		<div class="centered-unit">
 			<div class="container">
 				<!-- Main header -->
-				<h1>سامانه ی یکپارچه ی مدیریتی بیمارستان شفا</h1>
+				<h1>سامانه ی جامع یکپارچه ی بیمارستان شفا</h1>
 				<!-- Sub header -->
-				<p class="lead">مرجع قیمت گذاری درب و پنجره</p>
-				<div class="row row-respansiv over-hidden justify-content-center">
-				<ul class="grid cs-style-4">
-					<li class="col-md-6 col-sm-6 col-500 col-520" style="float:none;">
+				<p class="lead">با انتخاب آیتم مورد نظر خود به بخش مورد نظر بروید</p>
+				<div class="row row-respansiv over-hidden">
+					<ul class="grid cs-style-4" style="margin-top: 50px">
+						
+						<li class="col-md-3 col-sm-6 col-501 col-521" style="float:none;">
 							<a asp-action="ReceiveFoodDeliveryReceipt"
 							   asp-area=""
 							   asp-controller="SelfService">
-							<figure>
-								<div>
-										<img src="/content/Landing/images/resturant.jpg" alt="image 1">
-									</div>
-								<!--<figcaption>
-									<h1>استعلام رایگان</h1>
-									<small>توی چند ثانیه هر درب و پنجره ای بخای استعلام میگیری</small>
-									<a href="#">کلیک کن</a>
-								  </figcaption>
-								</figure>-->
+								<figure>
+									<div><img src="/content/Landing/images/1.png" alt="image 2"></div>
+									<!--<figcaption>
+									  <h1 class="res_h1">تضمین در خرید</h1>
+									  <small class="res_small">انتخاب کن، تضمین با ما</small>
+									  <a href="#">کلیک کن</a>
+									</figcaption>-->
 								</figure>
 							</a>
 						</li>
 
 						<li class="col-md-3 col-sm-6 col-501 col-521" style="float:none;">
-							<a asp-action="EquipmentLanding" asp-area="" asp-controller="Home">
+														<a asp-action="EquipmentLanding" asp-area="" asp-controller="Home">
 							<figure>
-									<div><img src="/content/Landing/images/1.jpg" alt="image 2"></div>
+									<div><img src="/content/Landing/images/2.png" alt="image 2"></div>
 								<!--<figcaption>
 								  <h1 class="res_h1">تضمین در خرید</h1>
 								  <small class="res_small">انتخاب کن، تضمین با ما</small>
 								  <a href="#">کلیک کن</a>
 								</figcaption>-->
 							</figure>
-							</a>
+                            </a>
 						</li>
+
 					</ul>
 				</div>
 			</div>
@@ -169,11 +176,11 @@
 
 	<!-- JavaScripts -->
 	<script src="/content/Landing/js/jquery.js"></script>
-	<!-- <script src="/content/Landing/js/countdown.js"></script> -->
+	<!-- <script src="js/countdown.js"></script> -->
 	<script src="/content/Landing/js/bezierCanvas.js"></script>
 	<script src="/content/Landing/js/notifyMe.js"></script>
 	<script src="/content/Landing/js/modernizr.custom.js"></script>
-	<!-- <script src="/content/Landing/js/toucheffects.js"></script> -->
+	<!-- <script src="js/toucheffects.js"></script> -->
 	<script type="text/javascript">
 		$().ready(function(){
 
@@ -211,9 +218,6 @@
 
 
 		});
-
-			<partial name="_Notification" />
-
 	</script>
 </body>
 </html>
