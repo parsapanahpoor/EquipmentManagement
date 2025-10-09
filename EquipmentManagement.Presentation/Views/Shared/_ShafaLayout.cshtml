@@ -1,0 +1,94 @@
+﻿
+@{
+    <title>@ViewData["Title"]</title>
+}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>بیمارستان شفا ساری</title>
+
+    <!-- Bootstrap -->
+    <link href="~/content/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- tobii css -->
+    <link href="~/content/css/tobii.min.css" rel="stylesheet" type="text/css" />
+    <!-- Icons -->
+    <link href="~/content/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="unicons.iconscout.com/release/v3.0.6/css/line.css">
+    <!-- Slider -->
+    <link rel="stylesheet" href="~/content/css/tiny-slider.css" />
+    <!-- Main Css -->
+    <link href="~/content/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+    <link href="~/content/css/colors/default.css" rel="stylesheet" id="color-opt">
+
+    @await RenderSectionAsync("Styles", false)
+
+</head>
+
+<body>
+
+    <header id="topnav" class="defaultscroll sticky " style="background-color:white !important">
+        <div class="container">
+            <!-- Logo container-->
+            <div class="text-center ">
+                <a class="logo" href="/Home">
+                    <img src="/content/img/logo/logoShafa.png" class="l-dark" height="70" alt="">
+                    <img src="/content/img/logo/logoShafa.png" class="l-light" height="70" alt="">
+                </a>
+            </div>
+            <div class="buy-button mt-3">
+                <a class="btn btn-primary  " asp-action="Index" asp-area="" asp-controller="Home">خانه </a>
+            </div><!--end login button-->
+            <!-- End Logo container-->
+            <div class="menu-extras ">
+                <div class="menu-item text-center justify-content-center">
+                    <!-- Mobile menu toggle-->
+                    <a class="navbar-toggle" id="isToggle" onclick="toggleMenu()">
+                        <div class="lines">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </a>
+                    <!-- End mobile menu toggle-->
+                </div>
+            </div>
+
+            <div id="navigation">
+
+                <ul class="navigation-menu nav-light">
+                    @*  <li><a href="/Home" class="sub-menu-item">صفحه اصلی </a></li>   *@
+                </ul>
+
+            </div>
+        </div>
+    </header>
+
+
+
+@RenderBody()
+
+
+    <!-- javascript -->
+    <script src="~/content/js/bootstrap.bundle.min.js"></script>
+    <!-- SLIDER -->
+    <script src="~/content/js/tiny-slider.js"></script>
+    <!-- tobii js -->
+    <script src="~/content/js/tobii.min.js"></script>
+    <!-- Icons -->
+    <script src="~/content/js/feather.min.js"></script>
+    <!-- Switcher -->
+    <script src="~/content/js/switcher.js"></script>
+    <!-- Main Js -->
+    <script src="~/content/js/plugins.init.js"></script><!--Note: All init js like tiny slider, counter, countdown, maintenance, lightbox, gallery, swiper slider, aos animation etc.-->
+    <script src="~/content/js/app.js"></script><!--Note: All important javascript like page loader, menu, sticky menu, menu-toggler, one page menu etc. -->
+
+    <partial name="_Notification" />
+
+    @await RenderSectionAsync("Scripts", false)
+
+</body>
+<!--Body Ends-->
+</html>

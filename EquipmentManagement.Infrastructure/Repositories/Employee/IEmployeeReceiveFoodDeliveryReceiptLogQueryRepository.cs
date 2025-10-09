@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentManagement.Infrastructure.Repositories.Employee;
 
-public class EmployeeReceiveFoodDeliveryReceiptLogQueryRepository : 
+public class EmployeeReceiveFoodDeliveryReceiptLogQueryRepository :
     QueryGenericRepository<Domain.Entities.Employee.EmployeeReceiveFoodDeliveryReceiptLog>,
     IEmployeeReceiveFoodDeliveryReceiptLogQueryRepository
 {
@@ -20,11 +20,11 @@ public class EmployeeReceiveFoodDeliveryReceiptLogQueryRepository :
     #endregion
 
     public async Task<FilterEmployeeReceiveFoodsLogDto> FilterEmployeeReceiveFoodsLog(
-        FilterEmployeeReceiveFoodsLogDto filter, 
+        FilterEmployeeReceiveFoodsLogDto filter,
         CancellationToken cancellation)
     {
         var query = _context.EmployeeReceiveFoodDeliveryReceiptLogs
-                           .Include(p=> p.Employee)
+                           .Include(p => p.Employee)
                            .AsNoTracking()
                            .Where(p => !p.IsDelete)
                            .OrderByDescending(p => p.CreateDate)
@@ -54,4 +54,23 @@ public class EmployeeReceiveFoodDeliveryReceiptLogQueryRepository :
 
         return filter;
     }
+
+    public async Task<Domain.Entities.Employee.EmployeeReceiveFoodDeliveryReceiptLog?> GetFoodReceiptLogByLogId(
+        ulong Id,
+        CancellationToken cancellationToken)
+        => await _context.EmployeeReceiveFoodDeliveryReceiptLogs
+                         .Include(p => p.Employee)
+                         .AsNoTracking()
+                         .Where(p => !p.IsDelete)
+                         .FirstOrDefaultAsync(p => p.Id == Id);
+
+    public async Task<Domain.Entities.Employee.EmployeeReceiveFoodDeliveryReceiptLog?> GetFoodReceiptLogByEmployeeMobile(
+        string mobile,
+        CancellationToken cancellationToken)
+        => await _context.EmployeeReceiveFoodDeliveryReceiptLogs
+                         .Include(p => p.Employee)
+                         .AsNoTracking()
+                         .Where(p => !p.IsDelete)
+                         .OrderByDescending(p=> p.CreateDate)
+                         .FirstOrDefaultAsync(p => p.Employee.Mobile == mobile);
 }

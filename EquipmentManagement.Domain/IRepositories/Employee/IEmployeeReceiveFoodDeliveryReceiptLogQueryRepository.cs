@@ -7,4 +7,12 @@ public interface IEmployeeReceiveFoodDeliveryReceiptLogQueryRepository
     Task<FilterEmployeeReceiveFoodsLogDto> FilterEmployeeReceiveFoodsLog(
         FilterEmployeeReceiveFoodsLogDto filter,
         CancellationToken cancellation);
+
+    Task<Entities.Employee.EmployeeReceiveFoodDeliveryReceiptLog?> GetFoodReceiptLogByLogId(
+        ulong Id,
+        CancellationToken cancellationToken);
+
+    Task<Domain.Entities.Employee.EmployeeReceiveFoodDeliveryReceiptLog?> GetFoodReceiptLogByEmployeeMobile(
+        string mobile,
+        CancellationToken cancellationToken);
 }
