@@ -4,6 +4,7 @@ using EquipmentManagement.Infrastructure.ApplicationDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EquipmentManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(EquipmentManagementDbContext))]
-    partial class EquipmentManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251104162434_add-RFId-CanReceiveFood-For-Employee")]
+    partial class addRFIdCanReceiveFoodForEmployee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +52,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role", (string)null);
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.Account.UserRole", b =>
@@ -77,7 +80,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserRole", (string)null);
+                    b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.Employee.Employee", b =>
@@ -122,7 +125,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasIndex("PlaceOfServiceId");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.Employee.EmployeeReceiveFoodDeliveryReceiptLog", b =>
@@ -149,7 +152,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("EmployeeReceiveFoodDeliveryReceiptLogs", (string)null);
+                    b.ToTable("EmployeeReceiveFoodDeliveryReceiptLogs");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.OperatorLogger.OperatorExcelUploadLogger", b =>
@@ -178,7 +181,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OperatorExcelUploadLoggers", (string)null);
+                    b.ToTable("OperatorExcelUploadLoggers");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.OrganizationChart.OrganizationChartAggregate", b =>
@@ -209,7 +212,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrganizationCharts", (string)null);
+                    b.ToTable("OrganizationCharts");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.OrganizationChart.UserSelectedOrganizationChartEntity", b =>
@@ -241,7 +244,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserSelectedOrganizationCharts", (string)null);
+                    b.ToTable("UserSelectedOrganizationCharts");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest.AbolitionRequest", b =>
@@ -282,7 +285,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("AbolitionRequests", (string)null);
+                    b.ToTable("AbolitionRequests");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest.DecisionAbolitionRequestRespons", b =>
@@ -322,7 +325,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DecisionAbolitionRequestRespons", (string)null);
+                    b.ToTable("DecisionAbolitionRequestRespons");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest.ExpertVisitorOpinionForAbolitionRequestEntity", b =>
@@ -356,7 +359,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExpertVisitorOpinionForAbolitionRequestEntities", (string)null);
+                    b.ToTable("ExpertVisitorOpinionForAbolitionRequestEntities");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.OrganizationRequest.DecisionRepairRequestRespons", b =>
@@ -396,7 +399,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DecisionRepairRequestRespons", (string)null);
+                    b.ToTable("DecisionRepairRequestRespons");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.OrganizationRequest.ExpertVisitorOpinionEntity", b =>
@@ -430,7 +433,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExpertVisitorOpinions", (string)null);
+                    b.ToTable("ExpertVisitorOpinions");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.OrganizationRequest.OrganizationRequestDocumentEntity", b =>
@@ -469,7 +472,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasIndex("EmployeeUserId");
 
-                    b.ToTable("OrganizationRequestDocuments", (string)null);
+                    b.ToTable("OrganizationRequestDocuments");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.OrganizationRequest.OrganziationRequestEntity", b =>
@@ -497,7 +500,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrganziationRequests", (string)null);
+                    b.ToTable("OrganziationRequests");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.OrganizationRequest.RepairRequest", b =>
@@ -541,7 +544,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("RepairRequests", (string)null);
+                    b.ToTable("RepairRequests");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.OrganizationRequest.RequestDecisionMaker", b =>
@@ -573,7 +576,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasIndex("OrganziationRequestId");
 
-                    b.ToTable("RequestDecisionMakers", (string)null);
+                    b.ToTable("RequestDecisionMakers");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.PlaceOfService.PlaceOfService", b =>
@@ -601,7 +604,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PlaceOfServices", (string)null);
+                    b.ToTable("PlaceOfServices");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.Places.Place", b =>
@@ -630,7 +633,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Places", (string)null);
+                    b.ToTable("Places");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.Product.Product", b =>
@@ -695,7 +698,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasIndex("ProductCategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.ProductCategory.ProductCategory", b =>
@@ -725,7 +728,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategories", (string)null);
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.ProductLog.ProductLog", b =>
@@ -765,7 +768,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ProductLogs", (string)null);
+                    b.ToTable("ProductLogs");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.PropertyInquiry.PropertyInquiry", b =>
@@ -797,7 +800,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PropertyInquiries", (string)null);
+                    b.ToTable("PropertyInquiries");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.PropertyInquiry.PropertyInquiryDetail", b =>
@@ -826,7 +829,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PropertyInquiryDetails", (string)null);
+                    b.ToTable("PropertyInquiryDetails");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.Role.Permission", b =>
@@ -859,7 +862,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permissions", (string)null);
+                    b.ToTable("Permissions");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.Role.RolePermission", b =>
@@ -887,7 +890,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RolePermissions", (string)null);
+                    b.ToTable("RolePermissions");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.Users.User", b =>
@@ -951,7 +954,7 @@ namespace EquipmentManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.Employee.Employee", b =>
