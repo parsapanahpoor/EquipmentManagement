@@ -35,5 +35,10 @@ namespace EquipmentManagement.Application.Extensions
 
             return FilePaths.DefaultUserAvatar;
         }
+
+        public static string ConvertToPersian(this bool? user)
+        {
+            return user.HasValue ? user.Value ? "دارد" : "ندارد" : "ندارد";
+        }
     }
 }
