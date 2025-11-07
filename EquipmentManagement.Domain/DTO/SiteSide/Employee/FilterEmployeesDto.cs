@@ -1,4 +1,5 @@
 ﻿using EquipmentManagement.Domain.DTO.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace EquipmentManagement.Domain.DTO.SiteSide.Employee;
 
@@ -9,4 +10,6 @@ public class FilterEmployeesDto :
     public string? LastName { get; set; }
     public string? PersonnelCode { get; set; }
     public string? Mobile { get; set; }
+    public bool CanReceiveFood { get; set; }
+    public string? RFId { get; set; }
 }
