@@ -42,3 +42,4 @@ namespace EquipmentManagement.Application.Extensions
         }
     }
 }
+
