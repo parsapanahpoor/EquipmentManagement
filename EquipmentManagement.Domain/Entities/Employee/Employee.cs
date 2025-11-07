@@ -9,6 +9,8 @@ public class Employee : BaseEntities<ulong>
     public string? LastName { get; set; }
     public string? PersonnelCode { get; set; }
     public string? Mobile { get; set; }
+    public string? RFId { get; set; }
+    public bool? CanReceiveFood { get; set; }
 
     public ICollection<EmployeeReceiveFoodDeliveryReceiptLog> EmployeeReceiveFoodDeliveryReceiptLogs { get; set; } = [];
 }
