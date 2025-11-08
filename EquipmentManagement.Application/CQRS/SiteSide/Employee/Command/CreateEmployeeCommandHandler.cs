@@ -43,6 +43,8 @@ public record CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComma
             Mobile  = request.Mobile,
             PlaceOfServiceId = request.PlaceOfServiceId.FirstOrDefault(),
             PersonnelCode = request.PersonnelCode,
+            CanReceiveFood = request.CanReceiveFood,
+            RFId = request.RFId,
         };
 
         await _employeeCommandRepository.AddAsync(Employee , cancellationToken);
