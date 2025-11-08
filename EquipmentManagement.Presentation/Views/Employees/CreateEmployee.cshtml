@@ -68,7 +68,13 @@
                                 <input type="checkbox"  asp-for="CanReceiveFood">
                                 <span class="text-danger" asp-validation-for="CanReceiveFood"></span>
                             </div> *@
-                            <input type="checkbox" name="CanReceiveFood">
+
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>
+                                    <input type="checkbox" asp-for="CanReceiveFood">
+                                    <span class="text"> امکان دریافت غذا </span>
+                                </label>
+                            </div>
                            @*  @Html.CheckBoxFor(_=>_.CanReceiveFood) *@
                         </div>
 
