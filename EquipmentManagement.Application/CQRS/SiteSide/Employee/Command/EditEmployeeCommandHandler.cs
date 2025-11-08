@@ -36,6 +36,8 @@ public record EditEmployeeCommandHandler : IRequestHandler<EditEmployeeCommand, 
         employee.LastName = request.LastName;
         employee.Mobile = request.Mobile;
         employee.PersonnelCode = request.PersonnelCode;
+        employee.RFId = request.RFId;
+        employee.CanReceiveFood = request.CanReceiveFood;
         employee.PlaceOfServiceId = request.PlaceOfServiceId.FirstOrDefault();
 
         _employeeCommandRepository.Update(employee);
