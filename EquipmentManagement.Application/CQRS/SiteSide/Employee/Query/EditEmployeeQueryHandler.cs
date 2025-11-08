@@ -24,12 +24,16 @@ public record EditEmployeeQueryHandler : IRequestHandler<EditEmployeeQuery, Edit
 
         return new EditEmployeeDto()
         {
+            
             Id = employee.Id,
             PlaceOfServiceId = new List<ulong>() { employee.PlaceOfServiceId },
             FirstName = employee.FirstName,
             LastName = employee.LastName,
             Mobile = employee.Mobile,
-            PersonnelCode = employee.PersonnelCode
+            PersonnelCode = employee.PersonnelCode,
+            RFId=employee.RFId,
+            CanReceiveFood=employee.CanReceiveFood.HasValue? employee.CanReceiveFood.Value: false,
+            
         };
     }
 }
