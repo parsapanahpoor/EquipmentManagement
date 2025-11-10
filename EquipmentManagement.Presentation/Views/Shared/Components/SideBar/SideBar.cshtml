@@ -55,6 +55,29 @@
             </ul>
         </li>
 
+    @* MealPricing *@
+     
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-user"></i>
+                <span class="menu-text"> مدیریت وعده</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-action="FilterMealPricing" asp-controller="MealPricing" asp-area="">
+                        <span class="menu-text"> مدیریت وعده</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="CreateMealPricing" asp-controller="MealPricing" asp-area="">
+                        <span class="menu-text">   ثبت وعده جدید </span>
+                    </a>
+                </li>
+           
+            </ul>
+        </li>
         <!--User-->
         <li>
             <a href="#" class="menu-dropdown">

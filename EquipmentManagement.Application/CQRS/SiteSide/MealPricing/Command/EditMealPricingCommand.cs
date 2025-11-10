@@ -7,7 +7,7 @@ public class EditMealPricingCommand : IRequest<bool>
 {
     #region properties
 
-    public MealType MealType { get; set; }
+    public string MealType { get; set; }=string.Empty;
     public decimal Price { get; set; }
     public ulong Id { get; set; }
 

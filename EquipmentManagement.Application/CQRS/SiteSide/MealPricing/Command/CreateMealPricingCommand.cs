@@ -6,7 +6,7 @@ public class CreateMealPricingCommand : IRequest<bool>
 {
     #region properties
 
-    public MealType MealType { get; set; }
+    public string? MealType { get; set; }
     public decimal Price { get; set; }
 
     #endregion

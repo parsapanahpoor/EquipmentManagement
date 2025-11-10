@@ -2,6 +2,7 @@
 
 using EquipmentManagement.Application.Common.IUnitOfWork;
 using EquipmentManagement.Domain.IRepositories.Employee;
+using EquipmentManagement.Domain.IRepositories.MealPricing;
 using EquipmentManagement.Domain.IRepositories.OranizationRequest;
 using EquipmentManagement.Domain.IRepositories.OrganizationChart;
 using EquipmentManagement.Domain.IRepositories.Place;
@@ -13,6 +14,7 @@ using EquipmentManagement.Domain.IRepositories.PropertyInquiry;
 using EquipmentManagement.Domain.IRepositories.Role;
 using EquipmentManagement.Domain.IRepositories.User;
 using EquipmentManagement.Infrastructure.Repositories.Employee;
+using EquipmentManagement.Infrastructure.Repositories.MealPricing;
 using EquipmentManagement.Infrastructure.Repositories.OrganizationChart;
 using EquipmentManagement.Infrastructure.Repositories.OrganizationRequest;
 using EquipmentManagement.Infrastructure.Repositories.PlaceOfServices;
@@ -75,6 +77,10 @@ public static class DependencyContainer
         //Product Log
         services.AddScoped<IProductLogCommandRepository, ProductLogCommandRepository>();
         services.AddScoped<IProductLogQueryRepository, ProductLogQueryRepository>();
+
+        //MealPricing
+        services.AddScoped<IMealPricingCommandRepository, MealPricingCommandRepository>();
+        services.AddScoped<IMealPricingQueryRepository, MealPricingQueryRepository>();
 
         //Employee 
         services.AddScoped<IEmployeeCommandRepository, EmployeeCommandRepository>();

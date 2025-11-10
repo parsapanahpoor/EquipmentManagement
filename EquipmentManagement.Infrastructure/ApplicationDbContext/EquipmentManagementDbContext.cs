@@ -2,6 +2,7 @@
 
 using EquipmentManagement.Domain.Entities.Account;
 using EquipmentManagement.Domain.Entities.Employee;
+using EquipmentManagement.Domain.Entities.MealPricing;
 using EquipmentManagement.Domain.Entities.OperatorLogger;
 using EquipmentManagement.Domain.Entities.OrganizationChart;
 using EquipmentManagement.Domain.Entities.OrganizationRequest;
@@ -123,6 +124,13 @@ public class EquipmentManagementDbContext : DbContext
     #region PlaceOfService
 
     public DbSet<PlaceOfService> PlaceOfServices { get; set; }
+
+    #endregion
+
+
+    #region MealPricing
+
+    public DbSet<MealPricing> MealPricing { get; set; }
 
     #endregion
 

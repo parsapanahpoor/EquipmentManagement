@@ -1,4 +1,6 @@
-﻿namespace EquipmentManagement.Domain.Entities.Employee;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EquipmentManagement.Domain.Entities.Employee;
 
 public class Employee : BaseEntities<ulong>
 {
