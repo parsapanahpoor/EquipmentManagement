@@ -2,6 +2,8 @@
 
 using EquipmentManagement.Application.Common.IUnitOfWork;
 using EquipmentManagement.Domain.IRepositories.Employee;
+using EquipmentManagement.Domain.IRepositories.EmployeeShiftMeals;
+using EquipmentManagement.Domain.IRepositories.EmployeeShifts;
 using EquipmentManagement.Domain.IRepositories.MealPricing;
 using EquipmentManagement.Domain.IRepositories.OranizationRequest;
 using EquipmentManagement.Domain.IRepositories.OrganizationChart;
@@ -14,6 +16,8 @@ using EquipmentManagement.Domain.IRepositories.PropertyInquiry;
 using EquipmentManagement.Domain.IRepositories.Role;
 using EquipmentManagement.Domain.IRepositories.User;
 using EquipmentManagement.Infrastructure.Repositories.Employee;
+using EquipmentManagement.Infrastructure.Repositories.EmployeeShift;
+using EquipmentManagement.Infrastructure.Repositories.EmployeeShiftMeal;
 using EquipmentManagement.Infrastructure.Repositories.MealPricing;
 using EquipmentManagement.Infrastructure.Repositories.OrganizationChart;
 using EquipmentManagement.Infrastructure.Repositories.OrganizationRequest;
@@ -81,6 +85,16 @@ public static class DependencyContainer
         //MealPricing
         services.AddScoped<IMealPricingCommandRepository, MealPricingCommandRepository>();
         services.AddScoped<IMealPricingQueryRepository, MealPricingQueryRepository>();
+
+
+        //EmployeeShiftMeal
+        services.AddScoped<IEmployeeShiftMealSelectedCommandRepository, EmployeeShiftMealSelectedCommandRepository>();
+        services.AddScoped<IEmployeeShiftMealSelectedQueryRepository, EmployeeShiftMealSelectedQueryRepository>();
+
+
+        //EmployeeShift
+        services.AddScoped<IEmployeeShiftSelectedCommandRepository, EmployeeShiftSelectedCommandRepository>();
+        services.AddScoped<IEmployeeShiftSelectedQueryRepository, EmployeeShiftSelectedQueryRepository>();
 
         //Employee 
         services.AddScoped<IEmployeeCommandRepository, EmployeeCommandRepository>();
