@@ -72,6 +72,14 @@ public class EmployeeQueryRepository :
                                        p.Mobile == mobile);
     }
 
+    public async Task<bool> IsExistAnyEmployeeById(ulong Id, CancellationToken cancellationToken)
+    {
+        return await _context.Employees
+           .AsNoTracking()
+           .AnyAsync(p => !p.IsDelete &&
+                     p.Id == Id);
+    }
+
     public async Task<bool> IsExistAnyEmployeeByPersonnalCode(
         string personnalCode,
         CancellationToken cancellationToken)
