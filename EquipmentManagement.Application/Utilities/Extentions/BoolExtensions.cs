@@ -10,4 +10,3 @@ public static class BoolExtensions
         return user.HasValue ? user.Value ? "دارد" : "ندارد" : "ندارد";
     }
 }
-
