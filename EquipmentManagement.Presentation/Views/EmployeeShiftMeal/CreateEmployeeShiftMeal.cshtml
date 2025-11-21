@@ -1,0 +1,74 @@
+﻿@using EquipmentManagement.Domain.DTO.SiteSide.EmployeeShiftMeals
+@using EquipmentManagement.Domain.Entities.Account
+
+@using EquipmentManagement.Domain.Entities.MealPricing
+@using EquipmentManagement.Domain.Entities.PlaceOfService
+@model CreateEmployeeShiftMealDTO
+
+@{
+    ViewData["Title"] = "افزودن وعده جدید";
+
+}
+@{
+    var items = EnumDropdownExtensions.ToDropdownItems<MealType>();
+}
+
+@section Scripts
+{
+    <partial name="_JqueryValidation" />
+    <script src="/admin/js/access.js"></script>
+}
+
+@section Breadcrumbs
+{
+    <li>
+        <a href="javascript:void(0)"> @ViewData["Title"] </a>
+    </li>
+}
+
+<form method="post" asp-action="CreateEmployeeShiftMeal" asp-controller="EmployeeShiftMeal">
+    <div class="row">
+        <div class="col-lg-9 col-sm-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-green">
+                    <span class="widget-caption"> @ViewData["Title"] </span>
+                </div>
+                <div class="widget-body">
+                    <div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label asp-for="Meal">نام وعده</label>
+                                @await Component.InvokeAsync("MultiSelectDropdown", new {
+                                id = nameof(Model.Meal),
+                                                                items = items,
+                                                                selectedIds = new List<string>(),
+                                                                IsMultiple = false
+                                                                })
+
+                                <span class="text-danger" asp-validation-for="Meal"></span>
+                                <input type="hidden" asp-for="EmployeeShiftSelectedId" value="@Model.EmployeeShiftSelectedId">
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <hr class="margin-bottom-10 margin-top-10" />
+
+                    <div class="row">
+                        <div class="col-md-12 flex-style">
+                            <button type="submit" class="btn btn-labeled btn-palegreen">
+                                <i class="btn-label glyphicon glyphicon-ok"></i>ثبت
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</form>

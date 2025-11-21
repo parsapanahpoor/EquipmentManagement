@@ -55,7 +55,7 @@
                                 </div>
 
                                 <hr />
-
+                             
                                 <div class="form-group col-md-12">
                                     <button type="submit" class="btn btn-labeled w-100 btn-palegreen">
                                         <i class="btn-label glyphicon glyphicon-filter"></i>فیلتر
@@ -147,6 +147,14 @@
 
                                     <td>
                                         <div class="d-flex justify-content-center ">
+
+                                            <a title="شیفت های کارمند"
+                                               asp-controller="EmployeeShift"
+                                               asp-action="FilterEmployeeShift"
+                                               asp-route-EmployeeId="@employee.Id"
+                                               class="btn btn-warning btn-circle btn-xs">
+                                                <i class="glyphicon glyphicon-edit"></i>
+                                            </a>
 
                                             <a title="ویرایش اطلاعات کارمند"
                                                asp-controller="Employees"
