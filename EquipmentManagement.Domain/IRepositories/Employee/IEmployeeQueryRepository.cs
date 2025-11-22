@@ -14,6 +14,9 @@ public interface IEmployeeQueryRepository
     Task<bool> IsExistAnyEmployeeByEmployeeMobile(
         string mobile,
         CancellationToken cancellationToken);
+    Task<bool> IsExistAnyEmployeeById(
+       ulong mobile,
+       CancellationToken cancellationToken);
 
     Task<bool> IsExistAnyEmployeeByPersonnalCode(
         string personnalCode,

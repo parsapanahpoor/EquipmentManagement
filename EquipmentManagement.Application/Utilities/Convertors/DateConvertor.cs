@@ -12,7 +12,14 @@ public static class DateConvertor
                persianCalendar.GetMonth(value).ToString("00") + "/" +
                persianCalendar.GetDayOfMonth(value).ToString("00");
     }
+    public static string ToShamsi(this DateOnly value)
+    {
+        PersianCalendar persianCalendar = new PersianCalendar();
 
+        return persianCalendar.GetYear(value.ToDateTime(TimeOnly.MinValue)) + "/" +
+               persianCalendar.GetMonth(value.ToDateTime(TimeOnly.MinValue)).ToString("00") + "/" +
+               persianCalendar.GetDayOfMonth(value.ToDateTime(TimeOnly.MinValue)).ToString("00");
+    }
     public static string ToShamsiDate(this DateTime value)
     {
         PersianCalendar pc = new PersianCalendar();

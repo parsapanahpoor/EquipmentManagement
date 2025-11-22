@@ -15,6 +15,11 @@ public record EditEmployeeDto
     public string? PersonnelCode { get; set; }
     [Required]
     public string? Mobile { get; set; }
+
+    public bool CanReceiveFood { get; set; }
+
+    [Required]
+    public string? RFId { get; set; }
 }
 
 public enum EditEmployeeResult

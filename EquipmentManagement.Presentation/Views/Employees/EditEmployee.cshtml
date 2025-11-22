@@ -56,6 +56,19 @@
                                 <input type="text" class="form-control" asp-for="PersonnelCode">
                                 <span class="text-danger" asp-validation-for="PersonnelCode"></span>
                             </div>
+
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label asp-for="RFId">RFId</label>
+                                <input type="text" class="form-control" asp-for="RFId">
+                                <span class="text-danger" asp-validation-for="RFId"></span>
+                            </div>
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>
+                                    <input type="checkbox" asp-for="CanReceiveFood">
+                                    <span class="text"> امکان دریافت غذا </span>
+                                </label>
+                            </div>
+                          
                         </div>
 
                         <hr class="margin-bottom-10 margin-top-10" />

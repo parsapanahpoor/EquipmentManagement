@@ -58,7 +58,9 @@ public class EmployeesController :
                 LastName = model.LastName,
                 Mobile = model.Mobile,
                 PersonnelCode = model.PersonnelCode,
-                PlaceOfServiceId = model.PlaceOfServiceId
+                PlaceOfServiceId = model.PlaceOfServiceId,
+                CanReceiveFood=model.CanReceiveFood,
+                RFId=model.RFId,
             },
             cancellationToken);
 
@@ -114,7 +116,9 @@ public class EmployeesController :
                 FirstName = model.FirstName,
                 PersonnelCode = model.PersonnelCode,
                 LastName = model.LastName,
-                Mobile = model.Mobile
+                Mobile = model.Mobile,
+                RFId=model.RFId,
+                CanReceiveFood=model.CanReceiveFood
             },
             cancellationToken);
 

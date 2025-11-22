@@ -1,0 +1,65 @@
+﻿@using EquipmentManagement.Domain.Entities.Account
+@using EquipmentManagement.Domain.Entities.MealPricing
+@using EquipmentManagement.Domain.Entities.PlaceOfService
+@model EquipmentManagement.Domain.DTO.SiteSide.MealPricing.EditMealPricingDTO
+
+@{
+    ViewData["Title"] = "افزودن وعده جدید";
+    var placeOfServices = ViewData["PlaceOfServices"] != null ? ViewData["PlaceOfServices"] as List<PlaceOfService> : null;
+}
+
+@section Scripts
+{
+    <partial name="_JqueryValidation" />
+    <script src="/admin/js/access.js"></script>
+}
+
+@section Breadcrumbs
+{
+    <li>
+        <a href="javascript:void(0)"> @ViewData["Title"] </a>
+    </li>
+}
+
+<form method="post" asp-action="EditMealPricing" asp-controller="MealPricing">
+    <div class="row">
+        <div class="col-lg-9 col-sm-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-info">
+                    <span class="widget-caption"> @ViewData["Title"] </span>
+                </div>
+                <div class="widget-body">
+                    <div>
+                        <input type="hidden" asp-for="MealPricingId" />
+                        <div class="row">
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label asp-for="MealType">نام وعده </label>
+                                <input type="text" class="form-control" asp-for="MealType">
+                                <span class="text-danger" asp-validation-for="MealType"></span>
+                            </div>
+
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label asp-for="Price">هزینه </label>
+                                <input type="text" class="form-control" asp-for="Price">
+                                <span class="text-danger" asp-validation-for="Price"></span>
+                            </div>
+                        </div>
+                   
+
+                        <hr class="margin-bottom-10 margin-top-10" />
+
+                        <div class="row">
+                            <div class="col-md-12 flex-style">
+                                <button type="submit" class="btn btn-labeled btn-info">
+                                    <i class="btn-label glyphicon glyphicon-ok"></i>ویرایش
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
