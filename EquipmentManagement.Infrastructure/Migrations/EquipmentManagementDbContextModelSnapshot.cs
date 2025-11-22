@@ -80,6 +80,167 @@ namespace EquipmentManagement.Infrastructure.Migrations
                     b.ToTable("UserRole");
                 });
 
+            modelBuilder.Entity("EquipmentManagement.Domain.Entities.Employee.Employee", b =>
+                {
+                    b.Property<decimal>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(20,0)");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<decimal>("Id"));
+
+                    b.Property<bool?>("CanReceiveFood")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Mobile")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonnelCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PlaceOfServiceId")
+                        .HasColumnType("decimal(20,0)");
+
+                    b.Property<string>("RFId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlaceOfServiceId");
+
+                    b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("EquipmentManagement.Domain.Entities.Employee.EmployeeReceiveFoodDeliveryReceiptLog", b =>
+                {
+                    b.Property<decimal>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(20,0)");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<decimal>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("EmployeeId")
+                        .HasColumnType("decimal(20,0)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("EmployeeReceiveFoodDeliveryReceiptLogs");
+                });
+
+            modelBuilder.Entity("EquipmentManagement.Domain.Entities.Employee.EmployeeShiftMealSelected", b =>
+                {
+                    b.Property<decimal>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(20,0)");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<decimal>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("EmployeeShiftSelectedId")
+                        .HasColumnType("decimal(20,0)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Meal")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeShiftSelectedId");
+
+                    b.ToTable("EmployeeShiftMealFSelected");
+                });
+
+            modelBuilder.Entity("EquipmentManagement.Domain.Entities.Employee.EmployeeShiftSelected", b =>
+                {
+                    b.Property<decimal>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(20,0)");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<decimal>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("EmployeeId")
+                        .HasColumnType("decimal(20,0)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("EmployeeShiftSelected");
+                });
+
+            modelBuilder.Entity("EquipmentManagement.Domain.Entities.MealPricing.MealPricing", b =>
+                {
+                    b.Property<decimal>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(20,0)");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<decimal>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MealType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MealPricing");
+                });
+
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.OperatorLogger.OperatorExcelUploadLogger", b =>
                 {
                     b.Property<decimal>("Id")
@@ -504,6 +665,34 @@ namespace EquipmentManagement.Infrastructure.Migrations
                     b.ToTable("RequestDecisionMakers");
                 });
 
+            modelBuilder.Entity("EquipmentManagement.Domain.Entities.PlaceOfService.PlaceOfService", b =>
+                {
+                    b.Property<decimal>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(20,0)");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<decimal>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("ParentId")
+                        .HasColumnType("decimal(20,0)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PlaceOfServices");
+                });
+
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.Places.Place", b =>
                 {
                     b.Property<decimal>("Id")
@@ -854,6 +1043,50 @@ namespace EquipmentManagement.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("EquipmentManagement.Domain.Entities.Employee.Employee", b =>
+                {
+                    b.HasOne("EquipmentManagement.Domain.Entities.PlaceOfService.PlaceOfService", "PlaceOfService")
+                        .WithMany("Employees")
+                        .HasForeignKey("PlaceOfServiceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("PlaceOfService");
+                });
+
+            modelBuilder.Entity("EquipmentManagement.Domain.Entities.Employee.EmployeeReceiveFoodDeliveryReceiptLog", b =>
+                {
+                    b.HasOne("EquipmentManagement.Domain.Entities.Employee.Employee", "Employee")
+                        .WithMany("EmployeeReceiveFoodDeliveryReceiptLogs")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("EquipmentManagement.Domain.Entities.Employee.EmployeeShiftMealSelected", b =>
+                {
+                    b.HasOne("EquipmentManagement.Domain.Entities.Employee.EmployeeShiftSelected", "EmployeeShiftSelected")
+                        .WithMany("EmployeeShiftMealFSelected")
+                        .HasForeignKey("EmployeeShiftSelectedId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("EmployeeShiftSelected");
+                });
+
+            modelBuilder.Entity("EquipmentManagement.Domain.Entities.Employee.EmployeeShiftSelected", b =>
+                {
+                    b.HasOne("EquipmentManagement.Domain.Entities.Employee.Employee", "Employee")
+                        .WithMany("EmployeeShiftSelected")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.OrganizationChart.UserSelectedOrganizationChartEntity", b =>
                 {
                     b.HasOne("EquipmentManagement.Domain.Entities.OrganizationChart.OrganizationChartAggregate", "OrganizationChartAggregate")
@@ -986,6 +1219,18 @@ namespace EquipmentManagement.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("EquipmentManagement.Domain.Entities.Employee.Employee", b =>
+                {
+                    b.Navigation("EmployeeReceiveFoodDeliveryReceiptLogs");
+
+                    b.Navigation("EmployeeShiftSelected");
+                });
+
+            modelBuilder.Entity("EquipmentManagement.Domain.Entities.Employee.EmployeeShiftSelected", b =>
+                {
+                    b.Navigation("EmployeeShiftMealFSelected");
+                });
+
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.OrganizationChart.OrganizationChartAggregate", b =>
                 {
                     b.Navigation("DecisionMakers");
@@ -996,6 +1241,11 @@ namespace EquipmentManagement.Infrastructure.Migrations
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.OrganizationRequest.OrganziationRequestEntity", b =>
                 {
                     b.Navigation("DecisionMakers");
+                });
+
+            modelBuilder.Entity("EquipmentManagement.Domain.Entities.PlaceOfService.PlaceOfService", b =>
+                {
+                    b.Navigation("Employees");
                 });
 
             modelBuilder.Entity("EquipmentManagement.Domain.Entities.Places.Place", b =>

@@ -1,0 +1,140 @@
+﻿@{
+    ViewData["Title"] = "سامانه ی هوشمند مدیریت تجهیزات ";
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>بیمارستان شفا ساری</title>
+
+
+    <!-- Bootstrap -->
+    <link href="~/content/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- tobii css -->
+    <link href="~/content/css/tobii.min.css" rel="stylesheet" type="text/css" />
+    <!-- Icons -->
+    <link href="~/content/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="unicons.iconscout.com/release/v3.0.6/css/line.css">
+    <!-- Slider -->
+    <link rel="stylesheet" href="~/content/css/tiny-slider.css" />
+    <!-- Main Css -->
+    <link href="~/content/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+    <link href="~/content/css/colors/default.css" rel="stylesheet" id="color-opt">
+</head>
+<body>
+
+
+    <!-- Navbar STart -->
+    <header id="topnav" class="defaultscroll sticky " style="background-color:white !important">
+        <div class="container">
+            <!-- Logo container-->
+            <div class="text-center ">
+                <a class="logo" href="/Home">
+                    <img src="/content/img/logo/logoShafa.png" class="l-dark" height="70" alt="">
+                    <img src="/content/img/logo/logoShafa.png" class="l-light" height="70" alt="">
+                </a>
+            </div>
+            <div class="buy-button">
+                <a class="btn btn-primary  " asp-action="Landing" asp-area="" asp-controller="Home">داشبورد مدیریت اموال </a>
+            </div><!--end login button-->
+            <!-- End Logo container-->
+            <div class="menu-extras ">
+                <div class="menu-item text-center justify-content-center">
+                    <!-- Mobile menu toggle-->
+                    <a class="navbar-toggle" id="isToggle" onclick="toggleMenu()">
+                        <div class="lines">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </a>
+                    <!-- End mobile menu toggle-->
+                </div>
+            </div>
+
+            <div id="navigation">
+
+                <ul class="navigation-menu nav-light">
+                    @*  <li><a href="/Home" class="sub-menu-item">صفحه اصلی </a></li>   *@
+                </ul>
+
+            </div>
+        </div>
+    </header>
+
+
+    <section class="bg-half-260 pb-lg-0 pb-md-4 bg-primary d-table w-100">
+        <div class="bg-overlay bg-black" style="opacity: 0.8;"></div>
+        <div class="container">
+            <div class="row position-relative" style="z-index: 1;">
+                <div class="col-md-7 col-12 mt-lg-5">
+                    <div class="title-heading">
+                        <h1 class="heading text-white title-dark mb-4">سیستم مدیریت اموال</h1>
+                        <p class="para-desc text-white-50"> بیمارستان شفا ساری</p>
+                        <div class="mt-4 pt-2">
+                            <a class="btn btn-primary  " asp-action="Landing" asp-area="" asp-controller="Home">داشبورد مدیریت اموال </a>
+
+                        </div>
+                    </div>
+                </div><!--end col-->
+
+                <div class="col-md-5 col-12 mt-4 pt-2 mt-sm-0 pt-sm-0">
+                    <div class="shape-before">
+
+                        <div class="carousel-cell"><img src="/content/images/medical/cta.jpg" class="img-fluid rounded-md" alt=""></div>
+                        <img src="/content/images/shapes/shape1.png" class="img-fluid shape-img" alt="">
+                    </div>
+                </div><!--end col-->
+            </div><!--end row-->
+        </div><!--end container-->
+    </section><!--end section-->
+
+    <div class="position-relative">
+        <div class="shape overflow-hidden text-white">
+            <svg viewBox="0 0 2880 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M720 125L2160 0H2880V250H0V125H720Z" fill="currentColor"></path>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Footer Start -->
+    @* <footer class="footer footer-bar mt-5">
+        <div class="container text-center">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <div class="text-sm-start">
+                        <p class="mb-0">© <script>document.write(new Date().getFullYear())</script> کلیه حقوق متعلق است به   <a href="#" target="_blank" class="text-reset">بیمارستان شفا ساری </a></p>
+                    </div>
+                </div><!--end col-->
+
+                
+            </div><!--end row-->
+        </div><!--end container-->
+    </footer><!--end footer--> *@
+    <!-- Footer End -->
+    @* <!-- Back to top -->
+    <a href="#" onclick="topFunction()" id="back-to-top" class="btn btn-icon btn-primary back-to-top"><i data-feather="arrow-up" class="icons"></i></a>
+    <!-- Back to top --> *@
+    <!-- javascript -->
+    <script src="~/content/js/bootstrap.bundle.min.js"></script>
+    <!-- SLIDER -->
+    <script src="~/content/js/tiny-slider.js"></script>
+    <!-- tobii js -->
+    <script src="~/content/js/tobii.min.js"></script>
+    <!-- Icons -->
+    <script src="~/content/js/feather.min.js"></script>
+    <!-- Switcher -->
+    <script src="~/content/js/switcher.js"></script>
+    <!-- Main Js -->
+    <script src="~/content/js/plugins.init.js"></script><!--Note: All init js like tiny slider, counter, countdown, maintenance, lightbox, gallery, swiper slider, aos animation etc.-->
+    <script src="~/content/js/app.js"></script><!--Note: All important javascript like page loader, menu, sticky menu, menu-toggler, one page menu etc. -->
+
+</body>
+</html>
+
+
+

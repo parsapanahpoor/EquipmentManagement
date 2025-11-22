@@ -35,5 +35,7 @@ namespace EquipmentManagement.Application.Extensions
 
             return FilePaths.DefaultUserAvatar;
         }
+
     }
 }
+

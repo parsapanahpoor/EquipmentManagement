@@ -1,0 +1,52 @@
+﻿@using EquipmentManagement.Domain.DTO.Common
+
+@{
+    var id = ViewData["Id"]?.ToString() ?? "selectInput";
+    var items = ViewData["Items"] as List<DropdownItem> ?? new List<DropdownItem>();
+    var isMultiple = ViewData["IsMultiple"] is bool b && b;
+    var isHasDefult = ViewData["IsHasDefult"] is bool d && d;
+    var selectedIds = ViewData["SelectedIds"] as List<string> ?? new List<string>();
+    var placeholder = ViewData["Placeholder"]?.ToString() ?? "انتخاب کنید...";
+    var selectedId = selectedIds.FirstOrDefault(); // برای حالت تک انتخابی
+}
+
+<!-- فقط یک‌بار در صفحه بارگذاری شود -->
+<link href="https://cdn.jsdelivr.net/npm/choices.js@10.2.0/public/assets/styles/choices.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/choices.js@10.2.0/public/assets/scripts/choices.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const element = document.getElementById("@id");
+        if (element) {
+            new Choices(element, {
+                removeItemButton: @(isMultiple.ToString().ToLower()), // فقط برای حالت چند انتخابی
+                searchEnabled: true,
+                searchPlaceholderValue: "جستجو...",
+                placeholderValue: "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(placeholder))",
+                noResultsText: "موردی یافت نشد",
+                itemSelectText: "انتخاب",
+                shouldSort: false,
+                classNames: {
+                    containerOuter: 'choices choices--accessible choices--rtl'
+                }
+            });
+        }
+    });
+</script>
+
+<select id="@id" name="@id" @(isMultiple ? "multiple" : "") class="!hidden">
+
+    @if (isHasDefult)
+    {
+        <option value="0" selected="selected">انتخاب کنید</option>
+    }
+
+    @foreach (var item in items)
+    {
+        var isSelected = isMultiple
+        ? selectedIds.Contains(item.Id)
+        : item.Id == selectedId;
+
+        <option value="@item.Id" selected="@(isSelected ? "selected" : null)">@item.Name</option>
+    }
+</select>

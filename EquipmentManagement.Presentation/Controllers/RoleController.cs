@@ -3,11 +3,7 @@ using EquipmentManagement.Application.CQRS.SiteSide.Role.Query;
 using EquipmentManagement.Application.StaticTools;
 using EquipmentManagement.Domain.DTO.SiteSide.Role;
 using EquipmentManagement.Presentation.HttpManager;
-using Microsoft.AspNetCore.Http.Metadata;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 namespace EquipmentManagement.Presentation.Controllers;
 
 public class RoleController : SiteBaseController

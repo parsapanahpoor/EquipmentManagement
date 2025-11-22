@@ -20,6 +20,8 @@ public interface IProductQueryRepository
 
     Task<FilterProductDTO> FilterProducts(FilterProductDTO filter);
 
+    Task<FilterProductDTO> FilterAbolitionProducts(FilterProductDTO filter);
+
     Task<List<FilterProductForExcelFilesDTO>> FilterProductsForExcelFiles(FilterProductForExcelFilesDTO filter);
 
     Task<bool> IsExistAny_Product_ByBarCode(string barCode,CancellationToken cancellationToken);

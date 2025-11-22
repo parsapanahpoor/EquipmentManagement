@@ -55,6 +55,56 @@
             </ul>
         </li>
 
+    @* MealPricing *@
+     
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-user"></i>
+                <span class="menu-text"> مدیریت وعده</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-action="FilterMealPricing" asp-controller="MealPricing" asp-area="">
+                        <span class="menu-text"> مدیریت وعده</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="CreateMealPricing" asp-controller="MealPricing" asp-area="">
+                        <span class="menu-text">   ثبت وعده جدید </span>
+                    </a>
+                </li>
+           
+            </ul>
+        </li>
+        <!--User-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-user"></i>
+                <span class="menu-text"> مدیریت کارمندان بیمارستان</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-action="FilterEmployees" asp-controller="Employees" asp-area="">
+                        <span class="menu-text"> لیست کارمندان بیمارستان </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="CreateEmployee" asp-controller="Employees" asp-area="">
+                        <span class="menu-text"> ایجاد کارمند جدید </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="EmployeeReceiveFoodLog" asp-action="FilterEmployeeReceiveFoodLog" asp-area="">
+                        <span class="menu-text"> گزارش تحویل غذای کارمندان </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <!--Product Categories-->
         <li>
             <a href="#" class="menu-dropdown">
@@ -104,6 +154,28 @@
             </ul>
         </li>
 
+        <!--PlaceOfService-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-building"></i>
+                <span class="menu-text"> مکان های خدمت پرسنل</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-action="FilterPlaceOfServices" asp-controller="PlaceOfServices" asp-area="">
+                        <span class="menu-text"> لیست مکان های خدمت  </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="CreatePlaceOfService" asp-controller="PlaceOfServices" asp-area="">
+                        <span class="menu-text"> افزودن مکان خدمت جدید </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <!--Product-->
         <li>
             <a href="#" class="menu-dropdown">
@@ -116,6 +188,11 @@
                 <li>
                     <a asp-action="FilterProduct" asp-controller="Product" asp-area="">
                         <span class="menu-text"> لیست تجهیزات  </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="FilterAbolitionProduct" asp-controller="Product" asp-area="">
+                        <span class="menu-text">  لیست تجهیزات اسقاطی  </span>
                     </a>
                 </li>
                 <li>

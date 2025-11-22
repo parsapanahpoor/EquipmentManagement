@@ -1,10 +1,13 @@
 ﻿#region properties
 
 using EquipmentManagement.Domain.Entities.Account;
+using EquipmentManagement.Domain.Entities.Employee;
+using EquipmentManagement.Domain.Entities.MealPricing;
 using EquipmentManagement.Domain.Entities.OperatorLogger;
 using EquipmentManagement.Domain.Entities.OrganizationChart;
 using EquipmentManagement.Domain.Entities.OrganizationRequest;
 using EquipmentManagement.Domain.Entities.OrganizationRequest.AbolitionRequest;
+using EquipmentManagement.Domain.Entities.PlaceOfService;
 using EquipmentManagement.Domain.Entities.Places;
 using EquipmentManagement.Domain.Entities.Product;
 using EquipmentManagement.Domain.Entities.ProductCategory;
@@ -108,6 +111,28 @@ public class EquipmentManagementDbContext : DbContext
     #region Product Log
 
     public DbSet<ProductLog> ProductLogs { get; set; }
+
+    #endregion
+
+    #region Employee
+
+    public DbSet<Employee> Employees { get; set; }
+    public DbSet<EmployeeShiftSelected> EmployeeShiftSelected { get; set; }
+    public DbSet<EmployeeShiftMealSelected> EmployeeShiftMealFSelected { get; set; }
+    public DbSet<EmployeeReceiveFoodDeliveryReceiptLog> EmployeeReceiveFoodDeliveryReceiptLogs { get; set; }
+
+    #endregion
+
+    #region PlaceOfService
+
+    public DbSet<PlaceOfService> PlaceOfServices { get; set; }
+
+    #endregion
+
+
+    #region MealPricing
+
+    public DbSet<MealPricing> MealPricing { get; set; }
 
     #endregion
 

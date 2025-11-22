@@ -1,0 +1,151 @@
+﻿@using EquipmentManagement.Application.CQRS.SiteSide.SelfService.Query.ReceiveFoodReceipt
+@using EquipmentManagement.Application.Convertors
+@model ReceiveFoodReceiptDto;
+
+@{
+    ViewData["Title"] = "دریافت فیش غذا";
+    Layout = "_ShafaLayout";
+}
+
+@section Styles {
+    <style>
+
+        @@media print {
+            body *
+
+        {
+            visibility: hidden;
+        }
+
+        #receipt, #receipt * {
+            visibility: visible;
+        }
+
+        #receipt {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+        }
+
+        }
+
+        .RBody {
+            font-family: 'Tahoma', sans-serif;
+            background-color: #f9f9f9;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .receipt {
+            background: white;
+            width: 350px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            direction: rtl;
+        }
+
+        h2 {
+            margin: 10px 0;
+            border-bottom: 1px dashed #aaa;
+            padding-bottom: 5px;
+        }
+
+        table {
+            width: 100%;
+            text-align: right;
+            margin-top: 10px;
+        }
+
+            table td {
+                padding: 5px;
+                border-bottom: 1px solid #eee;
+            }
+
+        .total {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .btns {
+            margin-top: 20px;
+            text-align: center !important;
+        }
+    </style>
+
+}
+
+@section Scripts{
+}
+
+<section class="bg-home bg-circle-gradiant d-flex align-items-center">
+    <div class="bg-overlay bg-overlay-white"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-8">
+                        <div id="RBody">
+                        @if (Model != null)
+                        {
+                            <div class="receipt" id="receipt">
+
+                                <h4>فیش تحویل غذا بیمارستان شفا</h4>
+
+                                <hr />
+
+                                <table>
+                                    <tr>
+                                        <td>نام</td>
+                                        <td>@Model.FirstName</td>
+                                    </tr>
+                                    <tr>
+                                        <td>نام خانوادگی</td>
+                                        <td>@Model.LastName</td>
+                                    </tr>
+                                    <tr>
+                                        <td>موبایل</td>
+                                        <td>@Model.Mobile</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td>کدپرسنلی</td>
+                                        <td>@Model.PersonnelCode</td>
+                                    </tr>
+
+                                    <tr class="">
+                                        <td>تاریخ دریافت غذا</td>
+                                        <td>@Model.CreatedDate.ToShamsi()</td>
+                                    </tr>
+
+                                    <tr class="">
+                                    <td>ساعت دریافت</td>
+                                        <td>@Model.CreatedDate.Hour.ToString("00"):@Model.CreatedDate.Minute.ToString("00")</td>
+                                    </tr>
+
+                                    <tr class="">
+                                    <td>شماره سفارش</td>
+                                    <td>@Model.LogId</td>
+                                    </tr>
+                                </table>
+
+                            </div>
+
+                            <div class="btns">
+                            <button onclick="window.print()" class="btn btn-success"> چاپ</button>
+                            <a class="btn btn-primary" asp-action="Index" asp-area="" asp-controller="Home">بازگشت به عقب</a>
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="receipt" id="receipt">
+
+                                <h5>خطایی رخ داده است - اطلاعاتی یافت نشده</h5>
+                            </div>
+                        }
+
+                </div><!---->
+            </div><!--end col-->
+        </div><!--end row-->
+    </div> <!--end container-->
+</section><!--end section-->

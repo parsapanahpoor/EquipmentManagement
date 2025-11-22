@@ -1,0 +1,47 @@
+﻿@model EquipmentManagement.Application.CQRS.SiteSide.SelfService.Command.ReceiveFoodDeliveryReceipt.ReceiveFoodDeliveryReceiptDto
+
+@{
+    ViewData["Title"] = "دریافت فیش غذا";
+    Layout = "_ShafaLayout";
+}
+
+<section class="bg-home bg-circle-gradiant d-flex align-items-center">
+    <div class="bg-overlay bg-overlay-white"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-8">
+                <div class="card login-page bg-white shadow rounded border-0">
+                    <div class="card-body">
+                        <h4 class="card-title text-center">دریافت فیش تحویل غذا </h4>
+                        <form asp-action="ReceiveFoodDeliveryReceipt"
+                              asp-area=""
+                              asp-controller="SelfService"
+                              method="post"
+                              class="login-form mt-4">
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">موبایل <span class="text-danger">*</span></label>
+                                        <div class="form-icon position-relative">
+                                            <i data-feather="book" class="fea icon-sm icons"></i>
+                                            <input type="text" asp-for="Mobile" class="form-control ps-5" placeholder="موبایل" />
+                                            <span style="color:red;" asp-validation-for="Mobile"></span>
+                                            @* <input type="email" class="form-control ps-5" placeholder="ایمیل" name="email" required=""> *@
+                                        </div>
+                                    </div>
+                                </div><!--end col-->
+
+                                <div class="col-lg-12 mb-0">
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-primary">ثبت  </button>
+                                    </div>
+                                </div><!--end col-->
+                            </div><!--end row-->
+                        </form>
+                    </div>
+                </div><!---->
+            </div><!--end col-->
+        </div><!--end row-->
+    </div> <!--end container-->
+</section><!--end section-->

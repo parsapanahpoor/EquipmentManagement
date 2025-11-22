@@ -1,0 +1,282 @@
+﻿@using EquipmentManagement.Application.Convertors;
+@using EquipmentManagement.Domain.DTO.SiteSide.Product
+@model EquipmentManagement.Domain.DTO.SiteSide.Product.FilterProductDTO
+
+@{
+    ViewData["Title"] = "مدیریت تجهیزات";
+}
+
+@section Scripts
+{
+}
+
+@section breadcrumbs
+{
+    <li class="active">@ViewData["Title"]</li>
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-xl-12 col-lg-12">
+
+            <a class="btn btn-sky w-100 margin-bottom-10"
+               asp-action="CreateProduct"
+               asp-controller="Product"
+               asp-area=""
+               asp-route-PlaceId="@Model.PlaceId"
+               asp-route-CategoryId="@Model.CategoryId">ایجاد کالای جدید </a>
+
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-green">
+                    <span class="widget-caption"> فیلتر  </span>
+                </div>
+                <div class="widget-body">
+                    <div class="row">
+                        <div class="basic-form">
+                            <form asp-area="" asp-controller="Product" asp-action="FilterAbolitionProduct" method="get" id="filter-search">
+                                <input type="hidden" asp-for="Page" />
+                                <input type="hidden" asp-for="PlaceId" />
+                                <input type="hidden" asp-for="CategoryId" />
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-4">
+                                        <label>نام کالا</label>
+                                        <input type="text" asp-for="ProductTitle" class="form-control" placeholder="نام کالا">
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label>برند کالا</label>
+                                        <input type="text" asp-for="Brand" class="form-control" placeholder="برند کالا">
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label>کد اموال کالا</label>
+                                        <input type="text" asp-for="RepostiroyCode" class="form-control" placeholder="کد اموال کالا">
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label>نام مکان </label>
+                                        <input type="text" asp-for="PlaceTitle" class="form-control" placeholder="نام مکان">
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label>نام دسته بندی کالا</label>
+                                        <input type="text" asp-for="CategoryTitle" class="form-control" placeholder="نام دسته بندی کالا">
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label>Rf-Id کالا</label>
+                                        <input type="text" asp-for="BarCode" class="form-control" placeholder="بارکد کالا">
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label asp-for="ProductTitleSorting"> مرتب سازی براساس نام کالا </label>
+                                        <select asp-for="ProductTitleSorting" class="form-control" asp-items="Html.GetEnumSelectList(typeof(ProductTitleSorting))"></select>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label asp-for="PlaceSorting"> مرتب سازی بر اساس مکان </label>
+                                        <select asp-for="PlaceSorting" class="form-control" asp-items="Html.GetEnumSelectList(typeof(PlaceSorting))"></select>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label asp-for="BrandSorting"> مزتب سازی براساس نام کالا </label>
+                                        <select asp-for="BrandSorting" class="form-control" asp-items="Html.GetEnumSelectList(typeof(BrandSorting))"></select>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label asp-for="CategorySorting"> مرتب سازی براساس دسته بندی </label>
+                                        <select asp-for="CategorySorting" class="form-control" asp-items="Html.GetEnumSelectList(typeof(CategorySorting))"></select>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label asp-for="RepostiroyCodeSorting"> مرتب سازی براساس کداموال </label>
+                                        <select asp-for="RepostiroyCodeSorting" class="form-control" asp-items="Html.GetEnumSelectList(typeof(RepostiroyCodeSorting))"></select>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label asp-for="BarCodeSorting"> مرتب سازی براساس Rf-Id </label>
+                                        <select asp-for="BarCodeSorting" class="form-control" asp-items="Html.GetEnumSelectList(typeof(BarCodeSorting))"></select>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label asp-for="ProductIdSorting"> مرتب سازی براساس شناسه ی محصول </label>
+                                        <select asp-for="ProductIdSorting" class="form-control" asp-items="Html.GetEnumSelectList(typeof(ProductIdSorting))"></select>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label asp-for="CreateDateSorting"> مرتب سازی تاریخ ثبت کالا </label>
+                                        <select asp-for="CreateDateSorting" class="form-control" asp-items="Html.GetEnumSelectList(typeof(CreateDateSorting))"></select>
+                                    </div>
+
+                                </div>
+
+                                <hr />
+
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-labeled w-100 btn-palegreen">
+                                        <i class="btn-label glyphicon glyphicon-filter"></i>فیلتر
+                                    </button>
+                                </div>
+
+                                @if (Context.Request.QueryString.HasValue)
+                                {
+                                    <div class="form-group col-md-12">
+                                        <a asp-area="" asp-controller="Product" asp-action="FilterAbolitionProduct" class="btn btn-labeled w-100 btn-darkorange">
+                                            <i class="btn-label glyphicon glyphicon-remove"></i>حذف فیلتر
+                                        </a>
+                                    </div>
+                                }
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="well with-header with-footer table-responsive">
+                <div class="header bordered-azure">
+                    <div class="flex-style">
+                        <span>تجهیزات </span>
+                        <span>تعداد کل : @Model.AllEntitiesCount</span>
+                    </div>
+                </div>
+
+                @if (Model != null)
+                {
+                    <table class="table table-hover table-bordered tc tableShowListInAdmin">
+
+                        <thead class="tc">
+                            <tr class="tc">
+                                <th>
+                                    #
+                                </th>
+
+                                <th>
+                                    عنوان کالا
+                                </th>
+                                <th>
+                                    برند کالا
+                                </th>
+                                <th>
+                                    نام مکان
+                                </th>
+                                <th>
+                                    نام دسته بندی
+                                </th>
+                                <th>
+                                    بارکد
+                                </th>
+                                <th>
+                                    کد اموال
+                                </th>
+                                <th>
+                                    تاریخ ثبت
+                                </th>
+                                <th>
+                                    شماره ی شاخص رسید انبار
+                                </th>
+                                <th>
+                                    امکانات
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var product in Model.Entities)
+                            {
+                                <tr id="profile_@product.Id" remove-ajax-item="@product.Id" class="@(product.IsAbolition ? "red" : "" )">
+
+                                    <td>
+                                        @product.Id
+                                    </td>
+                                    <td>
+                                        @product.ProductTitle
+                                    </td>
+                                    <td>
+                                        @(string.IsNullOrEmpty(product.Brand) ? "-" : product.Brand)
+                                    </td>
+                                    <td>
+                                        @product.Place.PlaceTitle
+                                    </td>
+                                    <td>
+                                        @product.ProductCategory.CategoryTitle
+                                    </td>
+                                    <td>
+                                        @product.BarCode
+                                    </td>
+                                    <td>
+                                        @product.RepostiroyCode
+                                    </td>
+                                    <td>
+                                        @product.CreateDate.ToShamsi()
+                                    </td>
+                                    <td>
+                                        @(string.IsNullOrEmpty(product.InvoiceUniqueNumber) ? "-" : product.InvoiceUniqueNumber)
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-center ">
+
+                                            <a title="نمایش اطلاعات"
+                                               asp-controller="Product"
+                                               asp-action="ProductDetail"
+                                               asp-route-ProductId="@product.Id"
+                                               class="btn btn-info btn-circle btn-xs">
+                                                <i class="glyphicon glyphicon-eye-open"></i>
+                                            </a>
+
+                                            @if (product.IsAbolition)
+                                            {
+                                                <p class="badge badge-danger">اسقاط شده است.</p>
+                                            }
+                                            else
+                                            {
+                                                <a title="ویرایش اطلاعات"
+                                                   asp-controller="Product"
+                                                   asp-action="EditProduct"
+                                                   asp-route-ProductId="@product.Id"
+                                                   class="btn btn-warning btn-circle btn-xs">
+                                                    <i class="glyphicon glyphicon-edit"></i>
+                                                </a>
+
+                                                <a title="درخواست تعمیر"
+                                                   asp-controller="Product"
+                                                   asp-action="FiltreProductRepairRequest"
+                                                   asp-route-ProductId="@product.Id"
+                                                   class="btn btn-primary btn-circle btn-xs">
+                                                    <i class="fa fa-recycle"></i>
+                                                </a>
+
+                                                <a title="درخواست اسقاط"
+                                                   asp-controller="Product"
+                                                   asp-action="FiltreProductAbolitionRequest"
+                                                   asp-route-ProductId="@product.Id"
+                                                   class="btn btn-warning btn-circle btn-xs">
+                                                    <i class="fa fa-ban"></i>
+                                                </a>
+                                            }
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <partial name="_Paging" model="@Model.GetCurrentPaging()" />
+                }
+                else
+                {
+                    <partial name="_NotFoundPartial" />
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

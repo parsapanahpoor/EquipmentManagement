@@ -1,0 +1,185 @@
+﻿@using EquipmentManagement.Domain.DTO.SiteSide.Employee;
+@using EquipmentManagement.Application.Extensions;
+@using EquipmentManagement.Application.Convertors;
+@model FilterEmployeesDto
+
+@{
+    ViewData["Title"] = "مدیریت کارمندان";
+}
+@section Scripts
+{
+}
+
+@section breadcrumbs
+{
+
+    <li class="active">@ViewData["Title"]</li>
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-xl-3 col-lg-3">
+
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-green">
+                    <span class="widget-caption"> فیلتر  </span>
+                </div>
+                <div class="widget-body">
+                    <div class="row">
+                        <div class="basic-form">
+                            <form asp-area="" asp-controller="Employees" asp-action="FilterEmployees" method="get" id="filter-search">
+                                <input type="hidden" asp-for="Page" />
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-12">
+                                        <label>نام کارمند</label>
+                                        <input type="text" asp-for="FirstName" class="form-control" placeholder="نام کارمند">
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label>نام حانوادگی کارمند</label>
+                                        <input type="text" asp-for="LastName" class="form-control" placeholder="نام حانوادگی کارمند">
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label>موبایل کارمند</label>
+                                        <input type="text" asp-for="Mobile" class="form-control" placeholder="موبایل کارمند">
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label>کدپرسنلی کارمند</label>
+                                        <input type="text" asp-for="PersonnelCode" class="form-control" placeholder="کدپرسنلی کارمند">
+                                    </div>
+
+                                </div>
+
+                                <hr />
+                             
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-labeled w-100 btn-palegreen">
+                                        <i class="btn-label glyphicon glyphicon-filter"></i>فیلتر
+                                    </button>
+                                </div>
+
+                                @if (Context.Request.QueryString.HasValue)
+                                {
+                                    <div class="form-group col-md-12">
+                                        <a asp-action="FilterEmployees" asp-controller="Employees" asp-area="" class="btn btn-labeled w-100 btn-darkorange">
+                                            <i class="btn-label glyphicon glyphicon-remove"></i>حذف فیلتر
+                                        </a>
+                                    </div>
+                                }
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-md-12 col-lg-9">
+            <div class="well with-header with-footer table-responsive">
+                <div class="header bordered-azure">
+                    <div class="flex-style">
+                        <span>کارمندان </span>
+                        <span>تعداد کل : @Model.AllEntitiesCount</span>
+                    </div>
+                </div>
+
+                @if (Model != null)
+                {
+                    <table class="table table-hover table-bordered tc tableShowListInAdmin">
+
+                        <thead class="tc">
+                            <tr class="tc">
+                                <th>
+                                    نام کارمند
+                                </th>
+                                <th>
+                                    نام حانوادگی کارمند
+                                </th>
+                                <th>
+                                    موبایل کارمند
+                                </th>
+                                <th>
+                                    کدپرسنلی کارمند
+                                </th>
+                    
+                                <th> امکان دریافت غذا</th>
+                                <th>
+                                    تاریخ ثبت
+                                </th>
+
+                            
+                                <th>
+                                    امکانات
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var employee in Model.Entities)
+                            {
+                                <tr id="profile_@employee.Id" remove-ajax-item="@employee.Id">
+                                    <td>
+                                        @employee.FirstName
+                                    </td>
+                                    <td>
+                                        @employee.LastName
+                                    </td>
+                                    <td>
+                                        @employee.Mobile
+                                    </td>
+                                       <td>
+                                        @employee.PersonnelCode
+                                    </td>
+
+                                    <td>
+                                        @(employee.CanReceiveFood.ConvertToPersian())
+                                    </td>
+                                    <td>
+                                        @employee.CreateDate.ToShamsi()
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex justify-content-center ">
+
+                                            <a title="شیفت های کارمند"
+                                               asp-controller="EmployeeShift"
+                                               asp-action="FilterEmployeeShift"
+                                               asp-route-EmployeeId="@employee.Id"
+                                               class="btn btn-warning btn-circle btn-xs">
+                                                <i class="glyphicon glyphicon-edit"></i>
+                                            </a>
+
+                                            <a title="ویرایش اطلاعات کارمند"
+                                               asp-controller="Employees"
+                                               asp-action="EditEmployee"
+                                               asp-route-Id="@employee.Id"
+                                               class="btn btn-warning btn-circle btn-xs">
+                                                <i class="glyphicon glyphicon-edit"></i>
+                                            </a>
+                                            <button onclick="DeleteAjax(@employee.Id, '@Url.Action("RemoveEmployee", "Employees", new { area = "", EmployeeId = employee.Id })')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <partial name="_Paging" model="@Model.GetCurrentPaging()" />
+                }
+                else
+                {
+                    <partial name="_NotFoundPartial" />
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,161 @@
+﻿@using EquipmentManagement.Application.Extensions;
+@using EquipmentManagement.Application.Convertors;
+@using EquipmentManagement.Domain.DTO.SiteSide.EmployeeShiftMeals
+@using EquipmentManagement.Domain.Entities.MealPricing
+@model FilterEmployeeShiftMealDTO
+
+@{
+    ViewData["Title"] = "وعده غذایی شیفت";
+}
+@{
+    var items = EnumDropdownExtensions.ToDropdownItems<MealType>();
+}
+
+@section Scripts
+{
+}
+
+@section breadcrumbs
+{
+
+    <li class="active">@ViewData["Title"]</li>
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-xl-3 col-lg-3">
+
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-green">
+                    <span class="widget-caption"> فیلتر  </span>
+                </div>
+                <div class="widget-body">
+                    <div class="row">
+                        <div class="basic-form">
+                            <form asp-area="" asp-controller="EmployeeShiftMeal" asp-action="FilterEmployeeShiftMeal" method="get" id="filter-search">
+                                <input type="hidden" asp-for="Page" />
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-12">
+                                        <label>نام وعده</label>
+
+                                        @await Component.InvokeAsync("MultiSelectDropdown", new {
+                                        id = nameof(Model.Meal),
+                                                                                items = items,
+                                                                                selectedIds = new List<string>(),
+                                                                                IsMultiple = false
+                                                                                })
+
+
+                                        <input type="hidden" asp-for="EmployeeShiftSelectedId" value="@ViewBag.EmployeeShiftSelectedId">
+                                    </div>
+
+
+
+                                </div>
+
+                                <hr />
+                                <div class="form-group col-md-12">
+                                    <a asp-action="CreateEmployeeShiftMeal" asp-controller="EmployeeShiftMeal" asp-route-EmployeeShiftSelectedId="@ViewBag.EmployeeShiftSelectedId" asp-area="" class="btn btn-labeled w-100 btn-palegreen">
+                                        <i class="btn-label glyphicon glyphicon-remove"></i>اقزودن
+                                    </a>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-labeled w-100 btn-palegreen">
+                                        <i class="btn-label glyphicon glyphicon-filter"></i>فیلتر
+                                    </button>
+                                </div>
+
+                                @if (Context.Request.QueryString.HasValue)
+                                {
+                                    <div class="form-group col-md-12">
+                                        <a asp-action="FilterEmployeeShiftMeal" asp-controller="EmployeeShiftMeal" asp-area="" class="btn btn-labeled w-100 btn-darkorange">
+                                            <i class="btn-label glyphicon glyphicon-remove"></i>حذف فیلتر
+                                        </a>
+                                    </div>
+                                }
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-md-12 col-lg-9">
+            <div class="well with-header with-footer table-responsive">
+                <div class="header bordered-azure">
+                    <div class="flex-style">
+                        <span>وعده ها </span>
+                        <span>تعداد کل : @Model.AllEntitiesCount</span>
+                    </div>
+                </div>
+
+                @if (Model != null)
+                {
+                    <table class="table table-hover table-bordered tc tableShowListInAdmin">
+
+                        <thead class="tc">
+                            <tr class="tc">
+                                <th>
+                                    نام وعده
+                                </th>
+                 
+
+                                <th>
+                                    تاریخ ثبت
+                                </th>
+
+
+                                <th>
+                                    امکانات
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var EmployeeShiftMeal in Model.Entities)
+                            {
+                                <tr id="profile_@EmployeeShiftMeal.Id" remove-ajax-item="@EmployeeShiftMeal.Id">
+                                    <td>
+                                        @EmployeeShiftMeal.Meal.GetDisplayName()
+                                    </td>
+                                
+                                    <td>
+                                        @EmployeeShiftMeal.CreateDate.ToShamsi()
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex justify-content-center ">
+@* 
+                                            <a title="ویرایش اطلاعات وعده"
+                                               asp-controller="EmployeeShiftMeal"
+                                               asp-action="EditEmployeeShiftMeal"
+                                               asp-route-Id="@EmployeeShiftMeal.Id"
+                                               class="btn btn-warning btn-circle btn-xs">
+                                                <i class="glyphicon glyphicon-edit"></i>
+                                            </a> *@
+                                            <button onclick="DeleteAjax(@EmployeeShiftMeal.Id, '@Url.Action("RemoveEmployeeShiftMeal", "EmployeeShiftMeal", new { area = "", EmployeeShiftMealSelectedId = EmployeeShiftMeal.Id })')" class="btn btn-danger btn-circle btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <partial name="_Paging" model="@Model.GetCurrentPaging()" />
+                }
+                else
+                {
+                    <partial name="_NotFoundPartial" />
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
