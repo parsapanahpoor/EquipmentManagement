@@ -1,6 +1,7 @@
 ﻿#region Usings
 
 using EquipmentManagement.Application.Common.IUnitOfWork;
+using EquipmentManagement.Application.Service;
 using EquipmentManagement.Domain.IRepositories.Employee;
 using EquipmentManagement.Domain.IRepositories.EmployeeShiftMeals;
 using EquipmentManagement.Domain.IRepositories.EmployeeShifts;
@@ -97,6 +98,7 @@ public static class DependencyContainer
         services.AddScoped<IEmployeeShiftSelectedQueryRepository, EmployeeShiftSelectedQueryRepository>();
 
         //Employee 
+        services.AddScoped<IPDFService, PDFService>();
         services.AddScoped<IEmployeeCommandRepository, EmployeeCommandRepository>();
         services.AddScoped<IEmployeeQueryRepository, EmployeeQueryRepository>();
         services.AddScoped<IEmployeeReceiveFoodDeliveryReceiptLogCommandRepository, EmployeeReceiveFoodDeliveryReceiptLogCommandRepository>();
