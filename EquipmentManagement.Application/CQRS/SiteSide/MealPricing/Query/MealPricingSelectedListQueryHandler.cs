@@ -23,3 +23,22 @@ internal class MealPricingSelectedListQueryHandler : IRequestHandler<MealPricing
         return await _MealPricingQueryRepository.FilterMealPricing(new FilterMealPricing {MealType=request.MealType,Price=request.Price  });
     }
 }
+internal class DropDownMealPricingSelectedListQueryHandler : IRequestHandler<DropdownMealPricingSelectedListQuery, List<DropdownItem>>
+{
+    #region Ctor
+
+    private readonly IMealPricingQueryRepository _MealPricingQueryRepository;
+
+    public DropDownMealPricingSelectedListQueryHandler(IMealPricingQueryRepository MealPricingQueryRepository)
+    {
+        _MealPricingQueryRepository = MealPricingQueryRepository;
+    }
+
+    #endregion
+
+    public async Task<List<DropdownItem>> Handle(DropdownMealPricingSelectedListQuery request, CancellationToken cancellationToken)
+    {
+
+        return await _MealPricingQueryRepository.GetDropDownMealPricing(new FilterMealPricing { MealType = request.MealType, Price = request.Price },cancellationToken);
+    }
+}

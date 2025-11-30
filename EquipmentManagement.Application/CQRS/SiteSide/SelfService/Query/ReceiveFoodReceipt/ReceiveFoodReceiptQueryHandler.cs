@@ -1,5 +1,4 @@
-﻿
-using EquipmentManagement.Domain.IRepositories.Employee;
+﻿using EquipmentManagement.Domain.IRepositories.Employee;
 
 namespace EquipmentManagement.Application.CQRS.SiteSide.SelfService.Query.ReceiveFoodReceipt;
 

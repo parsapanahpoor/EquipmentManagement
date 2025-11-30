@@ -5,7 +5,7 @@ namespace EquipmentManagement.Application.CQRS.SiteSide.EmployeeShiftMealSelecte
 public class CreateEmployeeShiftMealSelectedCommand : IRequest<bool>
 {
     #region properties
-    public MealType Meal { get; set; }
+    public ulong MealPricingId { get; set; }
     public ulong EmployeeShiftSelectedId { get; set; }
 
     #endregion

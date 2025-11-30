@@ -8,3 +8,8 @@ public record MealPricingSelectedListQuery : IRequest<FilterMealPricing>
     public string? MealType { get; set; }
     public decimal? Price { get; set; }
 }
+public record DropdownMealPricingSelectedListQuery : IRequest<List<DropdownItem>>
+{
+    public string? MealType { get; set; }
+    public decimal? Price { get; set; }
+}

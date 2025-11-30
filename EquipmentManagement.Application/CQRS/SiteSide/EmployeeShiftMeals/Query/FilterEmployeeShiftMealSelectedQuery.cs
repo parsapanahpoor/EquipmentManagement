@@ -6,7 +6,7 @@ public class FilterEmployeeShiftMealSelectedQuery : IRequest<FilterEmployeeShift
 {
     #region properties
 
-    public MealType Meal { get; set; }
+    public ulong MealPricingId { get; set; }
     public ulong EmployeeShiftSelectedId { get; set; }
 
 

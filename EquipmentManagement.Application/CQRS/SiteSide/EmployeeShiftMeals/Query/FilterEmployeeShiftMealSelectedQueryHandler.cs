@@ -1,5 +1,6 @@
 ﻿using EquipmentManagement.Domain.DTO.SiteSide.EmployeeShiftMeals;
 using EquipmentManagement.Domain.IRepositories.EmployeeShiftMeals;
+using Microsoft.EntityFrameworkCore;
 using System.Web.Mvc;
 
 namespace EquipmentManagement.Application.CQRS.SiteSide.EmployeeShiftMealSelected.Query;
@@ -23,7 +24,7 @@ public record FilterEmployeeShiftMealSelectedQueryHandler : IRequestHandler<Filt
     {
         var result = await _EmployeeShiftMealSelectedQueryRepository.FilterAsync(
             new FilterEmployeeShiftMealDTO() { EmployeeShiftSelectedId=request.EmployeeShiftSelectedId}, // DTO ورودی
-            query => query
+            query => query.Include(_=>_.MealPricing)
                 .Where(p => !p.IsDelete&&p.EmployeeShiftSelectedId==request.EmployeeShiftSelectedId)                // شرط حذف نشده
                 .OrderByDescending(p => p.CreateDate) // مرتب‌سازی
             
