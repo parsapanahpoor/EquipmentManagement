@@ -8,6 +8,7 @@ public class UserRole : BaseEntities<ulong>
     public ulong UserId { get; set; }
 
     public ulong RoleId { get; set; }
+    public Role Role { get; set; }
 
     #endregion
 }

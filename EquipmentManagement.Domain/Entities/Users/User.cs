@@ -1,4 +1,5 @@
-﻿using EquipmentManagement.Domain.Entities.OrganizationChart;
+﻿using EquipmentManagement.Domain.Entities.Account;
+using EquipmentManagement.Domain.Entities.OrganizationChart;
 using EquipmentManagement.Domain.Entities.OrganizationRequest;
 using System.ComponentModel.DataAnnotations;
 
@@ -41,6 +42,7 @@ public class User : BaseEntities<ulong>
 
     public ICollection<UserSelectedOrganizationChartEntity>? UserSelectedOrganizationChartEntities { get; set; }
     public ICollection<RepairRequest>? RepairRequests { get; set; }
+    public ICollection<UserRole>? UserRoles { get; set; }
     public ICollection<ProductLog.ProductLog>? ProductLogs { get; set; }
     public ICollection<OrganizationRequestDocumentEntity>? OrganizationRequestDocumentEntities { get; set; }
 }

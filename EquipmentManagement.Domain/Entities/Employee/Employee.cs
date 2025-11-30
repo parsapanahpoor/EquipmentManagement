@@ -27,7 +27,8 @@ public class EmployeeShiftSelected : BaseEntities<ulong>
 }
 public class EmployeeShiftMealSelected : BaseEntities<ulong>
 {
-    public MealType Meal { get; set; }
+    public ulong MealPricingId { get; set; }
     public ulong EmployeeShiftSelectedId { get; set; }
     public EmployeeShiftSelected EmployeeShiftSelected { get; set; } = new();
+    public MealPricing.MealPricing MealPricing { get; set; } = new();
 }
