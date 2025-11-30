@@ -1,6 +1,6 @@
 ﻿using EquipmentManagement.Application.CQRS.SiteSide.EmployeeShiftMealSelected.Command;
 using EquipmentManagement.Application.CQRS.SiteSide.EmployeeShiftMealSelected.Query;
-
+using EquipmentManagement.Application.CQRS.SiteSide.MealPricing.Query;
 using EquipmentManagement.Domain.DTO.SiteSide.EmployeeShiftMeals;
 using EquipmentManagement.Domain.DTO.SiteSide.EmployeeShifts;
 using EquipmentManagement.Presentation.HttpManager;
@@ -19,10 +19,15 @@ public class EmployeeShiftMealController :
         FilterEmployeeShiftMealDTO filter,
         CancellationToken cancellation = default)
     {
+        var dropDownMealPricing = await Mediator.Send(new DropdownMealPricingSelectedListQuery()
+        {
+
+        });
+        ViewBag.dropDownMealPricing = dropDownMealPricing;
         ViewBag.EmployeeShiftSelectedId = filter.EmployeeShiftSelectedId;
         return View(await Mediator.Send(new FilterEmployeeShiftMealSelectedQuery()
         {
-          EmployeeShiftSelectedId=filter.EmployeeShiftSelectedId,
+            EmployeeShiftSelectedId = filter.EmployeeShiftSelectedId,
         },
         cancellation));
     }
@@ -35,7 +40,11 @@ public class EmployeeShiftMealController :
     public async Task<IActionResult> CreateEmployeeShiftMeal(CreateEmployeeShiftMealDTO model)
     {
 
+        var dropDownMealPricing = await Mediator.Send(new DropdownMealPricingSelectedListQuery()
+        {
 
+        });
+        ViewBag.dropDownMealPricing = dropDownMealPricing;
         return View(model);
     }
 
@@ -43,14 +52,19 @@ public class EmployeeShiftMealController :
     public async Task<IActionResult> CreateEmployeeShiftMeal(CreateEmployeeShiftMealDTO model,
                                                 CancellationToken cancellationToken = default)
     {
+        var dropDownMealPricing = await Mediator.Send(new DropdownMealPricingSelectedListQuery()
+        {
+
+        });
+        ViewBag.dropDownMealPricing= dropDownMealPricing;
         #region Create EmployeeShiftMeal 
 
         if (ModelState.IsValid)
         {
             var res = await Mediator.Send(new CreateEmployeeShiftMealSelectedCommand()
             {
-                Meal = model.Meal,
-                EmployeeShiftSelectedId=model.EmployeeShiftSelectedId
+                MealPricingId = model.MealPricingId,
+                EmployeeShiftSelectedId = model.EmployeeShiftSelectedId
             },
             cancellationToken);
 

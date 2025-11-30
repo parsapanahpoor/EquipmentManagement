@@ -1,306 +1,341 @@
 ﻿<div class="page-sidebar" id="sidebar">
     <ul class="nav sidebar-menu">
 
-        <li>
-            <a href="/">
-                <i class="menu-icon fa fa-globe"></i>
-                <span class="menu-text"> مشاهده سایت </span>
-            </a>
-        </li>
 
-        <!--Dashboard-->
-        <li>
-            <a asp-action="Landing" asp-controller="Home" asp-area="">
-                <i class="menu-icon glyphicon glyphicon-home"></i>
-                <span class="menu-text"> داشبورد </span>
-            </a>
-        </li>
+        @if(User.IsInRole("Admin"))
+        {
+            <li>
+                <a href="/">
+                    <i class="menu-icon fa fa-globe"></i>
+                    <span class="menu-text"> مشاهده سایت </span>
+                </a>
+            </li>
 
-        <!--Role-->
-        <li>
-            <a href="#" class="menu-dropdown">
-                <i class="menu-icon fa fa-user-secret"></i>
-                <span class="menu-text"> مدیریت نقش ها </span>
-                <i class="menu-expand"></i>
-            </a>
+            <!--Dashboard-->
+            <li>
+                <a asp-action="Landing" asp-controller="Home" asp-area="">
+                    <i class="menu-icon glyphicon glyphicon-home"></i>
+                    <span class="menu-text"> داشبورد </span>
+                </a>
+            </li>
 
-            <ul class="submenu">
-                <li>
-                    <a asp-action="FilterRoles" asp-controller="Role" asp-area="">
-                        <span class="menu-text"> لیست نقش ها </span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-action="CreateRole" asp-controller="Role" asp-area="">
-                        <span class="menu-text"> ایجاد نقش جدید </span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+            <!--Role-->
+            <li>
+                <a href="#" class="menu-dropdown">
+                    <i class="menu-icon fa fa-user-secret"></i>
+                    <span class="menu-text"> مدیریت نقش ها </span>
+                    <i class="menu-expand"></i>
+                </a>
 
-        <!--User-->
-        <li>
-            <a href="#" class="menu-dropdown">
-                <i class="menu-icon fa fa-user"></i>
-                <span class="menu-text"> مدیریت کاربران</span>
-                <i class="menu-expand"></i>
-            </a>
+                <ul class="submenu">
+                    <li>
+                        <a asp-action="FilterRoles" asp-controller="Role" asp-area="">
+                            <span class="menu-text"> لیست نقش ها </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="CreateRole" asp-controller="Role" asp-area="">
+                            <span class="menu-text"> ایجاد نقش جدید </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
-            <ul class="submenu">
-                <li>
-                    <a asp-action="FilterUsers" asp-controller="User" asp-area="">
-                        <span class="menu-text"> لیست کاربران </span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+            <!--User-->
+            <li>
+                <a href="#" class="menu-dropdown">
+                    <i class="menu-icon fa fa-user"></i>
+                    <span class="menu-text"> مدیریت کاربران</span>
+                    <i class="menu-expand"></i>
+                </a>
 
-    @* MealPricing *@
-     
-        <li>
-            <a href="#" class="menu-dropdown">
-                <i class="menu-icon fa fa-user"></i>
-                <span class="menu-text"> مدیریت وعده</span>
-                <i class="menu-expand"></i>
-            </a>
+                <ul class="submenu">
+                    <li>
+                        <a asp-action="FilterUsers" asp-controller="User" asp-area="">
+                            <span class="menu-text"> لیست کاربران </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
-            <ul class="submenu">
-                <li>
-                    <a asp-action="FilterMealPricing" asp-controller="MealPricing" asp-area="">
-                        <span class="menu-text"> مدیریت وعده</span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-action="CreateMealPricing" asp-controller="MealPricing" asp-area="">
-                        <span class="menu-text">   ثبت وعده جدید </span>
-                    </a>
-                </li>
-           
-            </ul>
-        </li>
-        <!--User-->
-        <li>
-            <a href="#" class="menu-dropdown">
-                <i class="menu-icon fa fa-user"></i>
-                <span class="menu-text"> مدیریت کارمندان بیمارستان</span>
-                <i class="menu-expand"></i>
-            </a>
+            @* MealPricing *@
 
-            <ul class="submenu">
-                <li>
-                    <a asp-action="FilterEmployees" asp-controller="Employees" asp-area="">
-                        <span class="menu-text"> لیست کارمندان بیمارستان </span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-action="CreateEmployee" asp-controller="Employees" asp-area="">
-                        <span class="menu-text"> ایجاد کارمند جدید </span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-controller="EmployeeReceiveFoodLog" asp-action="FilterEmployeeReceiveFoodLog" asp-area="">
-                        <span class="menu-text"> گزارش تحویل غذای کارمندان </span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+            <li>
+                <a href="#" class="menu-dropdown">
+                    <i class="menu-icon fa fa-user"></i>
+                    <span class="menu-text"> مدیریت وعده</span>
+                    <i class="menu-expand"></i>
+                </a>
 
-        <!--Product Categories-->
-        <li>
-            <a href="#" class="menu-dropdown">
-                <i class="menu-icon fa fa-cart-arrow-down"></i>
-                <span class="menu-text"> دسته بندی تجهیزات</span>
-                <i class="menu-expand"></i>
-            </a>
+                <ul class="submenu">
+                    <li>
+                        <a asp-action="FilterMealPricing" asp-controller="MealPricing" asp-area="">
+                            <span class="menu-text"> مدیریت وعده</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="CreateMealPricing" asp-controller="MealPricing" asp-area="">
+                            <span class="menu-text">   ثبت وعده جدید </span>
+                        </a>
+                    </li>
 
-            <ul class="submenu">
-                <li>
-                    <a asp-action="FilterProductCategory" asp-controller="ShopProductCategory" asp-area="">
-                        <span class="menu-text"> لیست دسته بندی ها  </span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-action="AddProductCategory" asp-controller="ShopProductCategory" asp-area="">
-                        <span class="menu-text"> افزودن دسته بندی </span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+                </ul>
+            </li>
+            <!--User-->
+            <li>
+                <a href="#" class="menu-dropdown">
+                    <i class="menu-icon fa fa-user"></i>
+                    <span class="menu-text"> مدیریت کارمندان بیمارستان</span>
+                    <i class="menu-expand"></i>
+                </a>
 
-        <!--Places-->
-        <li>
-            <a href="#" class="menu-dropdown">
-                <i class="menu-icon fa fa-building"></i>
-                <span class="menu-text"> اتاق ها و مکان ها</span>
-                <i class="menu-expand"></i>
-            </a>
+                <ul class="submenu">
+                    <li>
+                        <a asp-action="FilterEmployees" asp-controller="Employees" asp-area="">
+                            <span class="menu-text"> لیست کارمندان بیمارستان </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="FilterEmployees" asp-controller="FoodGroupReport" asp-area="">
+                            <span class="menu-text"> گزارش گیری کارمندان بیمارستان </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="CreateEmployee" asp-controller="Employees" asp-area="">
+                            <span class="menu-text"> ایجاد کارمند جدید </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="EmployeeReceiveFoodLog" asp-action="FilterEmployeeReceiveFoodLog" asp-area="">
+                            <span class="menu-text"> گزارش تحویل غذای کارمندان </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
-            <ul class="submenu">
-                <li>
-                    <a asp-action="FilterPlaces" asp-controller="places" asp-area="">
-                        <span class="menu-text"> لیست دسته مکان ها  </span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-action="CreatePlace" asp-controller="places" asp-area="">
-                        <span class="menu-text"> افزودن مکان جدید </span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-action="FilterPlacesForExcelFile" asp-controller="places" asp-area="">
-                        <span class="menu-text"> خروجی اکسل مکان ها </span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+            <!--Product Categories-->
+            <li>
+                <a href="#" class="menu-dropdown">
+                    <i class="menu-icon fa fa-cart-arrow-down"></i>
+                    <span class="menu-text"> دسته بندی تجهیزات</span>
+                    <i class="menu-expand"></i>
+                </a>
 
-        <!--PlaceOfService-->
-        <li>
-            <a href="#" class="menu-dropdown">
-                <i class="menu-icon fa fa-building"></i>
-                <span class="menu-text"> مکان های خدمت پرسنل</span>
-                <i class="menu-expand"></i>
-            </a>
+                <ul class="submenu">
+                    <li>
+                        <a asp-action="FilterProductCategory" asp-controller="ShopProductCategory" asp-area="">
+                            <span class="menu-text"> لیست دسته بندی ها  </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="AddProductCategory" asp-controller="ShopProductCategory" asp-area="">
+                            <span class="menu-text"> افزودن دسته بندی </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
-            <ul class="submenu">
-                <li>
-                    <a asp-action="FilterPlaceOfServices" asp-controller="PlaceOfServices" asp-area="">
-                        <span class="menu-text"> لیست مکان های خدمت  </span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-action="CreatePlaceOfService" asp-controller="PlaceOfServices" asp-area="">
-                        <span class="menu-text"> افزودن مکان خدمت جدید </span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+            <!--Places-->
+            <li>
+                <a href="#" class="menu-dropdown">
+                    <i class="menu-icon fa fa-building"></i>
+                    <span class="menu-text"> اتاق ها و مکان ها</span>
+                    <i class="menu-expand"></i>
+                </a>
 
-        <!--Product-->
-        <li>
-            <a href="#" class="menu-dropdown">
-                <i class="menu-icon fa fa-cogs"></i>
-                <span class="menu-text"> تجهیزات</span>
-                <i class="menu-expand"></i>
-            </a>
+                <ul class="submenu">
+                    <li>
+                        <a asp-action="FilterPlaces" asp-controller="places" asp-area="">
+                            <span class="menu-text"> لیست دسته مکان ها  </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="CreatePlace" asp-controller="places" asp-area="">
+                            <span class="menu-text"> افزودن مکان جدید </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="FilterPlacesForExcelFile" asp-controller="places" asp-area="">
+                            <span class="menu-text"> خروجی اکسل مکان ها </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
-            <ul class="submenu">
-                <li>
-                    <a asp-action="FilterProduct" asp-controller="Product" asp-area="">
-                        <span class="menu-text"> لیست تجهیزات  </span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-action="FilterAbolitionProduct" asp-controller="Product" asp-area="">
-                        <span class="menu-text">  لیست تجهیزات اسقاطی  </span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-action="CreateProduct" asp-controller="Product" asp-area="">
-                        <span class="menu-text"> افزودن کالا </span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-action="FilterProductForExcelFiles" asp-controller="Product" asp-area="">
-                        <span class="menu-text"> خروجی اکسل </span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-controller="ProductLog" asp-action="FilterProductLog" asp-area="">
-                        <span class="menu-text"> تاریخچه ی تجهیزات </span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+            <!--PlaceOfService-->
+            <li>
+                <a href="#" class="menu-dropdown">
+                    <i class="menu-icon fa fa-building"></i>
+                    <span class="menu-text"> مکان های خدمت پرسنل</span>
+                    <i class="menu-expand"></i>
+                </a>
 
-        <!--Property Inquiry-->
-        <li>
-            <a href="#" class="menu-dropdown">
-                <i class="menu-icon fa fa-cogs"></i>
-                <span class="menu-text"> گردش اموال</span>
-                <i class="menu-expand"></i>
-            </a>
+                <ul class="submenu">
+                    <li>
+                        <a asp-action="FilterPlaceOfServices" asp-controller="PlaceOfServices" asp-area="">
+                            <span class="menu-text"> لیست مکان های خدمت  </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="CreatePlaceOfService" asp-controller="PlaceOfServices" asp-area="">
+                            <span class="menu-text"> افزودن مکان خدمت جدید </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
-            <ul class="submenu">
-                <li>
-                    <a asp-action="ListOfSystemInquiries" asp-controller="PropertyInquiry" asp-area="">
-                        <span class="menu-text"> لیست گردش اموال  </span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-action="AddNewExcelFile" asp-controller="PropertyInquiry" asp-area="">
-                        <span class="menu-text"> گردش اموال جدید </span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+            <!--Product-->
+            <li>
+                <a href="#" class="menu-dropdown">
+                    <i class="menu-icon fa fa-cogs"></i>
+                    <span class="menu-text"> تجهیزات</span>
+                    <i class="menu-expand"></i>
+                </a>
 
-        <!--Organization Chart-->
-        <li>
-            <a href="#" class="menu-dropdown">
-                <i class="menu-icon fa fa-building-o"></i>
-                <span class="menu-text"> چارت سازمانی</span>
-                <i class="menu-expand"></i>
-            </a>
+                <ul class="submenu">
+                    <li>
+                        <a asp-action="FilterProduct" asp-controller="Product" asp-area="">
+                            <span class="menu-text"> لیست تجهیزات  </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="FilterAbolitionProduct" asp-controller="Product" asp-area="">
+                            <span class="menu-text">  لیست تجهیزات اسقاطی  </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="CreateProduct" asp-controller="Product" asp-area="">
+                            <span class="menu-text"> افزودن کالا </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="FilterProductForExcelFiles" asp-controller="Product" asp-area="">
+                            <span class="menu-text"> خروجی اکسل </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="ProductLog" asp-action="FilterProductLog" asp-area="">
+                            <span class="menu-text"> تاریخچه ی تجهیزات </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
-            <ul class="submenu">
-                <li>
-                    <a asp-action="FilterOrganizationChart" asp-controller="OrganizationChart" asp-area="">
-                        <span class="menu-text"> لیست عناوین سازمانی  </span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-action="CreateOrganizationChart" asp-controller="OrganizationChart" asp-area="">
-                        <span class="menu-text"> ایجاد عنوان جدید </span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+            <!--Property Inquiry-->
+            <li>
+                <a href="#" class="menu-dropdown">
+                    <i class="menu-icon fa fa-cogs"></i>
+                    <span class="menu-text"> گردش اموال</span>
+                    <i class="menu-expand"></i>
+                </a>
 
-        <!--Organization Request-->
-        <li>
-            <a href="#" class="menu-dropdown">
-                <i class="menu-icon fa fa-print"></i>
-                <span class="menu-text"> درخواست های سازمانی</span>
-                <i class="menu-expand"></i>
-            </a>
+                <ul class="submenu">
+                    <li>
+                        <a asp-action="ListOfSystemInquiries" asp-controller="PropertyInquiry" asp-area="">
+                            <span class="menu-text"> لیست گردش اموال  </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="AddNewExcelFile" asp-controller="PropertyInquiry" asp-area="">
+                            <span class="menu-text"> گردش اموال جدید </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
-            <ul class="submenu">
-                <li>
-                    <a asp-action="FilterOrganziationRequest" asp-controller="OrganizationRequest" asp-area="">
-                        <span class="menu-text"> لیست درخواست های سازمانی  </span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-action="CreateOrganizationRequest" asp-controller="OrganizationRequest" asp-area="">
-                        <span class="menu-text"> ایجاد درخواست جدید </span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+            <!--Organization Chart-->
+            <li>
+                <a href="#" class="menu-dropdown">
+                    <i class="menu-icon fa fa-building-o"></i>
+                    <span class="menu-text"> چارت سازمانی</span>
+                    <i class="menu-expand"></i>
+                </a>
 
-        <!--Current User Info-->
-        <li>
-            <a href="#" class="menu-dropdown">
-                <i class="menu-icon fa fa-user"></i>
-                <span class="menu-text">  اطلاعات کاربری شما</span>
-                <i class="menu-expand"></i>
-            </a>
+                <ul class="submenu">
+                    <li>
+                        <a asp-action="FilterOrganizationChart" asp-controller="OrganizationChart" asp-area="">
+                            <span class="menu-text"> لیست عناوین سازمانی  </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="CreateOrganizationChart" asp-controller="OrganizationChart" asp-area="">
+                            <span class="menu-text"> ایجاد عنوان جدید </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
-            <ul class="submenu">
-                <li>
-                    <a asp-action="EditCurrentUserInfo" asp-controller="User" asp-area="">
-                        <span class="menu-text"> ویرایش اطلاعات </span>
-                    </a>
-                </li>
+            <!--Organization Request-->
+            <li>
+                <a href="#" class="menu-dropdown">
+                    <i class="menu-icon fa fa-print"></i>
+                    <span class="menu-text"> درخواست های سازمانی</span>
+                    <i class="menu-expand"></i>
+                </a>
 
-                <li>
-                    <a asp-action="ChangePassword" asp-controller="User" asp-area="">
-                        <span class="menu-text"> تغییر رمز عبور </span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+                <ul class="submenu">
+                    <li>
+                        <a asp-action="FilterOrganziationRequest" asp-controller="OrganizationRequest" asp-area="">
+                            <span class="menu-text"> لیست درخواست های سازمانی  </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="CreateOrganizationRequest" asp-controller="OrganizationRequest" asp-area="">
+                            <span class="menu-text"> ایجاد درخواست جدید </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <!--Current User Info-->
+            <li>
+                <a href="#" class="menu-dropdown">
+                    <i class="menu-icon fa fa-user"></i>
+                    <span class="menu-text">  اطلاعات کاربری شما</span>
+                    <i class="menu-expand"></i>
+                </a>
+
+                <ul class="submenu">
+                    <li>
+                        <a asp-action="EditCurrentUserInfo" asp-controller="User" asp-area="">
+                            <span class="menu-text"> ویرایش اطلاعات </span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a asp-action="ChangePassword" asp-controller="User" asp-area="">
+                            <span class="menu-text"> تغییر رمز عبور </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        }
+        else if (User.IsInRole("FoodReporter"))
+        {
+            <li>
+                <a href="#" class="menu-dropdown">
+                    <i class="menu-icon fa fa-chart-bar"></i>
+                    <span class="menu-text"> گزارش‌گیری سلف‌سرویس </span>
+                    <i class="menu-expand"></i>
+                </a>
+
+                <ul class="submenu">
+                    <li>
+                        <a asp-action="FilterEmployees" asp-controller="FoodGroupReport" asp-area="">
+                            <i class="menu-icon fa fa-users"></i>
+                            <span class="menu-text"> مشاهده لیست کارمندان </span>
+                        </a>
+                    </li>
+                  @*   <li>
+                        <a asp-action="ExportEmployeeReportPdf" asp-controller="FoodGroupReport" asp-area="">
+                            <i class="menu-icon fa fa-file-pdf"></i>
+                            <span class="menu-text"> دریافت گزارش PDF </span>
+                        </a>
+                    </li> *@
+                </ul>
+            </li>
+        }
+
 
     </ul>
 </div>

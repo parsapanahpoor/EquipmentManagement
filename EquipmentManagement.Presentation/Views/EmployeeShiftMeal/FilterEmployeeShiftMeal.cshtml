@@ -1,5 +1,6 @@
 ﻿@using EquipmentManagement.Application.Extensions;
 @using EquipmentManagement.Application.Convertors;
+@using EquipmentManagement.Domain.DTO.Common
 @using EquipmentManagement.Domain.DTO.SiteSide.EmployeeShiftMeals
 @using EquipmentManagement.Domain.Entities.MealPricing
 @model FilterEmployeeShiftMealDTO
@@ -8,7 +9,7 @@
     ViewData["Title"] = "وعده غذایی شیفت";
 }
 @{
-    var items = EnumDropdownExtensions.ToDropdownItems<MealType>();
+    var items = ViewBag.dropDownMealPricing as List<DropdownItem>;
 }
 
 @section Scripts
@@ -41,7 +42,7 @@
                                         <label>نام وعده</label>
 
                                         @await Component.InvokeAsync("MultiSelectDropdown", new {
-                                        id = nameof(Model.Meal),
+                                        id = nameof(Model.MealPricingId),
                                                                                 items = items,
                                                                                 selectedIds = new List<string>(),
                                                                                 IsMultiple = false
@@ -122,7 +123,7 @@
                             {
                                 <tr id="profile_@EmployeeShiftMeal.Id" remove-ajax-item="@EmployeeShiftMeal.Id">
                                     <td>
-                                        @EmployeeShiftMeal.Meal.GetDisplayName()
+                                        @EmployeeShiftMeal.MealPricing.MealType
                                     </td>
                                 
                                     <td>

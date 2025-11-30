@@ -140,7 +140,13 @@ public class AccountController : SiteBaseController
                 new (ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new (ClaimTypes.MobilePhone, user.Mobile),
                 new (ClaimTypes.Name, user.Username),
+ 
             };
+
+            foreach (var item in user.UserRoles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role,item.Role.RoleUniqueName));
+            }
 
             var claimIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(claimIdentity);

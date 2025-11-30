@@ -1,4 +1,5 @@
-﻿@using EquipmentManagement.Domain.DTO.SiteSide.EmployeeShiftMeals
+﻿@using EquipmentManagement.Domain.DTO.Common
+@using EquipmentManagement.Domain.DTO.SiteSide.EmployeeShiftMeals
 @using EquipmentManagement.Domain.Entities.Account
 
 @using EquipmentManagement.Domain.Entities.MealPricing
@@ -10,7 +11,7 @@
 
 }
 @{
-    var items = EnumDropdownExtensions.ToDropdownItems<MealType>();
+    var items = ViewBag.dropDownMealPricing as List<DropdownItem>;
 }
 
 @section Scripts
@@ -38,15 +39,15 @@
 
                         <div class="row">
                             <div class="form-group col-md-6 col-sm-12">
-                                <label asp-for="Meal">نام وعده</label>
+                                <label asp-for="MealPricingId">نام وعده</label>
                                 @await Component.InvokeAsync("MultiSelectDropdown", new {
-                                id = nameof(Model.Meal),
+                                id = nameof(Model.MealPricingId),
                                                                 items = items,
                                                                 selectedIds = new List<string>(),
                                                                 IsMultiple = false
                                                                 })
 
-                                <span class="text-danger" asp-validation-for="Meal"></span>
+                                <span class="text-danger" asp-validation-for="MealPricingId"></span>
                                 <input type="hidden" asp-for="EmployeeShiftSelectedId" value="@Model.EmployeeShiftSelectedId">
                             </div>
 
