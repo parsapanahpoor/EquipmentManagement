@@ -7,6 +7,10 @@ public interface IEmployeeQueryRepository
     Task<FilterEmployeesDto> FilterEmployees(
         FilterEmployeesDto filter, 
         CancellationToken cancellation);
+
+    Task<FilterSelectedEmployeesDto> FilterEmployees(
+        FilterSelectedEmployeesDto filter,
+        CancellationToken cancellation);
     Task<Entities.Employee.Employee> GetByIdAsync(
         CancellationToken cancellationToken, 
         params object[] ids);
@@ -25,4 +29,8 @@ public interface IEmployeeQueryRepository
     Task<Entities.Employee.Employee?> GetEmployeeByMobile(
         string mobile,
         CancellationToken cancellationToken);
+
+    Task<List<Domain.Entities.Employee.Employee?>> GetEmployeeByIds(
+       List<ulong> Ids,
+       CancellationToken cancellationToken);
 }

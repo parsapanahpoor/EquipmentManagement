@@ -1,8 +1,9 @@
 ﻿using EquipmentManagement.Domain.Entities.MealPricing;
+using EquipmentManagement.Domain.IRepositories.Common;
 
 namespace EquipmentManagement.Domain.IRepositories.MealPricing;
 
-public interface IMealPricingCommandRepository
+public interface IMealPricingCommandRepository:ICommandGenericRepository<Domain.Entities.MealPricing.MealPricing>
 {
     #region General Methods
 
