@@ -46,7 +46,7 @@ public class UserQueryRepository : QueryGenericRepository<Domain.Entities.Users.
 
     public async Task<Domain.Entities.Users.User?> GetUserByMobile(string mobile , CancellationToken cancellation)
     {
-        return await _context.Users
+        return await _context.Users.Include(u=>u.UserRoles).ThenInclude(u=>u.Role)
                              .AsNoTracking()
                              .FirstOrDefaultAsync(p => !p.IsDelete &&
                                                   p.Mobile == mobile);

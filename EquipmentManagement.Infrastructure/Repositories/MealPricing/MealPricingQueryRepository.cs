@@ -79,6 +79,18 @@ public class MealPricingQueryRepository : QueryGenericRepository<Domain.Entities
                        .ToList();
     }
 
+    public async Task<List<DropdownItem>> GetDropDownMealPricing(FilterMealPricing filter, CancellationToken cancellationToken)
+    {
+        return _context.MealPricing
+                       .AsNoTracking()
+                       .Where(p => !p.IsDelete)
+                       .Select(p => new DropdownItem()
+                       {
+                           Id = p.Id.ToString(),
+                           Name = p.MealType
+                       })
+                       .ToList();
+    }
     #endregion
 }
 

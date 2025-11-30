@@ -1,4 +1,5 @@
 ﻿using EquipmentManagement.Domain.DTO.SiteSide.Employee;
+using EquipmentManagement.Domain.Entities.Employee;
 using EquipmentManagement.Domain.IRepositories.Employee;
 using Microsoft.EntityFrameworkCore;
 
@@ -71,6 +72,24 @@ public class EmployeeReceiveFoodDeliveryReceiptLogQueryRepository :
                          .Include(p => p.Employee)
                          .AsNoTracking()
                          .Where(p => !p.IsDelete)
-                         .OrderByDescending(p=> p.CreateDate)
+                         .OrderByDescending(p => p.CreateDate)
                          .FirstOrDefaultAsync(p => p.Employee.Mobile == mobile);
+
+
+    public async Task<List<Domain.Entities.Employee.EmployeeReceiveFoodDeliveryReceiptLog>>
+        GetFoodReceiptLogByEmployeeMobile(List<ulong> ids, CancellationToken cancellationToken)
+    {
+
+  
+        return await _context.Employees
+       
+            .AsNoTracking()
+            .Where(p => !p.IsDelete && ids.Contains(p.Id)).Select(_=>new EmployeeReceiveFoodDeliveryReceiptLog
+            {
+                Employee=_,
+                EmployeeId=_.Id
+            })
+            .OrderByDescending(p => p.CreateDate)
+            .ToListAsync(cancellationToken);
+    }
 }
