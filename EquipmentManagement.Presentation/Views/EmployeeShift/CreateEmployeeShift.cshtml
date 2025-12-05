@@ -1,11 +1,12 @@
-﻿@using EquipmentManagement.Domain.DTO.SiteSide.EmployeeShifts
+﻿@using EquipmentManagement.Domain.DTO.Common
+@using EquipmentManagement.Domain.DTO.SiteSide.EmployeeShifts
 @using EquipmentManagement.Domain.Entities.Account
 @using EquipmentManagement.Domain.Entities.PlaceOfService
 @model CreateEmployeeShiftDTO
 
 @{
     ViewData["Title"] = "افزودن وعده جدید";
-   
+    var itemsMealPricing = ViewBag.dropDownMealPricing as List<DropdownItem>;
 }
 
 @section Scripts
@@ -27,7 +28,7 @@
     </li>
 }
 
-<form method="post" asp-action="CreateEmployeeShift" asp-controller="EmployeeShift" >
+<form method="post" asp-action="CreateEmployeeShift" asp-controller="EmployeeShift">
     <div class="row">
         <div class="col-lg-9 col-sm-12">
             <div class="widget">
@@ -43,27 +44,38 @@
                                 <input type="text" class="form-control" data-jdp asp-for="Date">
                                 <span class="text-danger" asp-validation-for="Date"></span>
                             </div>
+                            @foreach (var item in itemsMealPricing??new List<DropdownItem>())
+                            {
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>
+                                        <input type="checkbox" name="MealPricingIds" value="@item.Id" />
+                                        <span class="text"> @item.Name </span>
+                                    </label>
+                                </div>
 
-                          
-                        </div>
-                      
-                        
+                     
+                            }
+
+
                         </div>
 
-                        <hr class="margin-bottom-10 margin-top-10" />
-
-                        <div class="row">
-                            <div class="col-md-12 flex-style">
-                                <button type="submit" class="btn btn-labeled btn-palegreen">
-                                    <i class="btn-label glyphicon glyphicon-ok"></i>ثبت
-                                </button>
-                            </div>
-                        </div>
 
                     </div>
+
+                    <hr class="margin-bottom-10 margin-top-10" />
+
+                    <div class="row">
+                        <div class="col-md-12 flex-style">
+                            <button type="submit" class="btn btn-labeled btn-palegreen">
+                                <i class="btn-label glyphicon glyphicon-ok"></i>ثبت
+                            </button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
+    </div>
 
     </div>
 </form>

@@ -8,6 +8,7 @@ public record CreateEmployeeShiftDTO
 
     public string Date { get; set; }
     public ulong EmployeeId { get; set; }
+    public List<ulong> MealPricingIds { get; set; }
 
     #endregion
 }
