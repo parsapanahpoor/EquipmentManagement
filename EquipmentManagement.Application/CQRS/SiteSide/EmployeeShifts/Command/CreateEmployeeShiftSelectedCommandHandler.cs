@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentManagement.Application.CQRS.SiteSide.EmployeeShiftSelected.Command;
 
-public record CreateEmployeeShiftSelectedCommandHandler : IRequestHandler<CreateEmployeeShiftSelectedCommand, bool>
+public record CreateEmployeeShiftSelectedCommandHandler : IRequestHandler<CreateEmployeeShiftSelectedCommand, ulong?>
 {
     #region Ctor 
 
@@ -27,13 +27,13 @@ public record CreateEmployeeShiftSelectedCommandHandler : IRequestHandler<Create
 
     #endregion
 
-    public async Task<bool> Handle(CreateEmployeeShiftSelectedCommand request, CancellationToken cancellationToken)
+    public async Task<ulong?> Handle(CreateEmployeeShiftSelectedCommand request, CancellationToken cancellationToken)
     {
         #region Check For Title Comming Being Unique
 
         if (!await _EmployeeQueryRepository.IsExistAnyEmployeeById(request.EmployeeId , cancellationToken))
         {
-            return false;
+            return 0;
         }
 
         #endregion
@@ -54,6 +54,6 @@ public record CreateEmployeeShiftSelectedCommandHandler : IRequestHandler<Create
 
         #endregion
 
-        return true;
+        return EmployeeShiftSelected.Id;
     }
 }

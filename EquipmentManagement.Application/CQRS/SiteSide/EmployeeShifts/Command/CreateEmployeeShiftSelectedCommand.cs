@@ -1,6 +1,6 @@
 ﻿namespace EquipmentManagement.Application.CQRS.SiteSide.EmployeeShiftSelected.Command;
 
-public class CreateEmployeeShiftSelectedCommand : IRequest<bool>
+public class CreateEmployeeShiftSelectedCommand : IRequest<ulong?>
 {
     #region properties
     public DateOnly Date { get; set; }
