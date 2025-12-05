@@ -1,6 +1,7 @@
-﻿using EquipmentManagement.Application.CQRS.SiteSide.EmployeeShiftSelected.Command;
+﻿using EquipmentManagement.Application.CQRS.SiteSide.EmployeeShiftMealSelected.Command;
+using EquipmentManagement.Application.CQRS.SiteSide.EmployeeShiftSelected.Command;
 using EquipmentManagement.Application.CQRS.SiteSide.EmployeeShiftSelected.Query;
-
+using EquipmentManagement.Application.CQRS.SiteSide.MealPricing.Query;
 using EquipmentManagement.Domain.DTO.SiteSide.EmployeeShifts;
 using EquipmentManagement.Domain.Entities.Employee;
 using EquipmentManagement.Presentation.HttpManager;
@@ -22,7 +23,7 @@ public class EmployeeShiftController :
         ViewBag.EmployeeId = filter.EmployeeId;
         return View(await Mediator.Send(new FilterEmployeeShiftSelectedQuery()
         {
-          EmployeeId = filter.EmployeeId,
+            EmployeeId = filter.EmployeeId,
         },
         cancellation));
     }
@@ -34,7 +35,11 @@ public class EmployeeShiftController :
     [HttpGet]
     public async Task<IActionResult> CreateEmployeeShift(CreateEmployeeShiftDTO model)
     {
+        var dropDownMealPricing = await Mediator.Send(new DropdownMealPricingSelectedListQuery()
+        {
 
+        });
+        ViewBag.dropDownMealPricing = dropDownMealPricing;
         return View(model);
     }
 
@@ -49,19 +54,43 @@ public class EmployeeShiftController :
             var res = await Mediator.Send(new CreateEmployeeShiftSelectedCommand()
             {
                 Date = DateOnly.FromDateTime(model.Date.ToGregorianDate()),
-                EmployeeId=model.EmployeeId,
+                EmployeeId = model.EmployeeId,
             },
             cancellationToken);
 
-            if (res)
+            if (res.HasValue && res != 0)
             {
+                #region Create EmployeeShiftMeal 
+
+
+
+                foreach (var item in model.MealPricingIds)
+                {
+                    var resEmployeeShiftMeal = await Mediator.Send(new CreateEmployeeShiftMealSelectedCommand()
+                    {
+                        MealPricingId = item,
+                        EmployeeShiftSelectedId = res.Value
+                    },
+                    cancellationToken);
+                }
+
+
+
+
+
+                #endregion
                 TempData[SuccessMessage] = "عملیات با موفقیت انجام شده است .";
-                return RedirectToAction(nameof(FilterEmployeeShift),new { EmployeeId =model.EmployeeId});
+                return RedirectToAction(nameof(FilterEmployeeShift), new { EmployeeId = model.EmployeeId });
             }
         }
 
         #endregion
 
+        var dropDownMealPricing = await Mediator.Send(new DropdownMealPricingSelectedListQuery()
+        {
+
+        });
+        ViewBag.dropDownMealPricing = dropDownMealPricing;
 
 
         TempData[ErrorMessage] = "اطلاعات وارد شده صحیح نمی باشد.";
