@@ -7,4 +7,5 @@ public interface IEmployeeReceiveFoodDeliveryReceiptLogCommandRepository
         CancellationToken cancellationToken);
 
     void Update(Domain.Entities.Employee.EmployeeReceiveFoodDeliveryReceiptLog employee);
+
 }

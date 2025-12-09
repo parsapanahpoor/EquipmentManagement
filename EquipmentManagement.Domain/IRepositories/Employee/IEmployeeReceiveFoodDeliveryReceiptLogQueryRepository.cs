@@ -18,4 +18,6 @@ public interface IEmployeeReceiveFoodDeliveryReceiptLogQueryRepository
     Task<List<Domain.Entities.Employee.EmployeeReceiveFoodDeliveryReceiptLog?>> GetFoodReceiptLogByEmployeeMobile(
       List<ulong> Ids,
       CancellationToken cancellationToken);
+
+    Task<bool> ExistsAsync(ulong MealPricingId, ulong EmployeeId,CancellationToken ct);
 }
