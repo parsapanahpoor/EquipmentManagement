@@ -92,4 +92,11 @@ public class EmployeeReceiveFoodDeliveryReceiptLogQueryRepository :
             .OrderByDescending(p => p.CreateDate)
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<bool> ExistsAsync(ulong MealPricingId, ulong EmployeeId,CancellationToken ct)
+    {
+        var condition = await _context.EmployeeReceiveFoodDeliveryReceiptLogs.Where(x => x.EmployeeId == EmployeeId && x.MealPricingId == MealPricingId && x.CreateDate.Date == DateTime.UtcNow.Date).CountAsync();
+      return condition>1;
+    }
+
 }

@@ -1,8 +1,10 @@
-﻿@model EquipmentManagement.Application.CQRS.SiteSide.SelfService.Command.ReceiveFoodDeliveryReceipt.ReceiveFoodDeliveryReceiptDto
+﻿@using EquipmentManagement.Domain.DTO.Common
+@model EquipmentManagement.Application.CQRS.SiteSide.SelfService.Command.ReceiveFoodDeliveryReceipt.ReceiveFoodDeliveryReceiptDto
 
 @{
     ViewData["Title"] = "دریافت فیش غذا";
     Layout = "_ShafaLayout";
+    var itemsMealPricing = ViewBag.dropDownMealPricing as List<DropdownItem>;
 }
 
 <section class="bg-home bg-circle-gradiant d-flex align-items-center">
@@ -13,6 +15,10 @@
                 <div class="card login-page bg-white shadow rounded border-0">
                     <div class="card-body">
                         <h4 class="card-title text-center">دریافت فیش تحویل غذا </h4>
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <p style="color:red">@TempData["ErrorMessage"]</p>
+                        }
                         <form asp-action="ReceiveFoodDeliveryReceipt"
                               asp-area=""
                               asp-controller="SelfService"
@@ -30,6 +36,18 @@
                                             @* <input type="email" class="form-control ps-5" placeholder="ایمیل" name="email" required=""> *@
                                         </div>
                                     </div>
+
+                                    @foreach (var item in itemsMealPricing ?? new List<DropdownItem>())
+                                    {
+                                        <div class="form-group col-md-12 col-sm-12">
+                                            <label>
+                                                <input type="radio" name="MealPricingId" value="@item.Id" />
+                                                <span class="text"> @item.Name </span>
+                                            </label>
+                                        </div>
+
+
+                                    }
                                 </div><!--end col-->
 
                                 <div class="col-lg-12 mb-0">

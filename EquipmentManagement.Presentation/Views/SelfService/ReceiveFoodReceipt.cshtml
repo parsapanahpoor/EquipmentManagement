@@ -12,23 +12,20 @@
     <style>
 
         @@media print {
-            body *
+            body * {
+                visibility: hidden;
+            }
 
-        {
-            visibility: hidden;
-        }
+            #receipt, #receipt * {
+                visibility: visible;
+            }
 
-        #receipt, #receipt * {
-            visibility: visible;
-        }
-
-        #receipt {
-            position: absolute;
-            left: 0;
-            top: 0;
-            right: 0;
-        }
-
+            #receipt {
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+            }
         }
 
         .RBody {
@@ -78,7 +75,7 @@
 
 }
 
-@section Scripts{
+@section Scripts {
 }
 
 <section class="bg-home bg-circle-gradiant d-flex align-items-center">
@@ -86,64 +83,73 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-5 col-md-8">
-                        <div id="RBody">
-                        @if (Model != null)
-                        {
-                            <div class="receipt" id="receipt">
+                <div id="RBody">
+                    @if (Model != null)
+                    {
+                        <div class="receipt" id="receipt">
 
-                                <h4>فیش تحویل غذا بیمارستان شفا</h4>
+                            <h4>فیش تحویل غذا بیمارستان شفا</h4>
+                            <h5>@(Model.IsDeny?"دسترسی ندارید":"دسترسی آزاد")</h5>
+                            <hr />
 
-                                <hr />
+                            <table>
+                                <tr>
+                                    <td>نام</td>
+                                    <td>@Model.FirstName</td>
+                                </tr>
+                                <tr>
+                                    <td>نام خانوادگی</td>
+                                    <td>@Model.LastName</td>
+                                </tr>
+                                <tr>
+                                    <td>موبایل</td>
+                                    <td>@Model.Mobile</td>
+                                </tr>
 
-                                <table>
-                                    <tr>
-                                        <td>نام</td>
-                                        <td>@Model.FirstName</td>
-                                    </tr>
-                                    <tr>
-                                        <td>نام خانوادگی</td>
-                                        <td>@Model.LastName</td>
-                                    </tr>
-                                    <tr>
-                                        <td>موبایل</td>
-                                        <td>@Model.Mobile</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td>کدپرسنلی</td>
-                                        <td>@Model.PersonnelCode</td>
-                                    </tr>
+                                <tr>
+                                    <td>وعده</td>
+                                    <td>@ViewBag.MealType</td>
+                                </tr>
+                                <tr class="">
+                                    <td>کدپرسنلی</td>
+                                    <td>@Model.PersonnelCode</td>
+                                </tr>
 
-                                    <tr class="">
-                                        <td>تاریخ دریافت غذا</td>
-                                        <td>@Model.CreatedDate.ToShamsi()</td>
-                                    </tr>
+                                <tr class="">
+                                    <td>تاریخ دریافت غذا</td>
+                                    <td>@Model.CreatedDate.ToShamsi()</td>
+                                </tr>
 
-                                    <tr class="">
+                                <tr class="">
                                     <td>ساعت دریافت</td>
-                                        <td>@Model.CreatedDate.Hour.ToString("00"):@Model.CreatedDate.Minute.ToString("00")</td>
-                                    </tr>
+                                    <td>@Model.CreatedDate.Hour.ToString("00"):@Model.CreatedDate.Minute.ToString("00")</td>
+                                </tr>
 
-                                    <tr class="">
+                                <tr class="">
                                     <td>شماره سفارش</td>
                                     <td>@Model.LogId</td>
-                                    </tr>
-                                </table>
+                                </tr>
+                            </table>
 
-                            </div>
+                        </div>
 
-                            <div class="btns">
-                            <button onclick="window.print()" class="btn btn-success"> چاپ</button>
+                        <div class="btns">
+
+
+                            <button onclick="window.print()" @(Model.IsFree ? "" : "disabled") class="btn btn-success"> @(Model.IsFree ? "چاپ" : "برای چاپ پرداخت کنید") </button>
+                            
+                         
                             <a class="btn btn-primary" asp-action="Index" asp-area="" asp-controller="Home">بازگشت به عقب</a>
 
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="receipt" id="receipt">
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="receipt" id="receipt">
 
-                                <h5>خطایی رخ داده است - اطلاعاتی یافت نشده</h5>
-                            </div>
-                        }
+                            <h5>خطایی رخ داده است - اطلاعاتی یافت نشده</h5>
+                        </div>
+                    }
 
                 </div><!---->
             </div><!--end col-->
