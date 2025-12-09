@@ -6,4 +6,6 @@ public record ReceiveFoodReceiptDto(
     string LastName , 
     string Mobile , 
     string PersonnelCode , 
+    bool IsFree , 
+    bool IsDeny, 
     DateTime CreatedDate);
