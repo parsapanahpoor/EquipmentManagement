@@ -54,15 +54,15 @@ public class FoodGroupReportController :
         var Ids = TempData["EmployeeIds"] as List<ulong>;
         var listEmployee = await Mediator.Send(new ReceiveFoodListReceiptQuery(EmployeeIds));
 
-        await Mediator.Send(new LoadTemplateEmployeeQuery(listEmployee));
-        var fileBytes = await Mediator.Send(new GetPDFCustomEmployeeQuery(listEmployee));
-    
+        //await Mediator.Send(new LoadTemplateEmployeeQuery(listEmployee));
+        //var fileBytes = await Mediator.Send(new GetPDFCustomEmployeeQuery(listEmployee));
+
 
         // برگردوندن فایل PDF
-        return File(fileBytes, "application/pdf", "Report.pdf");
+        // return File(fileBytes, "application/pdf", "Report.pdf");
 
         //    await System.IO.File.WriteAllBytesAsync("path.pdf", fileBytes);
-
+        return View(listEmployee);
 
     }
 

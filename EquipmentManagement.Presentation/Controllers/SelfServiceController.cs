@@ -1,5 +1,8 @@
-﻿using EquipmentManagement.Application.CQRS.SiteSide.SelfService.Command.ReceiveFoodDeliveryReceipt;
+﻿using EquipmentManagement.Application.CQRS.SiteSide.MealPricing.Query;
+using EquipmentManagement.Application.CQRS.SiteSide.Role.Query;
+using EquipmentManagement.Application.CQRS.SiteSide.SelfService.Command.ReceiveFoodDeliveryReceipt;
 using EquipmentManagement.Application.CQRS.SiteSide.SelfService.Query.ReceiveFoodReceipt;
+using EquipmentManagement.Domain.Entities.MealPricing;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EquipmentManagement.Presentation.Controllers;
@@ -7,12 +10,20 @@ namespace EquipmentManagement.Presentation.Controllers;
 public class SelfServiceController : SiteBaseController
 {
     [HttpGet]
-    public IActionResult ReceiveFoodDeliveryReceipt()
-        => View();
+    public async Task<IActionResult> ReceiveFoodDeliveryReceipt()
+    {
+        var dropDownMealPricing = await Mediator.Send(new DropdownMealPricingSelectedListQuery()
+        {
 
-    [HttpPost , ValidateAntiForgeryToken]
+        });
+        ViewBag.dropDownMealPricing = dropDownMealPricing;
+        return View();
+
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> ReceiveFoodDeliveryReceipt(
-        ReceiveFoodDeliveryReceiptDto model, 
+        ReceiveFoodDeliveryReceiptDto model,
         CancellationToken cancellationToken)
     {
         try
@@ -21,19 +32,31 @@ public class SelfServiceController : SiteBaseController
                 new ReceiveFoodDeliveryReceiptCommand(model),
                 cancellationToken);
 
-            return RedirectToAction(nameof(ReceiveFoodReceipt) , new { mobile = model.Mobile });
+            return RedirectToAction(nameof(ReceiveFoodReceipt), new { mobile = model.Mobile, MealPricingId = model.MealPricingId });
         }
         catch (Exception ex)
         {
-            TempData[ErrorMessage] = ex.Message ;
+            TempData[ErrorMessage] = ex.Message;
         }
+        var dropDownMealPricing = await Mediator.Send(new DropdownMealPricingSelectedListQuery()
+        {
 
+        });
+        ViewBag.dropDownMealPricing = dropDownMealPricing;
         return View(model);
     }
 
     [HttpGet]
     public async Task<IActionResult> ReceiveFoodReceipt(
-        string mobile , 
+        string mobile, ulong MealPricingId,
         CancellationToken cancellationToken = default)
-        => View(await Mediator.Send(new ReceiveFoodReceiptQuery(mobile) , cancellationToken));
+    {
+        if (!ModelState.IsValid)
+            return RedirectToAction(nameof(ReceiveFoodDeliveryReceipt));
+        var mealPricing = await Mediator.Send(new EditMealPricingQuery(MealPricingId), cancellationToken);
+        ViewBag.MealType = mealPricing.MealType;
+        var result = await Mediator.Send(new ReceiveFoodReceiptQuery(mobile, MealPricingId), cancellationToken);
+        return View(result);
+    }
+
 }
