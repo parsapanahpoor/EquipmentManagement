@@ -19,23 +19,8 @@
             // ساختن QueryString
             const queryString = selectedIds.map(id => "EmployeeIds=" + encodeURIComponent(id)).join("&");
 
-         fetch('/FoodGroupReport/Report?' + queryString, {
-            method: 'GET'
-        })
-        .then(response => response.blob())   // خروجی رو به صورت Blob می‌گیریم
-        .then(blob => {
-            // ساختن URL موقت برای فایل
-            const fileURL = URL.createObjectURL(blob);
+               location.href='/FoodGroupReport/Report?' + queryString;
 
-            // باز کردن در پنجره جدید
-            const win = window.open(fileURL);
-
-            // وقتی فایل لود شد، پرینت رو اجرا کن
-            win.onload = () => {
-                win.print();
-            };
-        })
-        .catch(error => console.error('Error:', error));
         });
     </script>
 
@@ -127,7 +112,7 @@
                         <form method="post" id="report-form">
                             <div class="form-group col-md-12">
                                 <button type="button" id="sendEmployees" class="btn btn-labeled w-100 btn-palegreen">
-                                    <i class="btn-label glyphicon glyphicon-filter"></i>گزارش
+                                    <i class="btn-l abel glyphicon glyphicon-filter"></i>گزارش
                                 </button>
                             </div>
                             <table class="table table-hover table-bordered tc tableShowListInAdmin">
