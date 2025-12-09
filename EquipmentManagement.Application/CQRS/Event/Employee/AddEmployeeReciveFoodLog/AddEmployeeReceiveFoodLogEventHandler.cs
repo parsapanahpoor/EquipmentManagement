@@ -14,7 +14,8 @@ public class AddEmployeeReceiveFoodLogEventHandler(
     {
         await repository.AddAsync(new Domain.Entities.Employee.EmployeeReceiveFoodDeliveryReceiptLog()
         {
-            EmployeeId = notification.EmployeeId
+            EmployeeId = notification.EmployeeId,
+            MealPricingId=notification.MealPricingId,
         }, cancellationToken);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);   
