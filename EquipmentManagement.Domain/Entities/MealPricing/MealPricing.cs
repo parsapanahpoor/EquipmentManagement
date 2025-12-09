@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EquipmentManagement.Domain.Entities.Employee;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,6 +12,7 @@ public class MealPricing : BaseEntities<ulong>
 {
     public string MealType { get; set; }=string.Empty;
     public decimal Price { get; set; }
+    public ICollection<EmployeeReceiveFoodDeliveryReceiptLog> EmployeeReceiveFoodDeliveryReceiptLog { get; set; }
 }
 //public enum MealType
 //{
