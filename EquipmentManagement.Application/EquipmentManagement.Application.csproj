@@ -8,6 +8,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Bogus" Version="35.3.0" />
+		<!--<PackageReference Include="CsharpGalaxy.LibraryExtension" Version="2.7.6" />-->
 		<PackageReference Include="DinkToPdf" Version="1.0.8" />
 		<PackageReference Include="FluentValidation" Version="11.8.1" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
