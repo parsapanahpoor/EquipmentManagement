@@ -39,4 +39,16 @@ public class EmployeeShiftMealSelectedQueryRepository : QueryGenericRepository<D
 
         return filter;
     }
+
+    public async Task<bool> ExistsAsync(ulong EmployeeId,ulong MealPricingId, CancellationToken ct)
+    {
+        DateTime utcNow = DateTime.UtcNow;
+        DateOnly dateOnly = DateOnly.FromDateTime(utcNow);
+        var employeeShiftSelectedId= await _context.EmployeeShiftSelected.Where(x => x.Date == dateOnly && x.EmployeeId == EmployeeId).Select(x => x.Id).FirstOrDefaultAsync(ct);
+        if (employeeShiftSelectedId == 0)
+            return true;
+        var result= await _context.EmployeeShiftMealFSelected.AnyAsync(x => x.EmployeeShiftSelectedId == employeeShiftSelectedId && x.MealPricingId == MealPricingId,ct);
+
+        return result;
+    }
 }
