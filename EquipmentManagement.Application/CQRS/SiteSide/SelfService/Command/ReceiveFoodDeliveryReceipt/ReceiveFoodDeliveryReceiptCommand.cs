@@ -2,4 +2,4 @@
 
 public record ReceiveFoodDeliveryReceiptCommand(
     ReceiveFoodDeliveryReceiptDto model) :
-    IRequest<bool>;
+    IRequest<ReceiveFoodDeliveryReceiptCommandResult>;

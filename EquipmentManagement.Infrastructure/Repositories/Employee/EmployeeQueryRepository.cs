@@ -99,6 +99,15 @@ public class EmployeeQueryRepository :
                                         p.Mobile == mobile, 
                                         cancellationToken);
 
+    public Task<Domain.Entities.Employee.Employee?> GetEmployeeByRFID(
+    string rfid,
+    CancellationToken cancellationToken)
+    => _context.Employees
+               .AsNoTracking()
+               .FirstOrDefaultAsync(p => !p.IsDelete &&
+                                    p.RFId == rfid,
+                                    cancellationToken);
+
     public Task<List<Domain.Entities.Employee.Employee?>> GetEmployeeByIds(
       List<ulong> Ids,
       CancellationToken cancellationToken)

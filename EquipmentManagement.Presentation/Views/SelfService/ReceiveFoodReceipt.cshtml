@@ -6,6 +6,7 @@
 @{
     ViewData["Title"] = "دریافت فیش غذا";
     Layout = "_ShafaLayout";
+    decimal Price = ViewBag.MealPrice;
 }
 
 @section Styles {
@@ -89,7 +90,7 @@
                         <div class="receipt" id="receipt">
 
                             <h4>فیش تحویل غذا بیمارستان شفا</h4>
-                            <h5>@(Model.IsDeny?"دسترسی ندارید":"دسترسی آزاد")</h5>
+                            <h5>@(Model.IsDeny ? "دسترسی ندارید" : "دسترسی آزاد")</h5>
                             <hr />
 
                             <table>
@@ -136,9 +137,9 @@
                         <div class="btns">
 
 
-                            <button onclick="window.print()" @(Model.IsFree ? "" : "disabled") class="btn btn-success"> @(Model.IsFree ? "چاپ" : "برای چاپ پرداخت کنید") </button>
-                            
-                         
+                            <button onclick="window.print()" @(Model.IsFree ? "" : "disabled") class="btn btn-success"> @(Model.IsFree ? "چاپ" : $"{Price.ToString("N0")} برای چاپ پرداخت کنید") </button>
+
+
                             <a class="btn btn-primary" asp-action="Index" asp-area="" asp-controller="Home">بازگشت به عقب</a>
 
                         </div>

@@ -28,11 +28,12 @@ public class SelfServiceController : SiteBaseController
     {
         try
         {
+            
             var result = await Mediator.Send(
                 new ReceiveFoodDeliveryReceiptCommand(model),
                 cancellationToken);
-
-            return RedirectToAction(nameof(ReceiveFoodReceipt), new { mobile = model.Mobile, MealPricingId = model.MealPricingId });
+            if (result.Status)
+                return RedirectToAction(nameof(ReceiveFoodReceipt), new { mobile = result.Mobile, MealPricingId = model.MealPricingId });
         }
         catch (Exception ex)
         {
@@ -55,6 +56,9 @@ public class SelfServiceController : SiteBaseController
             return RedirectToAction(nameof(ReceiveFoodDeliveryReceipt));
         var mealPricing = await Mediator.Send(new EditMealPricingQuery(MealPricingId), cancellationToken);
         ViewBag.MealType = mealPricing.MealType;
+        ViewBag.MealPrice = mealPricing.Price;
+
+
         var result = await Mediator.Send(new ReceiveFoodReceiptQuery(mobile, MealPricingId), cancellationToken);
         return View(result);
     }
