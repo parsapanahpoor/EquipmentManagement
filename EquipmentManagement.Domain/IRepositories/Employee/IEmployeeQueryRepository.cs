@@ -7,7 +7,9 @@ public interface IEmployeeQueryRepository
     Task<FilterEmployeesDto> FilterEmployees(
         FilterEmployeesDto filter, 
         CancellationToken cancellation);
-
+    Task<Domain.Entities.Employee.Employee?> GetEmployeeByRFID(
+    string rfid,
+    CancellationToken cancellationToken);
     Task<FilterSelectedEmployeesDto> FilterEmployees(
         FilterSelectedEmployeesDto filter,
         CancellationToken cancellation);
