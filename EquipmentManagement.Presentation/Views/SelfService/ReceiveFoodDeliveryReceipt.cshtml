@@ -6,7 +6,78 @@
     Layout = "_ShafaLayout";
     var itemsMealPricing = ViewBag.dropDownMealPricing as List<DropdownItem>;
 }
+@section Styles{
+    <style>
+/*         body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            background-color: #f5f7fa;
+        } */
+
+        /* نام‌گذاری یونیک با پیشوند vk- */
+        .vk-input {
+            width: 250px;
+            padding: 12px;
+            font-size: 1.2rem;
+            text-align: left;
+            direction: ltr;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .vk-keyboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 250px;
+        }
+
+        .vk-key {
+            padding: 15px;
+            font-size: 1.2rem;
+            background-color: #e0e0e0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+            .vk-key:hover {
+                background-color: #d0d0d0;
+            }
+
+        .vk-clear {
+            grid-column: span 3;
+            background-color: #ff6b6b;
+            color: white;
+        }
+
+            .vk-clear:hover {
+                background-color: #ff5252;
+            }
+    </style>
+}
 @section Scripts {
+
+    <script>
+        const inputField = document.getElementById('MobileInput');
+        const keys = document.querySelectorAll('.vk-key:not(.vk-clear)');
+        const clearBtn = document.getElementById('vk-clearBtn');
+
+        keys.forEach(key => {
+          key.addEventListener('click', () => {
+            inputField.value += key.dataset.value;
+          });
+        });
+
+        clearBtn.addEventListener('click', () => {
+          inputField.value = '';
+        });
+    </script>
     <script>
         document.querySelectorAll("input[name='inputType']").forEach(radio => {
             radio.addEventListener("change", function () {
@@ -63,7 +134,7 @@
                                         <label class="form-label">موبایل <span class="text-danger">*</span></label>
                                         <div class="form-icon position-relative">
                                             <i data-feather="smartphone" class="fea icon-sm icons"></i>
-                                            <input type="text" asp-for="Mobile" id="MobileInput" class="form-control ps-5" placeholder="موبایل" />
+                                            <input type="text" asp-for="Mobile" id="MobileInput" class="form-control ps-5 " placeholder="موبایل" />
                                             <span style="color:red;" asp-validation-for="Mobile"></span>
                                         </div>
                                     </div>
@@ -90,7 +161,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12 mb-0">
+                                <div class="col-lg-12 mb-0 mt-5">
                                     <div class="d-grid">
                                         <button type="submit" class="btn btn-primary">ثبت</button>
                                     </div>
@@ -100,9 +171,27 @@
                 
 
                         </form>
+
                     </div>
                 </div><!---->
+
+               
+
+
             </div><!--end col-->
+            <div class="vk-keyboard" id="vk-keyboard">
+                <button class="vk-key" data-value="1">1</button>
+                <button class="vk-key" data-value="2">2</button>
+                <button class="vk-key" data-value="3">3</button>
+                <button class="vk-key" data-value="4">4</button>
+                <button class="vk-key" data-value="5">5</button>
+                <button class="vk-key" data-value="6">6</button>
+                <button class="vk-key" data-value="7">7</button>
+                <button class="vk-key" data-value="8">8</button>
+                <button class="vk-key" data-value="9">9</button>
+                <button class="vk-key" data-value="0">0</button>
+                <button class="vk-key vk-clear" id="vk-clearBtn">پاک کردن</button>
+            </div>
         </div><!--end row-->
     </div> <!--end container-->
 </section><!--end section-->
