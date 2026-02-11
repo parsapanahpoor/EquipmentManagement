@@ -1,6 +1,7 @@
 #region Usings
 
 using EquipmentManagement.Application;
+using EquipmentManagement.Domain.DTO.SiteSide.PcPoses;
 using EquipmentManagement.Infrastructure.ApplicationDbContext;
 using EquipmentManagement.IoC;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -32,6 +33,11 @@ public class Program
 
         builder.Services.AddControllersWithViews();
 
+        #endregion
+
+        #region PCPos
+
+        builder.Services.Configure<PcPosSettings>(builder.Configuration.GetSection("PcPosSettings"));
         #endregion
 
         #region Add DBContext

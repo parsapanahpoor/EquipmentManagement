@@ -1,8 +1,10 @@
 ﻿@using EquipmentManagement.Application.CQRS.SiteSide.SelfService.Query.ReceiveFoodListReceipt
 @using EquipmentManagement.Application.CQRS.SiteSide.SelfService.Query.ReceiveFoodReceipt
 @using EquipmentManagement.Application.Convertors
+@using EquipmentManagement.Domain.DTO.SiteSide.PcPoses
+@using Microsoft.Extensions.Options
 @model ReceiveFoodReceiptDto;
-
+@inject IOptions<PcPosSettings> _pcPosSettings
 @{
     ViewData["Title"] = "دریافت فیش غذا";
     Layout = "_ShafaLayout";
@@ -76,8 +78,6 @@
 
 }
 
-@section Scripts {
-}
 
 <section class="bg-home bg-circle-gradiant d-flex align-items-center">
     <div class="bg-overlay bg-overlay-white"></div>
@@ -87,6 +87,7 @@
                 <div id="RBody">
                     @if (Model != null)
                     {
+                        <ul id="discussion"></ul>
                         <div class="receipt" id="receipt">
 
                             <h4>فیش تحویل غذا بیمارستان شفا</h4>
@@ -136,8 +137,15 @@
 
                         <div class="btns">
 
+                            @if (Model.IsFree)
+                            {
+                                <button onclick="window.print()" class="btn btn-success"> چاپ </button>
 
-                            <button onclick="window.print()" @(Model.IsFree ? "" : "disabled") class="btn btn-success"> @(Model.IsFree ? "چاپ" : $"{Price.ToString("N0")} برای چاپ پرداخت کنید") </button>
+                            }
+                            else
+                            {
+                                <button id="btnSendAmountPCStart"  class="btn btn-success"> @Price.ToString("N0") برای چاپ پرداخت کنید </button>
+                            }
 
 
                             <a class="btn btn-primary" asp-action="Index" asp-area="" asp-controller="Home">بازگشت به عقب</a>
@@ -157,3 +165,163 @@
         </div><!--end row-->
     </div> <!--end container-->
 </section><!--end section-->
+@section Scripts {
+    <!-- فقط یک نسخه jQuery -->
+    <script src="~/lib/PcPos/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/lib/PcPos/Scripts/jquery.signalR-2.4.2.min.js"></script>
+    <script src="~/lib/PcPos/Scripts/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+
+    @{
+        var safeIp = System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(_pcPosSettings.Value.DefaultIp);
+        var hubUrl = $"http://{safeIp}:8080/signalr";
+        var wsUrl = $"ws://{safeIp}:8080/signalr";
+    }
+
+    <script type="text/javascript">
+        $(function () {
+            var connection = null;
+            var isInitialized = false;
+
+            // تلاش برای اتصال با مدیریت خطا
+            function connectToHub() {
+                try {
+                    // ایجاد اتصال SignalR
+                    connection = $.hubConnection("@hubUrl", {
+                        useDefaultPath: true,
+                        transport: ['webSockets', 'serverSentEvents', 'longPolling'] // fallback
+                    });
+
+                    // ثبت هاب
+                    var posHub = connection.createHubProxy('SSP1126HUB');
+
+                    // مدیریت پاسخ سیستم
+                    posHub.on('GetSystemResponse', function (message) {
+                        console.log('System Response:', message);
+                        if (message === '0') {
+                            isInitialized = true;
+                            $('#discussion').append('<li class="text-success">✓ اتصال به دستگاه POS برقرار شد</li>');
+                        } else {
+                            isInitialized = false;
+                            $('#discussion').append('<li class="text-danger">✗ خطا در اتصال به دستگاه (کد: ' + message + ')</li>');
+                        }
+                    });
+
+                    // مدیریت پاسخ تراکنش
+                    posHub.on('GetTransactionResponse', function (terminalId, responseCode, serialId, rrn, description, date, amount, cardMask) {
+                        var statusClass = responseCode === '0' ? 'text-success' : 'text-danger';
+                        var html = '<li class="' + statusClass + '"><strong>نتیجه تراکنش:</strong> ' +
+                                   description + ' (کد: ' + responseCode + ')</li>' +
+                                   '<li>ترمینال: ' + terminalId + ' | RRN: ' + rrn +
+                                   ' | مبلغ: ' + amount + ' ریال</li>';
+                        $('#discussion').append(html);
+                    });
+
+                    // اتصال به هاب
+                    connection.start()
+                        .done(function () {
+                            $('#discussion').append('<li class="text-success">✓ اتصال به سرور SignalR برقرار شد</li>');
+                        })
+                        .fail(function (error) {
+                            $('#discussion').append('<li class="text-danger">✗ خطا در اتصال به سرور: ' + error + '</li>');
+                            $('#discussion').append('<li class="text-warning">⚠️ لطفاً مطمئن شوید که:</li>');
+                            $('#discussion').append('<li>1. Windows Service در حال اجراست</li>');
+                            $('#discussion').append('<li>2. آدرس دستگاه صحیح است: @safeIp</li>');
+                            $('#discussion').append('<li>3. پورت 8080 باز است</li>');
+                        });
+
+                } catch (error) {
+                    $('#discussion').append('<li class="text-danger">✗ خطای اولیه: ' + error.message + '</li>');
+                    console.error('Connection Error:', error);
+                }
+            }
+
+            // اتصال در ابتدا
+            connectToHub();
+
+            // تابع مقداردهی اولیه
+            function initializePos() {
+                return new Promise(function (resolve, reject) {
+                    if (!connection || !connection.state || connection.state !== $.signalR.connectionState.connected) {
+                        reject('اتصال به سرور SignalR برقرار نیست');
+                        return;
+                    }
+
+                    var posHub = connection.createHubProxy('SSP1126HUB');
+
+                    $('#discussion').append('<li>در حال اتصال به دستگاه POS...</li>');
+
+                    posHub.invoke('Initial',
+                        '@(_pcPosSettings.Value.DefaultConnectionType)',
+                        '@(_pcPosSettings.Value.DefaultIp)',
+                        '@(_pcPosSettings.Value.DefaultPort)',
+                        '@(_pcPosSettings.Value.DefaultAccountType)',
+                        '@(_pcPosSettings.Value.DefaultLanguage)',
+                        '0'
+                    ).done(function () {
+                        // منتظر پاسخ می‌مانیم
+                        var startTime = Date.now();
+                        var checkInterval = setInterval(function () {
+                            if (isInitialized) {
+                                clearInterval(checkInterval);
+                                resolve(true);
+                            }
+
+                            // تایم‌اوت 5 ثانیه
+                            if (Date.now() - startTime > 5000) {
+                                clearInterval(checkInterval);
+                                reject('اتصال به دستگاه در زمان مشخص شده برقرار نشد');
+                            }
+                        }, 200);
+                    }).fail(function (error) {
+                        reject('خطا در ارسال درخواست مقداردهی: ' + error);
+                    });
+                });
+            }
+
+            // پرداخت تک‌مرحله‌ای
+            $('#btnSendAmountPCStart').click(function () {
+                if (!connection || connection.state !== $.signalR.connectionState.connected) {
+                    alert('اتصال به سرور SignalR برقرار نیست. لطفاً صفحه را رفرش کنید.');
+                    return;
+                }
+
+                $('#discussion').empty();
+
+                var amount = '@(ViewBag.MealPrice)';
+                if (!amount || isNaN(amount) || parseInt(amount) < 1000) {
+                    alert('مبلغ وارد شده معتبر نیست');
+                    return;
+                }
+
+                initializePos()
+                    .then(function () {
+                        $('#discussion').append('<li class="text-info">لطفاً کارت را بکشید...</li>');
+
+                        var posHub = connection.createHubProxy('SSP1126HUB');
+
+                        return posHub.invoke('SendAmount1Step',
+                            amount,
+                            null,
+                            '@(Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Model?.FirstName + " " + Model?.LastName ?? "")))',
+                            '',
+                            '@(_pcPosSettings.Value.DefaultPurchaseId ?? "P001")',
+                            '@(_pcPosSettings.Value.DefaultTerminalId)'
+                        );
+                    })
+                    .catch(function (error) {
+                        $('#discussion').append('<li class="text-danger">✗ ' + error + '</li>');
+                    });
+            });
+
+            // بازنشانی اتصال
+            $('#btnResetConnection').click(function () {
+                isInitialized = false;
+                if (connection && connection.state === $.signalR.connectionState.connected) {
+                    var posHub = connection.createHubProxy('SSP1126HUB');
+                    posHub.invoke('Reset');
+                    $('#discussion').append('<li>اتصال بازنشانی شد</li>');
+                }
+            });
+        });
+    </script>
+}

@@ -24,6 +24,12 @@
     <Folder Include="wwwroot\content\Landing\App_Data\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="SSP1126.PcPos">
+      <HintPath>..\..\..\..\Downloads\Telegram Desktop\SSP1126 - 1_4_11_2-\SSP1126 - 1.4.11.2- 1401-11-10\SSP1126 - 1.4.11.2- 1401-11-10\DLL_SSP_1.14.11.2\Release\SSP1126.PcPos.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 
 	
 </Project>

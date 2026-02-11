@@ -4,6 +4,8 @@ using EquipmentManagement.Application.CQRS.SiteSide.SelfService.Command.ReceiveF
 using EquipmentManagement.Application.CQRS.SiteSide.SelfService.Query.ReceiveFoodReceipt;
 using EquipmentManagement.Domain.Entities.MealPricing;
 using Microsoft.AspNetCore.Mvc;
+using SSP1126.PcPos.BaseClasses;
+using SSP1126.PcPos.Infrastructure;
 
 namespace EquipmentManagement.Presentation.Controllers;
 
@@ -28,7 +30,13 @@ public class SelfServiceController : SiteBaseController
     {
         try
         {
-            
+         //   PcPosFactory pcPosFactory=new PcPosFactory();
+         //   pcPosFactory.SetLan("");
+
+         //   pcPosFactory.Initialization(SSP1126.PcPos.Infrastructure.ResponseLanguage.Persian,3000, AsyncType.Async);
+
+         //var res=   pcPosFactory.PaymentServiceSendData(,);
+         //   res.
             var result = await Mediator.Send(
                 new ReceiveFoodDeliveryReceiptCommand(model),
                 cancellationToken);

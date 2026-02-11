@@ -1,4 +1,6 @@
 ﻿@using EquipmentManagement.Domain.DTO.Common
+@using EquipmentManagement.Domain.DTO.SiteSide.PcPoses
+@using Microsoft.Extensions.Options
 @model EquipmentManagement.Application.CQRS.SiteSide.SelfService.Command.ReceiveFoodDeliveryReceipt.ReceiveFoodDeliveryReceiptDto
 
 @{
@@ -6,16 +8,16 @@
     Layout = "_ShafaLayout";
     var itemsMealPricing = ViewBag.dropDownMealPricing as List<DropdownItem>;
 }
-@section Styles{
+@section Styles {
     <style>
-/*         body {
-            font-family: sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem;
-            background-color: #f5f7fa;
-        } */
+        /*         body {
+                            font-family: sans-serif;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            padding: 2rem;
+                            background-color: #f5f7fa;
+                        } */
 
         /* نام‌گذاری یونیک با پیشوند vk- */
         .vk-input {
@@ -101,6 +103,7 @@
             <div class="col-lg-5 col-md-8">
                 <div class="card login-page bg-white shadow rounded border-0">
                     <div class="card-body">
+    
                         <h4 class="card-title text-center">دریافت فیش تحویل غذا </h4>
                         @if (TempData["ErrorMessage"] != null)
                         {
@@ -168,14 +171,14 @@
                                 </div>
                             </div>
 
-                
+
 
                         </form>
 
                     </div>
                 </div><!---->
 
-               
+
 
 
             </div><!--end col-->
