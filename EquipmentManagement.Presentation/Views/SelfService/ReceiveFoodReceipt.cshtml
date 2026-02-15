@@ -166,162 +166,156 @@
     </div> <!--end container-->
 </section><!--end section-->
 @section Scripts {
-    <!-- فقط یک نسخه jQuery -->
-    <script src="~/lib/PcPos/Scripts/jquery-1.12.4.min.js"></script>
-    <script src="~/lib/PcPos/Scripts/jquery.signalR-2.4.2.min.js"></script>
-    <script src="~/lib/PcPos/Scripts/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-
+    <script src="~/lib/pcpos/scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/lib/pcpos/scripts/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script src="~/lib/pcpos/scripts/jquery-1.6.4.min.js"></script>
+    <script src="~/lib/pcpos/scripts/jquery.signalr-2.4.2.min.js"></script>
     @{
-        var safeIp = System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(_pcPosSettings.Value.DefaultIp);
-        var hubUrl = $"http://{safeIp}:8080/signalr";
-        var wsUrl = $"ws://{safeIp}:8080/signalr";
+        var safeIp = _pcPosSettings.Value.DefaultIp;
+        var hubUrl = _pcPosSettings.Value.SignalRHubUrl;
     }
+
+    <!-- فایل هاب SignalR -->
+    <script src="@hubUrl/hubs"></script>
 
     <script type="text/javascript">
         $(function () {
-            var connection = null;
-            var isInitialized = false;
 
-            // تلاش برای اتصال با مدیریت خطا
-            function connectToHub() {
-                try {
-                    // ایجاد اتصال SignalR
-                    connection = $.hubConnection("@hubUrl", {
-                        useDefaultPath: true,
-                        transport: ['webSockets', 'serverSentEvents', 'longPolling'] // fallback
-                    });
+            var serverMessage = '';
+            var authorization = '';
 
-                    // ثبت هاب
-                    var posHub = connection.createHubProxy('SSP1126HUB');
+            // آدرس هاب
+            $.connection.hub.url = "@hubUrl";
 
-                    // مدیریت پاسخ سیستم
-                    posHub.on('GetSystemResponse', function (message) {
-                        console.log('System Response:', message);
-                        if (message === '0') {
-                            isInitialized = true;
-                            $('#discussion').append('<li class="text-success">✓ اتصال به دستگاه POS برقرار شد</li>');
-                        } else {
-                            isInitialized = false;
-                            $('#discussion').append('<li class="text-danger">✗ خطا در اتصال به دستگاه (کد: ' + message + ')</li>');
-                        }
-                    });
+            // اتصال به هاب
+            var console = $.connection.SSP1126HUB;
 
-                    // مدیریت پاسخ تراکنش
-                    posHub.on('GetTransactionResponse', function (terminalId, responseCode, serialId, rrn, description, date, amount, cardMask) {
-                        var statusClass = responseCode === '0' ? 'text-success' : 'text-danger';
-                        var html = '<li class="' + statusClass + '"><strong>نتیجه تراکنش:</strong> ' +
-                                   description + ' (کد: ' + responseCode + ')</li>' +
-                                   '<li>ترمینال: ' + terminalId + ' | RRN: ' + rrn +
-                                   ' | مبلغ: ' + amount + ' ریال</li>';
-                        $('#discussion').append(html);
-                    });
-
-                    // اتصال به هاب
-                    connection.start()
-                        .done(function () {
-                            $('#discussion').append('<li class="text-success">✓ اتصال به سرور SignalR برقرار شد</li>');
-                        })
-                        .fail(function (error) {
-                            $('#discussion').append('<li class="text-danger">✗ خطا در اتصال به سرور: ' + error + '</li>');
-                            $('#discussion').append('<li class="text-warning">⚠️ لطفاً مطمئن شوید که:</li>');
-                            $('#discussion').append('<li>1. Windows Service در حال اجراست</li>');
-                            $('#discussion').append('<li>2. آدرس دستگاه صحیح است: @safeIp</li>');
-                            $('#discussion').append('<li>3. پورت 8080 باز است</li>');
-                        });
-
-                } catch (error) {
-                    $('#discussion').append('<li class="text-danger">✗ خطای اولیه: ' + error.message + '</li>');
-                    console.error('Connection Error:', error);
-                }
-            }
-
-            // اتصال در ابتدا
-            connectToHub();
-
-            // تابع مقداردهی اولیه
-            function initializePos() {
-                return new Promise(function (resolve, reject) {
-                    if (!connection || !connection.state || connection.state !== $.signalR.connectionState.connected) {
-                        reject('اتصال به سرور SignalR برقرار نیست');
-                        return;
-                    }
-
-                    var posHub = connection.createHubProxy('SSP1126HUB');
-
-                    $('#discussion').append('<li>در حال اتصال به دستگاه POS...</li>');
-
-                    posHub.invoke('Initial',
-                        '@(_pcPosSettings.Value.DefaultConnectionType)',
-                        '@(_pcPosSettings.Value.DefaultIp)',
-                        '@(_pcPosSettings.Value.DefaultPort)',
-                        '@(_pcPosSettings.Value.DefaultAccountType)',
-                        '@(_pcPosSettings.Value.DefaultLanguage)',
-                        '0'
-                    ).done(function () {
-                        // منتظر پاسخ می‌مانیم
-                        var startTime = Date.now();
-                        var checkInterval = setInterval(function () {
-                            if (isInitialized) {
-                                clearInterval(checkInterval);
-                                resolve(true);
-                            }
-
-                            // تایم‌اوت 5 ثانیه
-                            if (Date.now() - startTime > 5000) {
-                                clearInterval(checkInterval);
-                                reject('اتصال به دستگاه در زمان مشخص شده برقرار نشد');
-                            }
-                        }, 200);
-                    }).fail(function (error) {
-                        reject('خطا در ارسال درخواست مقداردهی: ' + error);
-                    });
-                });
-            }
-
-            // پرداخت تک‌مرحله‌ای
-            $('#btnSendAmountPCStart').click(function () {
-                if (!connection || connection.state !== $.signalR.connectionState.connected) {
-                    alert('اتصال به سرور SignalR برقرار نیست. لطفاً صفحه را رفرش کنید.');
-                    return;
-                }
-
-                $('#discussion').empty();
-
+            $.connection.hub.start().done(function initialize() {
+                 console.log("ii");
+                // ========== تنظیمات از متغیرها ==========
+                var connectionType = '@(_pcPosSettings.Value.DefaultConnectionType)';
+                var posIp = '@(_pcPosSettings.Value.DefaultIp)';
+                var posPort = '@(_pcPosSettings.Value.DefaultPort)';
+                var accountType = '@(_pcPosSettings.Value.DefaultAccountType)';
+                var language = '@(_pcPosSettings.Value.DefaultLanguage)';
+                var purchaseId = '@(_pcPosSettings.Value.DefaultPurchaseId ?? "P001")';
+                var terminalId = '@(_pcPosSettings.Value.DefaultTerminalId)';
                 var amount = '@(ViewBag.MealPrice)';
-                if (!amount || isNaN(amount) || parseInt(amount) < 1000) {
-                    alert('مبلغ وارد شده معتبر نیست');
-                    return;
-                }
+                var customerName = '@(Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Model?.FirstName + " " + Model?.LastName ?? "")))';
 
-                initializePos()
-                    .then(function () {
-                        $('#discussion').append('<li class="text-info">لطفاً کارت را بکشید...</li>');
+                // ========== فقط دکمه خرید ==========
+                $('#btnSendAmountPCStart').click(function () {
+                    console.log("ss");
+                    serverMessage = '';
+                    $('#discussion').empty();
 
-                        var posHub = connection.createHubProxy('SSP1126HUB');
+                    // مقداردهی اولیه دستگاه
+                    console.server.Initial(connectionType, posIp, posPort, accountType, language, '0');
 
-                        return posHub.invoke('SendAmount1Step',
-                            amount,
-                            null,
-                            '@(Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Model?.FirstName + " " + Model?.LastName ?? "")))',
-                            '',
-                            '@(_pcPosSettings.Value.DefaultPurchaseId ?? "P001")',
-                            '@(_pcPosSettings.Value.DefaultTerminalId)'
-                        );
-                    })
-                    .catch(function (error) {
-                        $('#discussion').append('<li class="text-danger">✗ ' + error + '</li>');
-                    });
+                    // تاخیر 1 ثانیه برای دریافت پاسخ مقداردهی
+                    setTimeout(function () {
+
+                        if (serverMessage == '0') {
+
+                            // بررسی نوع حساب
+                            if (accountType == "0") { // Single Account
+                                console.server.SendAmount1Step(
+                                    amount,
+                                    null,
+                                    customerName,
+                                    '',
+                                    purchaseId,
+                                    terminalId
+                                );
+                            } else { // Share Account
+                                var amounts = '';
+                                var sumAmount = 0;
+                                $("#AmountList > option").each(function () {
+                                    sumAmount += parseInt($(this).val());
+                                    amounts += $(this).val() + ",";
+                                });
+                                amounts = amounts.slice(0, -1);
+
+                                console.server.SendAmount1Step(
+                                    sumAmount,
+                                    amounts,
+                                    customerName,
+                                    '',
+                                    purchaseId,
+                                    terminalId
+                                );
+                            }
+
+                            $('#discussion').append('<li class="text-info"><strong>لطفاً کارت را بکشید...</strong></li>');
+
+                        } else {
+                            $('#discussion').append('<li class="text-danger"><strong>✗ خطا در مقداردهی دستگاه</strong></li>');
+                        }
+
+                    }, 1000);
+
+                });
+
+            }).fail(function (error) {
+                console.error('SignalR Connection Error:', error);
+                $('#discussion').append('<li class="text-danger"><strong>✗ خطای اتصال به سرور SignalR: ' + error + '</strong></li>');
             });
 
-            // بازنشانی اتصال
-            $('#btnResetConnection').click(function () {
-                isInitialized = false;
-                if (connection && connection.state === $.signalR.connectionState.connected) {
-                    var posHub = connection.createHubProxy('SSP1126HUB');
-                    posHub.invoke('Reset');
-                    $('#discussion').append('<li>اتصال بازنشانی شد</li>');
+
+            // ========== رویدادهای دریافتی از سرور ==========
+
+            // پاسخ سیستم
+            console.client.GetSystemResponse = function (message) {
+                serverMessage = message;
+            };
+
+            // کارت کشیده شده
+            console.client.GetCardSwiped = function (TerminalId, CardNumberHash, CardNumberMask, PurchaseTypes, Encrypted_National_Code) {
+                $('#discussion').append('<li><strong dir="ltr"> Terminal ID: ' + TerminalId + '</strong>&nbsp;&nbsp</li>');
+                $('#discussion').append('<li><strong dir="ltr"> CardNumber(Hashed): ' + CardNumberHash + '</strong>&nbsp;&nbsp</li>');
+                $('#discussion').append('<li><strong dir="ltr"> CardNumber(Masked): ' + CardNumberMask + '</strong>&nbsp;&nbsp</li>');
+                $('#discussion').append('<li><strong dir="ltr"> NationalCode(Encrypted): ' + Encrypted_National_Code + '</strong>&nbsp;&nbsp</li>');
+
+                $('#SelectPurchase').remove();
+                if (PurchaseTypes.length > 0) {
+                    $("#PurchaseType").show();
+                    var res = PurchaseTypes.split("*");
+                    $('#PurchaseTypeItems').append('<select Id="SelectPurchase" class="form-control">');
+                    for (var i = 0; i < res.length; i += 2) {
+                        $('#SelectPurchase').append('<option value=' + res[i] + '>' + res[i + 1] + '</option>');
+                    }
+                    $('#PurchaseTypeItems').append('</select>');
                 }
-            });
+            };
+
+            // پاسخ تراکنش
+            console.client.GetTransactionResponse = function (TerminalId, ResponseCode, SerialId, RRN, ResponseDescription, TxnDate, Amount, CardNumberMask) {
+                $('#discussion').append('<table id="TableResult" class="table table-bordered table-striped">');
+                $('#TableResult').append('<thead><tr id="TableResultHeader">');
+                $('#TableResult').append('</tr></thead>');
+                $('#TableResult').append('<tbody><tr id="TableResultContent" class="' + (ResponseCode == '0' ? 'success' : 'danger') + '">');
+                $('#TableResult').append('</tr></tbody>');
+                $('#discussion').append('</table>');
+
+                $('#TableResultHeader').append('<th align="center"> Terminal ID </th>');
+                $('#TableResultHeader').append('<th align="center"> Response Code </th>');
+                $('#TableResultHeader').append('<th align="center"> Serial ID </th>');
+                $('#TableResultHeader').append('<th align="center"> RRN </th>');
+                $('#TableResultHeader').append('<th align="center"> Response Description </th>');
+                $('#TableResultHeader').append('<th align="center"> Transaction Date </th>');
+                $('#TableResultHeader').append('<th align="center"> Transaction Amount </th>');
+                $('#TableResultHeader').append('<th align="center"> Card Number </th>');
+
+                $('#TableResultContent').append('<td align="center">' + TerminalId + '</td>');
+                $('#TableResultContent').append('<td align="center">' + ResponseCode + '</td>');
+                $('#TableResultContent').append('<td align="center">' + SerialId + '</td>');
+                $('#TableResultContent').append('<td align="center">' + RRN + '</td>');
+                $('#TableResultContent').append('<td align="center">' + ResponseDescription + '</td>');
+                $('#TableResultContent').append('<td align="center">' + TxnDate + '</td>');
+                $('#TableResultContent').append('<td align="center">' + Amount + '</td>');
+                $('#TableResultContent').append('<td align="center">' + CardNumberMask + '</td>');
+            };
+
         });
     </script>
 }
