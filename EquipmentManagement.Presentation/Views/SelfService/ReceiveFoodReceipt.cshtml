@@ -168,7 +168,7 @@
 @section Scripts {
     <script src="~/lib/pcpos/scripts/jquery-3.6.0.min.js"></script>
     <script src="~/lib/pcpos/scripts/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-    <script src="~/lib/pcpos/scripts/jquery-1.6.4.min.js"></script>
+@*     <script src="~/lib/pcpos/scripts/jquery-1.6.4.min.js"></script> *@
     <script src="~/lib/pcpos/scripts/jquery.signalr-2.4.2.min.js"></script>
     @{
         var safeIp = _pcPosSettings.Value.DefaultIp;
@@ -176,7 +176,7 @@
     }
 
     <!-- فایل هاب SignalR -->
-    <script src="@hubUrl/hubs"></script>
+    <script src="@(hubUrl)/hubs"></script>
 
     <script type="text/javascript">
         $(function () {
@@ -194,8 +194,8 @@
                  console.log("ii");
                 // ========== تنظیمات از متغیرها ==========
                 var connectionType = '@(_pcPosSettings.Value.DefaultConnectionType)';
-                var posIp = '@(_pcPosSettings.Value.DefaultIp)';
-                var posPort = '@(_pcPosSettings.Value.DefaultPort)';
+                var posIp = '@(_pcPosSettings.Value.PosDevices.First().IpAddress)';
+                var posPort = '@(_pcPosSettings.Value.PosDevices.First().Port)';
                 var accountType = '@(_pcPosSettings.Value.DefaultAccountType)';
                 var language = '@(_pcPosSettings.Value.DefaultLanguage)';
                 var purchaseId = '@(_pcPosSettings.Value.DefaultPurchaseId ?? "P001")';
