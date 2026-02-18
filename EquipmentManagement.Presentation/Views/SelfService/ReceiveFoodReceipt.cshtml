@@ -76,6 +76,12 @@
         }
     </style>
 
+    <script src="~/lib/pcpos/scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/lib/pcpos/scripts/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script src="~/lib/pcpos/scripts/jquery-1.6.4.min.js"></script>
+@*     <script src="~/lib/pcpos/scripts/jquery.signalr-2.4.2.min.js"></script> *@
+    <script src="~/lib/pcpos/scripts/jquery.signalr-2.4.2.min.js"></script>
+
 }
 
 
@@ -166,17 +172,14 @@
     </div> <!--end container-->
 </section><!--end section-->
 @section Scripts {
-    <script src="~/lib/pcpos/scripts/jquery-3.6.0.min.js"></script>
-    <script src="~/lib/pcpos/scripts/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-    <script src="~/lib/pcpos/scripts/jquery-1.6.4.min.js"></script>
-    <script src="~/lib/pcpos/scripts/jquery.signalr-2.4.2.min.js"></script>
+
     @{
         var safeIp = _pcPosSettings.Value.DefaultIp;
         var hubUrl = _pcPosSettings.Value.SignalRHubUrl;
     }
 
     <!-- فایل هاب SignalR -->
-    <script src="@(hubUrl)/hubs"></script>
+    <script src="http://localhost:8080/signalr/hubs"></script>
 
     <script type="text/javascript">
         $(function () {
@@ -185,7 +188,7 @@
             var authorization = '';
 
             // آدرس هاب
-            $.connection.hub.url = "@hubUrl";
+            $.connection.hub.url = "http://localhost:8080/signalr";
 
             // اتصال به هاب
             var console = $.connection.SSP1126HUB;
