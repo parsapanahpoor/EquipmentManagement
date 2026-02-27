@@ -39,6 +39,8 @@ public class EmployeeTransaction : BaseEntities<ulong>
     public ulong EmployeeId { get; set; }
     public Employee Employee { get; set; } = null!;
     public string? Description { get; set; }
+    public string? SerialId { get; set; }
+    public string? RRN { get; set; }
     public long Amount { get; set; }
     public bool Paid { get; set; }=false;
 

@@ -21,6 +21,8 @@ public record CreateEmployeeDto
 }
 public record CreateEmployeeTransactionDto
 {
+    public string? SerialId { get; set; }
+    public string? RRN { get; set; }
     public ulong EmployeeId { get; set; }
     public string? Description { get; set; }
     public long Amount { get; set; }

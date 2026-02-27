@@ -44,6 +44,8 @@ public record CreateEmployeeTransactionCommandHandler : IRequestHandler<CreateEm
            UpdateDate=DateTime.Now,
            Paid=true,
            Description=request.Description ,
+           RRN=request.RRN ,
+           SerialId=request.SerialId ,
            
         };
 

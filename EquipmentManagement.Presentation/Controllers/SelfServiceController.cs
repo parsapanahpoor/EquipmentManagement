@@ -30,6 +30,8 @@ public class SelfServiceController : SiteBaseController
                         Amount = request.Amount,
                         Description = request.Description,
                         EmployeeId = request.EmployeeId,
+                        SerialId = request.SerialId,
+                        RRN= request.RRN,
                         Paid = true,
                     },
                     ct);

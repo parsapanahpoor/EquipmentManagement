@@ -174,12 +174,14 @@
 @section Scripts {
     <script>
 
-                async function createTransaction() {
+                async function createTransaction(RRN,SerialId) {
             const data = {
-                    employeeId:@(Model.EmploeeId) ,
+                employeeId:@(Model.EmploeeId) ,
                 description: "پرداخت غذا",
-                    amount: @((int)ViewBag.MealPrice),
-                paid: true
+                amount: @((int)ViewBag.MealPrice),
+                paid: true,
+                RRN:RRN,
+                SerialId:SerialId
             };
 
             const response = await fetch("/SelfService/CreateTransaction", {
@@ -344,7 +346,7 @@
                 $('#TableResultContent').append('<td align="center">' + CardNumberMask + '</td>');
                 if(ResponseCode == '00')
                 {
-                  createTransaction();
+                  createTransaction(RRN,SerialId);
 
                 }
             };
