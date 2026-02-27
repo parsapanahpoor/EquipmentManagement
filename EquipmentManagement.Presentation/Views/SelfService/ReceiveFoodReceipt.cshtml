@@ -194,21 +194,19 @@
             var console = $.connection.SSP1126HUB;
 
             $.connection.hub.start().done(function initialize() {
-                 console.log("ii");
                 // ========== تنظیمات از متغیرها ==========
                 var connectionType = '@(_pcPosSettings.Value.DefaultConnectionType)';
                 var posIp = '@(_pcPosSettings.Value.PosDevices.First().IpAddress)';
-                var posPort = '@(_pcPosSettings.Value.PosDevices.First().Port)';
+                var posPort = 'COM4';
                 var accountType = '@(_pcPosSettings.Value.DefaultAccountType)';
                 var language = '@(_pcPosSettings.Value.DefaultLanguage)';
-                var purchaseId = '@(_pcPosSettings.Value.DefaultPurchaseId ?? "P001")';
+                var purchaseId = '';
                 var terminalId = '@(_pcPosSettings.Value.DefaultTerminalId)';
-                var amount = '@(ViewBag.MealPrice)';
+                var amount = '@((int)ViewBag.MealPrice)';
                 var customerName = '@(Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Model?.FirstName + " " + Model?.LastName ?? "")))';
 
                 // ========== فقط دکمه خرید ==========
                 $('#btnSendAmountPCStart').click(function () {
-                    console.log("ss");
                     serverMessage = '';
                     $('#discussion').empty();
 
@@ -296,7 +294,7 @@
                 $('#discussion').append('<table id="TableResult" class="table table-bordered table-striped">');
                 $('#TableResult').append('<thead><tr id="TableResultHeader">');
                 $('#TableResult').append('</tr></thead>');
-                $('#TableResult').append('<tbody><tr id="TableResultContent" class="' + (ResponseCode == '0' ? 'success' : 'danger') + '">');
+                $('#TableResult').append('<tbody><tr id="TableResultContent" class="' + (ResponseCode == '00' ? 'success' : 'danger') + '">');
                 $('#TableResult').append('</tr></tbody>');
                 $('#discussion').append('</table>');
 
@@ -317,6 +315,10 @@
                 $('#TableResultContent').append('<td align="center">' + TxnDate + '</td>');
                 $('#TableResultContent').append('<td align="center">' + Amount + '</td>');
                 $('#TableResultContent').append('<td align="center">' + CardNumberMask + '</td>');
+                if(ResponseCode == '00')
+                {
+                    window.print()
+                }
             };
 
         });
