@@ -19,3 +19,10 @@ public record CreateEmployeeDto
     [Required]
     public string? RFId { get; set; }
 }
+public record CreateEmployeeTransactionDto
+{
+    public ulong EmployeeId { get; set; }
+    public string? Description { get; set; }
+    public long Amount { get; set; }
+    public bool Paid { get; set; } = false;
+}

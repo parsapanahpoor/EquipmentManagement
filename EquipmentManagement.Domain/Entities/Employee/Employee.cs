@@ -17,6 +17,7 @@ public class Employee : BaseEntities<ulong>
 
     public ICollection<EmployeeReceiveFoodDeliveryReceiptLog> EmployeeReceiveFoodDeliveryReceiptLogs { get; set; } = [];
     public ICollection<EmployeeShiftSelected> EmployeeShiftSelected { get; set; } = [];
+    public ICollection<EmployeeTransaction> EmployeeTransaction { get; set; } = [];
 }
 public class EmployeeShiftSelected : BaseEntities<ulong>
 {
@@ -31,4 +32,14 @@ public class EmployeeShiftMealSelected : BaseEntities<ulong>
     public ulong EmployeeShiftSelectedId { get; set; }
     public EmployeeShiftSelected EmployeeShiftSelected { get; set; } = new();
     public MealPricing.MealPricing MealPricing { get; set; } = new();
+}
+public class EmployeeTransaction : BaseEntities<ulong>
+{
+
+    public ulong EmployeeId { get; set; }
+    public Employee Employee { get; set; } = null!;
+    public string? Description { get; set; }
+    public long Amount { get; set; }
+    public bool Paid { get; set; }=false;
+
 }

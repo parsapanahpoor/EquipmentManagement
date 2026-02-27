@@ -22,6 +22,7 @@ public class ReceiveFoodReceiptQueryHandler(
         var isDeny= await employeeReceiveFoodDeliveryReceiptLogQueryRepository.ExistsAsync(request.MealPricingId,employeelogData.EmployeeId, cancellationToken);
         var isFree = await employeeShiftSelectedQuery.VerifyByEmployeeAsync(employeelogData.EmployeeId, cancellationToken);
         return new ReceiveFoodReceiptDto(
+            EmploeeId:employeelogData.EmployeeId,
             LogId: employeelogData.Id,
             FirstName: employeelogData.Employee.FirstName , 
             LastName: employeelogData.Employee.LastName , 

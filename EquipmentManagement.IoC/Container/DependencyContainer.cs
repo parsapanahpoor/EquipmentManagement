@@ -19,6 +19,7 @@ using EquipmentManagement.Domain.IRepositories.User;
 using EquipmentManagement.Infrastructure.Repositories.Employee;
 using EquipmentManagement.Infrastructure.Repositories.EmployeeShift;
 using EquipmentManagement.Infrastructure.Repositories.EmployeeShiftMeal;
+using EquipmentManagement.Infrastructure.Repositories.EmployeeTransaction;
 using EquipmentManagement.Infrastructure.Repositories.MealPricing;
 using EquipmentManagement.Infrastructure.Repositories.OrganizationChart;
 using EquipmentManagement.Infrastructure.Repositories.OrganizationRequest;
@@ -99,6 +100,8 @@ public static class DependencyContainer
 
         //Employee 
         services.AddScoped<IPDFService, PDFService>();
+        services.AddScoped<IEmployeeTransactionQueryRepository, EmployeeTransactionQueryRepository>();
+        services.AddScoped<IEmployeeTransactionCommandRepository, EmployeeTransactionCommandRepository>();
         services.AddScoped<IEmployeeCommandRepository, EmployeeCommandRepository>();
         services.AddScoped<IEmployeeQueryRepository, EmployeeQueryRepository>();
         services.AddScoped<IEmployeeReceiveFoodDeliveryReceiptLogCommandRepository, EmployeeReceiveFoodDeliveryReceiptLogCommandRepository>();

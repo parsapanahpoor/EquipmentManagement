@@ -15,3 +15,16 @@ public class EmployeeCommandRepository : CommandGenericRepository<Domain.Entitie
 
     #endregion
 }
+public class EmployeeTransactionCommandRepository : CommandGenericRepository<Domain.Entities.Employee.EmployeeTransaction>, IEmployeeTransactionCommandRepository
+{
+    #region Ctor
+
+    private readonly EquipmentManagementDbContext _context;
+
+    public EmployeeTransactionCommandRepository(EquipmentManagementDbContext context) : base(context)
+    {
+        _context = context;
+    }
+
+    #endregion
+}

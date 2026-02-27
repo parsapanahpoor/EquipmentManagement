@@ -29,7 +29,11 @@ public class CommandGenericRepository<TEntity> where TEntity : class
         Assert.NotNull(entity, nameof(entity));
         await Entities.AddAsync(entity, cancellationToken);
     }
-
+    public virtual async Task AddTransactionAsync(TEntity entity, CancellationToken cancellationToken)
+    {
+        Assert.NotNull(entity, nameof(entity));
+        await Entities.AddAsync(entity, cancellationToken);
+    }
     public virtual async Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken)
     {
         Assert.NotNull(entities, nameof(entities));

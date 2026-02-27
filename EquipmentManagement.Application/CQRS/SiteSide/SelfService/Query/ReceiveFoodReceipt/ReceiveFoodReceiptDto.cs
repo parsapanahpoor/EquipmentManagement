@@ -1,6 +1,7 @@
 ﻿namespace EquipmentManagement.Application.CQRS.SiteSide.SelfService.Query.ReceiveFoodReceipt;
 
 public record ReceiveFoodReceiptDto(
+    ulong EmploeeId , 
     ulong LogId , 
     string FirstName , 
     string LastName , 

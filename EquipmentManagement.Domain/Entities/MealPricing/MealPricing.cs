@@ -10,10 +10,11 @@ namespace EquipmentManagement.Domain.Entities.MealPricing;
 
 public class MealPricing : BaseEntities<ulong>
 {
-    public string MealType { get; set; }=string.Empty;
+    public string MealType { get; set; } = string.Empty;
     public decimal Price { get; set; }
     public ICollection<EmployeeReceiveFoodDeliveryReceiptLog> EmployeeReceiveFoodDeliveryReceiptLog { get; set; }
 }
+
 //public enum MealType
 //{
 //    [Display(Name = "صبحانه")] Breakfast,

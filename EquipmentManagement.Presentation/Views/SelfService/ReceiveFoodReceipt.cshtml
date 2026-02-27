@@ -79,7 +79,7 @@
     <script src="~/lib/pcpos/scripts/jquery-3.6.0.min.js"></script>
     <script src="~/lib/pcpos/scripts/bootstrap-3.3.7/js/bootstrap.min.js"></script>
     <script src="~/lib/pcpos/scripts/jquery-1.6.4.min.js"></script>
-@*     <script src="~/lib/pcpos/scripts/jquery.signalr-2.4.2.min.js"></script> *@
+    @*     <script src="~/lib/pcpos/scripts/jquery.signalr-2.4.2.min.js"></script> *@
     <script src="~/lib/pcpos/scripts/jquery.signalr-2.4.2.min.js"></script>
 
 }
@@ -172,13 +172,40 @@
     </div> <!--end container-->
 </section><!--end section-->
 @section Scripts {
+    <script>
+
+                async function createTransaction() {
+            const data = {
+                    employeeId:@(Model.EmploeeId) ,
+                description: "پرداخت غذا",
+                    amount: @((int)ViewBag.MealPrice),
+                paid: true
+            };
+
+            const response = await fetch("/SelfService/CreateTransaction", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            console.log(result);
+            if(result.success==true)
+            {
+
+              window.print()
+            }
+        }
+    </script>
 
     @{
         var safeIp = _pcPosSettings.Value.DefaultIp;
         var hubUrl = _pcPosSettings.Value.SignalRHubUrl;
     }
 
-    <!-- فایل هاب SignalR -->
+        <!-- فایل هاب SignalR -->
     <script src="http://localhost:8080/signalr/hubs"></script>
 
     <script type="text/javascript">
@@ -317,7 +344,8 @@
                 $('#TableResultContent').append('<td align="center">' + CardNumberMask + '</td>');
                 if(ResponseCode == '00')
                 {
-                    window.print()
+                  createTransaction();
+
                 }
             };
 

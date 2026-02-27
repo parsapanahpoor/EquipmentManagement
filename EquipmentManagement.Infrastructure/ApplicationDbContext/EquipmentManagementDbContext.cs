@@ -117,6 +117,7 @@ public class EquipmentManagementDbContext : DbContext
     #region Employee
 
     public DbSet<Employee> Employees { get; set; }
+    public DbSet<EmployeeTransaction> EmployeeTransaction { get; set; }
     public DbSet<EmployeeShiftSelected> EmployeeShiftSelected { get; set; }
     public DbSet<EmployeeShiftMealSelected> EmployeeShiftMealFSelected { get; set; }
     public DbSet<EmployeeReceiveFoodDeliveryReceiptLog> EmployeeReceiveFoodDeliveryReceiptLogs { get; set; }

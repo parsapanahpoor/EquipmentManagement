@@ -81,6 +81,31 @@
 
                 </ul>
             </li>
+
+
+            @* EmployeeTransaction *@
+
+            <li>
+                <a href="#" class="menu-dropdown">
+                    <i class="menu-icon fa fa-user"></i>
+                    <span class="menu-text">  سلف سرویس</span>
+                    <i class="menu-expand"></i>
+                </a>
+
+                <ul class="submenu">
+                    <li>
+                        <a asp-action="FilterEmployeeTransaction" asp-controller="EmployeeTransaction" asp-area="">
+                            <span class="menu-text">  تراکنش سلف سرویس</span>
+                        </a>
+                    </li>
+             @*        <li>
+                        <a asp-action="CreateMealPricing" asp-controller="EmployeeTransaction" asp-area="">
+                            <span class="menu-text">   ثبت وعده جدید </span>
+                        </a>
+                    </li> *@
+
+                </ul>
+            </li>
             <!--User-->
             <li>
                 <a href="#" class="menu-dropdown">
