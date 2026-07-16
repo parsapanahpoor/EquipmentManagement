@@ -6,6 +6,7 @@ using EquipmentManagement.Infrastructure.ApplicationDbContext;
 using EquipmentManagement.IoC;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 namespace EquipmentManagement.Presentation;
 
 #endregion
@@ -71,6 +72,11 @@ public class Program
         #endregion
 
         #region Middlewares
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)
+            .CreateBootstrapLogger();
+
+        builder.Host.UseSerilog();
 
         var app = builder.Build();
 
@@ -98,3 +104,5 @@ public class Program
         #endregion
     }
 }
+
+

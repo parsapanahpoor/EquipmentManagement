@@ -9,13 +9,17 @@ namespace EquipmentManagement.Presentation.Controllers;
 #endregion
 
 [Authorize]
-public class HomeController : SiteBaseController
+public class HomeController(ILogger<HomeController> logger) : SiteBaseController
 {
     #region Index
 
     [AllowAnonymous]
     public IActionResult Index()
-        => View();
+
+    {
+        logger.Log(LogLevel.Warning,"helo************");
+        return View();
+    }
 
     #endregion
 
