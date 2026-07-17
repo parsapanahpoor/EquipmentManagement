@@ -319,37 +319,32 @@
             };
 
             // پاسخ تراکنش
-            console.client.GetTransactionResponse = function (TerminalId, ResponseCode, SerialId, RRN, ResponseDescription, TxnDate, Amount, CardNumberMask) {
-                $('#discussion').append('<table id="TableResult" class="table table-bordered table-striped">');
-                $('#TableResult').append('<thead><tr id="TableResultHeader">');
-                $('#TableResult').append('</tr></thead>');
-                $('#TableResult').append('<tbody><tr id="TableResultContent" class="' + (ResponseCode == '00' ? 'success' : 'danger') + '">');
-                $('#TableResult').append('</tr></tbody>');
-                $('#discussion').append('</table>');
+        console.client.GetTransactionResponse = function (
+            TerminalId,
+            ResponseCode,
+            SerialId,
+            RRN,
+            ResponseDescription,
+            TxnDate,
+            Amount,
+            CardNumberMask
+        ) {
+            window.console.log("GetTransactionResponse", {
+                TerminalId: TerminalId,
+                ResponseCode: ResponseCode,
+                SerialId: SerialId,
+                RRN: RRN,
+                ResponseDescription: ResponseDescription,
+                TxnDate: TxnDate,
+                Amount: Amount,
+                CardNumberMask: CardNumberMask
+            });
 
-                $('#TableResultHeader').append('<th align="center"> Terminal ID </th>');
-                $('#TableResultHeader').append('<th align="center"> Response Code </th>');
-                $('#TableResultHeader').append('<th align="center"> Serial ID </th>');
-                $('#TableResultHeader').append('<th align="center"> RRN </th>');
-                $('#TableResultHeader').append('<th align="center"> Response Description </th>');
-                $('#TableResultHeader').append('<th align="center"> Transaction Date </th>');
-                $('#TableResultHeader').append('<th align="center"> Transaction Amount </th>');
-                $('#TableResultHeader').append('<th align="center"> Card Number </th>');
+            if (ResponseCode == '00') {
+                createTransaction(RRN, SerialId);
+            }
+        };
 
-                $('#TableResultContent').append('<td align="center">' + TerminalId + '</td>');
-                $('#TableResultContent').append('<td align="center">' + ResponseCode + '</td>');
-                $('#TableResultContent').append('<td align="center">' + SerialId + '</td>');
-                $('#TableResultContent').append('<td align="center">' + RRN + '</td>');
-                $('#TableResultContent').append('<td align="center">' + ResponseDescription + '</td>');
-                $('#TableResultContent').append('<td align="center">' + TxnDate + '</td>');
-                $('#TableResultContent').append('<td align="center">' + Amount + '</td>');
-                $('#TableResultContent').append('<td align="center">' + CardNumberMask + '</td>');
-                if(ResponseCode == '00')
-                {
-                  createTransaction(RRN,SerialId);
-
-                }
-            };
 
         });
     </script>
