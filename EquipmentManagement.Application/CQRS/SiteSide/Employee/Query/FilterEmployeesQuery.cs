@@ -15,5 +15,6 @@ public class FilterSelectedEmployeesQuery : IRequest<FilterSelectedEmployeesDto>
     public string? LastName { get; set; }
     public string? PersonnelCode { get; set; }
     public string? Mobile { get; set; }
+    public int Page { get; set; } = 1;
     public List<ulong>? EmployeeIds = new();
 }

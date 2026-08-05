@@ -57,9 +57,13 @@ public class EmployeeQueryRepository :
         var query = _context.Employees
                            .AsNoTracking()
                            .Where(p => !p.IsDelete)
-                           .OrderByDescending(p => p.CreateDate)
+                         
                            .AsQueryable();
-
+        if (filter.EmployeeIds != null && filter.EmployeeIds.Count > 0)
+        {
+            query = query
+                .OrderByDescending(x => filter.EmployeeIds.Contains(x.Id));
+        }
         #region filter
 
         //if (filter.EmployeeIds?.Count > 0)

@@ -47,6 +47,7 @@ public record FilterSelectedEmployeesQueryHandler : IRequestHandler<FilterSelect
             Mobile = request.Mobile,
             PersonnelCode = request.PersonnelCode,
             EmployeeIds=request.EmployeeIds,
+            Page=request.Page,
         },
             cancellationToken);
 }

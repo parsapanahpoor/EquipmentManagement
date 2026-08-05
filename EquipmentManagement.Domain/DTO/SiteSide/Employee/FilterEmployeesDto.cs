@@ -23,6 +23,6 @@ public class FilterSelectedEmployeesDto :
     public string? Mobile { get; set; }
     public bool CanReceiveFood { get; set; }
     public string? RFId { get; set; }
-    public List<ulong>? EmployeeIds = new();
+    public List<ulong>? EmployeeIds = [];
 
 }

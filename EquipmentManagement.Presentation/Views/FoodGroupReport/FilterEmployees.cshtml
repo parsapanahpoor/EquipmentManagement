@@ -8,6 +8,7 @@
 }
 @section Scripts
 {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script>
         document.getElementById("sendEmployees").addEventListener("click", function () {
             // همه‌ی چک‌باکس‌ها رو می‌گیریم
@@ -174,15 +175,23 @@
                                                 <div class="d-flex justify-content-center ">
                                                     @*          <input type="checkbox" name="employeeId" class="form-control" value="@employee.Id" /> *@
                                                     <div class="form-group col-md-12 col-sm-12">
+                                                  
                                                         <label>
                                                             <input type="checkbox" name="EmployeeIds" @(Model.EmployeeIds.Contains(employee.Id) ? "checked" : "") value="@employee.Id">
                                                             <span class="text">  دریافت غذا </span>
                                                         </label>
+
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
                                     }
+
+                                    @foreach (var item in Model.EmployeeIds.Where(x => Model.Entities.All(z => z.Id != x)))
+                                    {
+                                        <input type="hidden" name="EmployeeIds" value="@item">
+                                    }
+
                                 </tbody>
                             </table>
                         </form>

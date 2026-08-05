@@ -38,6 +38,8 @@ public class FoodGroupReportController :
             PersonnelCode = filter.PersonnelCode,
             Mobile = filter.Mobile,
             EmployeeIds = filter.EmployeeIds,
+            Page = filter.Page
+
         },
         cancellation));
     }
